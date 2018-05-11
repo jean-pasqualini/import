@@ -1,0 +1,76 @@
+darkilliant_process:
+    process:
+        import_category:
+            logger: 'monolog.logger.import_category'
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data:
+                            # Website -> Viennoisserie -> Choco -> Pain -> Pepite
+                            -
+                                id_cat_1: 've-1'
+                                label_cat_1: 'Viennoisserie'
+                                id_cat_2: 'co-2'
+                                label_cat_2: 'Choco'
+                                id_cat_3: 'pn-3'
+                                label_cat_3: 'Pain'
+                                id_cat_4: 'pe-4'
+                                label_cat_4: 'Pepite'
+                            # Website -> Gateau -> Sec -> Gras -> Rond
+                            -
+                                id_cat_1: 'gu-1'
+                                label_cat_1: 'Gateau'
+                                id_cat_2: 'sc-2'
+                                label_cat_2: 'Sec'
+                                id_cat_3: 'gs-3'
+                                label_cat_3: 'Gras'
+                                id_cat_4: 'rd-4'
+                                label_cat_4: 'Rond'
+
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options:
+                        progress_bar: true
+                -
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            -
+                                value:
+                                    external_id: '@[data][id_cat_1]'
+                                    name: '@[data][label_cat_1]'
+                                transformers: []
+                            -
+                                value:
+                                    external_id: '@[data][id_cat_2]'
+                                    name: '@[data][label_cat_2]'
+                                transformers: []
+                            -
+                                value:
+                                    external_id: '@[data][id_cat_3]'
+                                    name: '@[data][label_cat_3]'
+                                transformers: []
+                            -
+                                value:
+                                    external_id: '@[data][id_cat_4]'
+                                    name: '@[data][label_cat_4]'
+                                transformers: []
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Category'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 20
+                        whitelist_clear: ['AppBundle\Entity\Category']

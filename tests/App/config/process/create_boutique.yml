@@ -1,0 +1,24 @@
+darkilliant_process:
+    process:
+        create_boutique:
+            logger: 'monolog.logger.create_boutique'
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data: {name: 'maison'}
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Boutique'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 20
+                        whitelist_clear: ['AppBundle\Entity\Product']

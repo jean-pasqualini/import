@@ -1,0 +1,13 @@
+darkilliant_process:
+    process:
+        demo:
+            steps:
+                -
+                    service: 'Darkilliant\ImportBundle\Step\CsvExtractorStep'
+                    options:
+                        colums_names: null
+                        delimiter: ","
+                        filepath: "@[context][filepath]"
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []

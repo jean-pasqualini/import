@@ -1,0 +1,41 @@
+imports:
+    - { resource: 'process/*.yml' }
+    - { resource: 'import/*.yml' }
+
+framework:
+    secret: changeme
+    serializer:
+        enabled: true
+        enable_annotations: true
+    property_info: { enabled: true }
+
+monolog:
+    channels: ['import_product', 'create_boutique', 'import_category']
+    handlers:
+        console:
+            type: console
+
+doctrine:
+    orm:
+        auto_mapping: true
+        metadata_cache_driver: array
+        query_cache_driver: array
+        result_cache_driver: array
+        mappings:
+            App:
+                type: annotation
+                dir: '%kernel.root_dir%/Entity'
+                is_bundle: false
+                prefix: App\Entity
+                alias: App
+        resolve_target_entities:
+            App\Entity\BoutiqueInterface: App\Entity\Boutique
+    dbal:
+        driver: pdo_sqlite
+        path: '%kernel.cache_dir%/database.sqlite'
+
+
+
+services:
+    Cocur\Slugify\Slugify:
+        public: true

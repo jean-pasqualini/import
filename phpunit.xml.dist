@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://phpunit.de/manual/4.1/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         bootstrap="vendor/autoload.php"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="KERNEL_DIR" value="tests/App/" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
+    </php>
+
+    <logging>
+        <log type="coverage-html" target="build/coverage/phpunit" charset="UTF-8" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
+
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests</directory>
+            <exclude>tests/*/Controller</exclude>
+            <exclude>tests/*/Command</exclude>
+            <exclude>tests/*/Integration</exclude>
+            <exclude>tests/*/*/Controller</exclude>
+            <exclude>tests/*/*/Command</exclude>
+        </testsuite>
+        <testsuite name="integration">
+            <directory>tests/*/Controller</directory>
+            <directory>tests/*/Command</directory>
+            <directory>tests/*/Integration</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+            <exclude>
+                <directory>src/*Bundle/Resources</directory>
+                <directory>src/*/*Bundle/Resources</directory>
+                <directory>src/*/Bundle/*Bundle/Resources</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

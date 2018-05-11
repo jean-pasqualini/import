@@ -1,0 +1,48 @@
+darkilliant_process:
+    process:
+        import_product:
+            logger: 'monolog.logger.import_product'
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data:
+                            - {boutique: 'maison', title: 'une maison rouge', 'picture': 'onepicture'}
+                            #- {boutique: 'noson', title: 'une maison verte', 'picture': 'onepicture'}
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options:
+                        progress_bar: true
+                -
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            title:
+                                value: '@[data][title]'
+                                transformers: ['string']
+                            ean: 'ean'
+                            price_ttc: '1'
+                            extra:
+                                value:
+                                    picture: '@[data][picture]'
+                                transformers: []
+                            boutique:
+                                value:
+                                    name: '@[data][boutique]'
+                                transformers: []
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
+                        serializer: 'jms_serializer'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 20
+                        whitelist_clear: ['AppBundle\Entity\Product']

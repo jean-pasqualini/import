@@ -1,0 +1,49 @@
+darkilliant_process:
+    process:
+        import_tag:
+            logger: 'monolog.logger.import_product'
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data:
+                            - {ean: 'ean', label_tag_1: 'one', label_tag_2: 'two'}
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            ean: "@[data][ean]"
+                            tags:
+                                value:
+                                    -
+                                        name: "@[data][label_tag_1]"
+                                    -
+                                        name: "@[data][label_tag_2]"
+                                    -
+                                        name: "@[data][label_tag_3]"
+                                    -
+                                        name: "@[data][label_tag_4]"
+                                    -
+                                        name: "@[data][label_tag_5]"
+                                    -
+                                        name: "@[data][label_tag_6]"
+                                transformers: ["remove_empty_in_array"]
+                -
+                    service: 'Darkilliant\ImportBundle\Step\ArrayTargetResolverStep'
+                    options:
+                        resolve_mapping: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 20
+                        whitelist_clear: ['AppBundle\Entity\Product']

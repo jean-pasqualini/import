@@ -1,0 +1,25 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\ImportBundle\Transformer\StringTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: string }
+
+    Darkilliant\ImportBundle\Transformer\FloatTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: float }
+
+    Darkilliant\ImportBundle\Transformer\BooleanTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: boolean }
+
+    Darkilliant\ImportBundle\Transformer\RemoveEmptyInArrayTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: 'remove_empty_in_array' }

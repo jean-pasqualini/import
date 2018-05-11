@@ -1,0 +1,12 @@
+darkilliant_process:
+    process:
+        import_all:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\LaunchProcessStep'
+                    options:
+                        process: 'import_product'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\LaunchProcessStep'
+                    options:
+                        process: 'import_tag'

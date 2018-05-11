@@ -1,0 +1,17 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\ImportBundle\Registry\:
+        resource: '../../Registry/*'
+
+    Darkilliant\ImportBundle\Step\:
+        resource: '../../Step/*'
+        autoconfigure: false
+        public: true
+
+    Darkilliant\ImportBundle\Loader\:
+        resource: '../../Loader/*'
+        public: true

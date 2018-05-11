@@ -1,0 +1,37 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\ProcessBundle\Registry\:
+        resource: '../../Registry/*'
+
+    Darkilliant\ProcessBundle\Runner\:
+        resource: '../../Runner/*'
+
+    Darkilliant\ProcessBundle\ProcessNotifier\:
+        resource: '../../ProcessNotifier/*'
+
+    Darkilliant\ProcessBundle\Runner\StepRunner:
+        public: true
+        arguments:
+            $logger: '@logger'
+            $configuration: '%darkilliant_process%'
+
+    Darkilliant\ProcessBundle\Runner\StepDescripterRunner:
+        public: true
+        arguments:
+            $logger: '@logger'
+            $configuration: '%darkilliant_process%'
+
+    Darkilliant\ProcessBundle\Step\:
+        resource: '../../Step/*'
+        public: true
+
+    Darkilliant\ProcessBundle\Logger\InMemoryLogger:
+        public: true
+
+    process_logger_default:
+        public: true
+        alias: 'logger'

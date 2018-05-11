@@ -1,0 +1,11 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\ImportBundle\Serializer\Symfony\EntityNormalizer:
+        arguments:
+            $config: '%darkilliant_import_field_entity_resolver%'
+        tags:
+            - { name: serializer.normalizer, priority: -999  }

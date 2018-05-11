@@ -1,0 +1,14 @@
+services:
+  _defaults:
+      autowire: true
+      autoconfigure: true
+      public: false
+
+  Darkilliant\ImportBundle\Serializer\JMS\DoctrineObjectConstructor:
+      arguments:
+          $fallbackConstructor: '@jms_serializer.doctrine_object_constructor'
+          $config: '%darkilliant_import_field_entity_resolver%'
+
+  Darkilliant\ImportBundle\Serializer\Serializer:
+      arguments:
+          $jmsSerializer: '@import_jms_serializer'
