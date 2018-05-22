@@ -100,7 +100,7 @@ class StepDescriptorRunnerTest extends TestCase
             $this->progressBarNotifier = $this->createMock(ProgressBarProcessNotifier::class)
         );
 
-        $this->optionDynamicValueResolverean
+        $this->optionDynamicValueResolver
             ->expects($this->any())
             ->method('resolve')
             ->willReturnArgument(0);

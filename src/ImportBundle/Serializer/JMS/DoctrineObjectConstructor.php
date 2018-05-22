@@ -12,7 +12,7 @@ use JMS\Serializer\Construction\ObjectConstructorInterface;
 
 /**
  * @internal
- * Doctrine object constructor for new (or existing) objects during deserialization.
+ * Doctrine object constructor for new (or existing) objects during deserialization
  */
 class DoctrineObjectConstructor implements ObjectConstructorInterface
 {

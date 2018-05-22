@@ -4,6 +4,8 @@
 
 Badge de scrutinizer et travis-ci
 
+[![Build Status](https://travis-ci.org/jean-pasqualini/import.svg?branch=master)](https://travis-ci.org/jean-pasqualini/import)
+
 ### Contribution
 
 ##### Lancer les tests
