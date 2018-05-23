@@ -37,7 +37,7 @@
             "Tests\\Darkilliant\\ProcessBundle\\": "tests/ProcessBundle/"
         }
     },
-    "license": "GPL",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Jean Pasqualini",
