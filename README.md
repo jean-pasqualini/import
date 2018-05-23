@@ -2,7 +2,9 @@
 
 ### Qualité
 
-Badge de scrutinizer et travis-ci
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jean-pasqualini/import/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jean-pasqualini/import/?branch=master)
+
+[![Code Coverage](https://scrutinizer-ci.com/g/jean-pasqualini/import/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jean-pasqualini/import/?branch=master)
 
 [![Build Status](https://travis-ci.org/jean-pasqualini/import.svg?branch=master)](https://travis-ci.org/jean-pasqualini/import)
 

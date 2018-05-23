@@ -3,3 +3,4 @@ tests/App/cache/
 .idea
 .php_cs.cache
 build/
+coverage.clover

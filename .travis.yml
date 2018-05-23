@@ -7,5 +7,11 @@ directories:
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
-after_script:
   - make test-cs
+script:
+  ## PHPUnit
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
+after_script:
+  ## Scrutinizer
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar --access-token="$SCRUTI_TOKEN" code-coverage:upload --format=php-clover coverage.clover
