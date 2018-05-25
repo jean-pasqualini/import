@@ -16,7 +16,7 @@ class Serializer
     /** @var JMSSerializer */
     private $jmsSerializer;
 
-    public function __construct(SymfonySerializer $symfonySerializer = null, JMSSerializer $jmsSerializer)
+    public function __construct(SymfonySerializer $symfonySerializer = null, JMSSerializer $jmsSerializer = null)
     {
         $this->symfonySerializer = $symfonySerializer;
         $this->jmsSerializer = $jmsSerializer;

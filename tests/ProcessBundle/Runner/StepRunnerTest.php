@@ -153,6 +153,112 @@ class StepRunnerTest extends TestCase
         $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function testRunWithExceptionInFinalize()
+    {
+        $this->loggerRegistry
+            ->expects($this->once())
+            ->method('resolveService')
+            ->with('monolog.logger.chocapic')
+            ->willReturn(new NullLogger());
+
+        $this->stepRegistry
+            ->expects($this->at(0))
+            ->method('resolveService')
+            ->with(PredefinedDataStep::class)
+            ->willReturn(new PredefinedDataStep());
+        $this->stepRegistry
+            ->expects($this->at(1))
+            ->method('resolveService')
+            ->with(IterateArrayStep::class)
+            ->willReturn(new IterateArrayStep());
+        // Item one
+        $this->stepRegistry
+            ->expects($this->at(2))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn(new DebugStep());
+        // Item two
+        $this->stepRegistry
+            ->expects($this->at(3))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn(new DebugStep());
+
+        $step = $this->createMock(DebugStep::class);
+        $step
+            ->expects($this->once())
+            ->method('finalize')
+            ->willThrowException(new \Exception());
+
+        $this->logger
+            ->expects($this->once())
+            ->method('error');
+
+        // Finalize
+        $this->stepRegistry
+            ->expects($this->at(4))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn($step);
+
+        $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testRunWithMarkFailInFinalize()
+    {
+        $this->loggerRegistry
+            ->expects($this->once())
+            ->method('resolveService')
+            ->with('monolog.logger.chocapic')
+            ->willReturn(new NullLogger());
+
+        $this->stepRegistry
+            ->expects($this->at(0))
+            ->method('resolveService')
+            ->with(PredefinedDataStep::class)
+            ->willReturn(new PredefinedDataStep());
+        $this->stepRegistry
+            ->expects($this->at(1))
+            ->method('resolveService')
+            ->with(IterateArrayStep::class)
+            ->willReturn(new IterateArrayStep());
+        // Item one
+        $this->stepRegistry
+            ->expects($this->at(2))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn(new DebugStep());
+        // Item two
+        $this->stepRegistry
+            ->expects($this->at(3))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn(new DebugStep());
+
+        $step = $this->createMock(DebugStep::class);
+        $step
+            ->expects($this->once())
+            ->method('finalize')
+            ->willReturnCallback(function(ProcessState $state) {
+                $state->markFail();
+            });
+
+        // Finalize
+        $this->stepRegistry
+            ->expects($this->at(4))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn($step);
+
+        $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
+    }
+
 
     /**
      * @throws \Exception

@@ -9,6 +9,7 @@ use JMS\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @internal
@@ -21,7 +22,7 @@ class RegisterImportSerializerCompilerPass implements CompilerPassInterface
             $importJmsDefinition = new ChildDefinition('jms_serializer');
             $importJmsDefinition->setArgument(
                 '$objectConstructor',
-                $container->findDefinition(DoctrineObjectConstructor::class)
+                new Reference(DoctrineObjectConstructor::class)
             );
             $importJmsDefinition->setPublic(true);
 

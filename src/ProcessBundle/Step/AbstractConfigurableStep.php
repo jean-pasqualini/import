@@ -21,7 +21,7 @@ abstract class AbstractConfigurableStep implements StepInterface
         return $resolver;
     }
 
-    public function finalize()
+    public function finalize(ProcessState $state)
     {
         return;
     }

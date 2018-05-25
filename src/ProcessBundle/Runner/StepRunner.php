@@ -93,7 +93,7 @@ class StepRunner
     {
         $processState->markSuccess();
 
-        $this->registry->resolveService($step->getService())->finalize();
+        $this->registry->resolveService($step->getService())->finalize($processState);
 
         if (ProcessState::RESULT_OK !== $processState->getResult()) {
             return false;

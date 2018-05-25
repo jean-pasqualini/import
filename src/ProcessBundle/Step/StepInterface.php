@@ -17,7 +17,7 @@ interface StepInterface
 
     public function execute(ProcessState $state);
 
-    public function finalize();
+    public function finalize(ProcessState $state);
 
     public function describe(ProcessState $state);
 }

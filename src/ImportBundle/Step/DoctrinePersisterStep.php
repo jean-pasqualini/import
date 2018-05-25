@@ -32,7 +32,7 @@ class DoctrinePersisterStep extends AbstractConfigurableStep
         $this->describe($state);
     }
 
-    public function finalize()
+    public function finalize(ProcessState $state)
     {
         $this->persister->finalize();
     }

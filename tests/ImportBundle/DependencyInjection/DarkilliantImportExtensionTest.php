@@ -13,6 +13,7 @@ use Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep;
 use Darkilliant\ImportBundle\Step\MappingTransformerStep;
 use Darkilliant\ProcessBundle\Step\DebugStep;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use JMS\SerializerBundle\JMSSerializerBundle;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -30,7 +31,8 @@ class DarkilliantImportExtensionTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', [
-            DoctrineBundle::class
+            DoctrineBundle::class,
+            JMSSerializerBundle::class,
         ]);
 
         $this->extension->load([[
