@@ -1,17 +1,37 @@
 language: php
+sudo: false
+cache:
+    directories:
+        - $HOME/.composer/cache/files
+        - $HOME/symfony-bridge/.phpunit
+
 php:
   - '7.1'
-directories:
-  - $HOME/.composer/cache/files
+
+env:
+    global:
+        - PHPUNIT_FLAGS="-v"
+        - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+
+matrix:
+    fast_finish: true
+    include:
+          # Minimum supported dependencies with the latest and oldest PHP version
+        - php: 7.1
+
+    allow_failures:
+          # Dev-master is allowed to fail.
+        - env: STABILITY="dev"
 
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - make test-cs
+
 script:
-  ## PHPUnit
-  - vendor/bin/phpunit --coverage-clover=coverage.clover
+  - composer validate --strict --no-check-lock
+  - make test-unit-ci
+
 after_script:
-  ## Scrutinizer
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar --access-token="$SCRUTI_TOKEN" code-coverage:upload --format=php-clover coverage.clover
