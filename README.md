@@ -28,7 +28,7 @@ make test-cs
 
 ##### Prérequis
 - Symfony >= 3.4.0, < 4.0.0
-- PHP >= 7.1.0
+- PHP >= 7.0.0
 
 #### Installation
 
