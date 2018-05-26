@@ -26,6 +26,10 @@ make test-cs
 
 [Comment contribuer ?](./doc/contribution.md)
 
+##### Prérequis
+- Symfony >= 3.4.0, < 4.0.0
+- PHP >= 7.1.0
+
 #### Installation
 
 ##### Etape 1: Télécharger le bundle

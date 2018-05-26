@@ -4,7 +4,7 @@
     "description": "import",
     "require": {
         "php": "7.*",
-        "symfony/symfony": "3.4",
+        "symfony/symfony": "3.4.*",
         "symfony/monolog-bundle": "^3.2"
     },
     "require-dev": {
