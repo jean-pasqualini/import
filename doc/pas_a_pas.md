@@ -169,5 +169,57 @@ darkilliant_process:
 Dans cet example, il va modifier la catégorie s'il la retrouve par son id external sinon il va la créer,
 Ensuite, il va chercher son parent en bdd et l'associé à son enfant.
 
-### 7 / Plus d'examples
-...
+### 7 / Valider les données du csv
+
+```yaml
+darkilliant_process:
+    process:
+        # nom du traitement (c'est le nom à fournir à la commande process:run)
+        create_boutique:
+            # logger vers où les infos sur le traitement seront envoyé
+            steps:
+                - # On extrait chaque ligne du fichier csv
+                    service: 'Darkilliant\ImportBundle\Step\CsvExtractorStep'
+                    options:
+                        filepath: '[chemindufichier]'
+                - # On valide les données
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            name: 
+                                value: '@[data][titre]'
+                                transformers: ['string']
+                            external_id: 
+                                value: '@[data][titre]'
+                                transformers: ['external_id']
+                            parent_ref: 
+                                value: '@[data][parent_ref]'
+                                transformers: ['string']
+```
+
+Ainsi si une ligne contient des données invalide, elle sera logggué et ne sera pas importer.
+
+Vous pouvez ajouter vos propres transformer, voic la procédure,
+ - ajouter une classe qui implémente l'interface `Darkilliant\ImportBundle\Transformer\TransformerInterface` 
+ - déclarer en tant que service et la taggué (l'alias est le nom du transformer)
+ 
+```yaml
+    Darkilliant\ImportBundle\Transformer\StringTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: string }
+```
+
+Voici une liste de transformers,
+
+```
+- boolean
+- float
+- remove_empty_in_array
+- string
+- array
+- contains_key
+- datetime
+- integer
+- not_empty_string
+```

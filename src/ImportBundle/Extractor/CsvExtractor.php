@@ -6,6 +6,9 @@ namespace Darkilliant\ImportBundle\Extractor;
 
 use Cocur\Slugify\Slugify;
 
+/**
+ * @internal
+ */
 class CsvExtractor implements ExtractorInterface
 {
     private $slugify;

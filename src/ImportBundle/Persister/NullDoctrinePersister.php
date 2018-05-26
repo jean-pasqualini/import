@@ -8,6 +8,9 @@
 
 namespace Darkilliant\ImportBundle\Persister;
 
+/**
+ * @internal
+ */
 class NullDoctrinePersister implements PersisterInterface
 {
     public function persist($entity, $batchSize = 20)

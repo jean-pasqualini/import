@@ -14,6 +14,31 @@ services:
         tags:
           - { name: darkilliant_import_transformer, alias: float }
 
+    Darkilliant\ImportBundle\Transformer\ArrayTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: array }
+
+    Darkilliant\ImportBundle\Transformer\ContainKeysTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: contains_key }
+
+    Darkilliant\ImportBundle\Transformer\DateTimeTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: datetime }
+
+    Darkilliant\ImportBundle\Transformer\IntegerTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: integer }
+
+    Darkilliant\ImportBundle\Transformer\NotEmptyStringTransformer:
+        public: true
+        tags:
+          - { name: darkilliant_import_transformer, alias: not_empty_string }
+
     Darkilliant\ImportBundle\Transformer\BooleanTransformer:
         public: true
         tags:

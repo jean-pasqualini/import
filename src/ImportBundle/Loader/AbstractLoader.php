@@ -6,6 +6,8 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * Class AbstractLoader.
+ *
+ * @internal
  */
 abstract class AbstractLoader
 {

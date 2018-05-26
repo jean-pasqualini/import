@@ -10,6 +10,9 @@ namespace Darkilliant\ImportBundle\Persister;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * @internal
+ */
 class DoctrinePersister implements PersisterInterface
 {
     private $em;

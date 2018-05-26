@@ -20,5 +20,5 @@ darkilliant_process:
                 -
                     service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
                     options:
-                        batch_count: 20
+                        batch_count: 1
                         whitelist_clear: ['AppBundle\Entity\Product']

@@ -8,6 +8,9 @@
 
 namespace Darkilliant\ImportBundle\Loader;
 
+/**
+ * @internal
+ */
 class ObjectLoader extends AbstractLoader
 {
     public function load($object, array $data, array $options)

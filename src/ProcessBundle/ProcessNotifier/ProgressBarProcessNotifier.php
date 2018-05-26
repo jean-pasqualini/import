@@ -11,6 +11,10 @@ use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @internal
+ * Class ProgressBarProcessNotifier
+ */
 class ProgressBarProcessNotifier implements EventSubscriberInterface
 {
     /** @var ProgressBar */

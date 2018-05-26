@@ -85,7 +85,7 @@ class DoctrinePersisterStepTest extends TestCase
             ->method('log')
             ->with(
                 LogLevel::INFO,
-                'persist entity doctrine and flush',
+                'persist entity doctrine and flush by group of {batch_count} elements',
                 []
             );
 

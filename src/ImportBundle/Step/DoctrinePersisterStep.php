@@ -39,6 +39,6 @@ class DoctrinePersisterStep extends AbstractConfigurableStep
 
     public function describe(ProcessState $state)
     {
-        $state->info('persist entity doctrine and flush');
+        $state->info('persist entity doctrine and flush by group of {batch_count} elements', $state->getOptions());
     }
 }

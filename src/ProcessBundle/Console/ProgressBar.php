@@ -9,6 +9,10 @@ use Symfony\Component\Console\Helper\ProgressBar as SymfonyProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ * Class ProgressBar
+ */
 class ProgressBar
 {
     const INTERVAL_MONITORING = [1, 10, 20];
