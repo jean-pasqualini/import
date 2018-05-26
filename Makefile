@@ -1,7 +1,7 @@
 db:
-	./console d:d:d --force
-	./console d:d:c
-	./console d:s:u --force
+	php tests/App/console.php d:d:d --force
+	php tests/App/console.php d:d:c
+	php tests/App/console.php d:s:u --force
 
 test-unit:
 	vendor/bin/phpunit --testsuite unit --testdox
@@ -16,5 +16,5 @@ test-cs:
 	vendor/bin/php-cs-fixer fix src --no-interaction --dry-run --diff -vvv --config=.php_cs --cache-file=.php_cs.cache --using-cache=no
 
 test-integration: db
-	./console process:run create_boutique
-	./console process:run import_product
+	php tests/App/console.php process:run create_boutique
+	php tests/App/console.php process:run import_product

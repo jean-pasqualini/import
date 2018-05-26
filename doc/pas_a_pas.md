@@ -197,7 +197,7 @@ darkilliant_process:
                                 transformers: ['string']
 ```
 
-Ainsi si une ligne contient des données invalide, elle sera logggué et ne sera pas importer.
+Ainsi si une ligne contient des données invalide, elle sera loggué et ne sera pas importer.
 
 Vous pouvez ajouter vos propres transformer, voic la procédure,
  - ajouter une classe qui implémente l'interface `Darkilliant\ImportBundle\Transformer\TransformerInterface` 

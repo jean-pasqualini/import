@@ -48,8 +48,8 @@ de la documentation du composer.
 
 ##### Etape 2: Activer le Bundle
 
-Puis, activer le bundle en l'ajouter dans la liste dans 
-le fichier `app/AppKernel.php`
+Puis, activer le bundle en l'ajoutant dans la liste du
+fichier `app/AppKernel.php`
 
 ```php
 <?php
@@ -75,8 +75,8 @@ class AppKernel extends Kernel
 ##### Releasing
 
 - Version semver (majeure.mineur.bugfix)
-- De nouvelles fonctionalité tous les 3 mois (0.1, 0.2, 0.3, 0.4, 1.1, 1.2, 1.3, ...)
-- Une version majeure tous les ans (même si pas de changement majeur mais permettant de supprimer le BC)
+- De nouvelles fonctionalitées tous les 3 mois (0.1, 0.2, 0.3, 0.4, 1.1, 1.2, 1.3, ...)
+- Une version majeure tous les ans (même quand il n'y à pas changement majeur mais permettant de supprimer le BC)
 - Nous assurons la compatibilité descendante
 - Pas plus de deux version en cours maintenu pour les fix (version stable et version en cours de dev)
 
@@ -105,7 +105,7 @@ Qu'est-ce qu'on protège globalement par le contrat de retro-compatiblité ?
 - Casser la dépendance force à la progressbar et la plugger sur un event qui notifie l'avancement d'un traitement
 
 ##### 0.3
-- Une nouvelle step pour découper un fichier texte en plus petits fichier contenant chacun un nombre de lignes définit
+- Une nouvelle step pour découper un fichier texte en plus petits fichiers contenant chacun un nombre de lignes définit
 - Permettre de lancer des process de manière simulatané avec l'option pararrel: 5
 - Rester à l'écoute des utilisateurs de l'outils afin de trouver le chemin qui réponde aux besoins tout en gardant un code évolutif et solid
 
