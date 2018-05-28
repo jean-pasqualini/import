@@ -152,6 +152,7 @@ class ProgressBarProcessNotifierTest extends TestCase
             $this->createMock(StepRunner::class)
         );
         $state->setIterator(new \ArrayIterator([]));
+        $state->setOptions(['progress_bar' => false]);
 
         $step = new IterateArrayStep();
 
@@ -170,6 +171,7 @@ class ProgressBarProcessNotifierTest extends TestCase
             $this->createMock(StepRunner::class)
         );
         $state->setIterator(new \ArrayIterator([]));
+        $state->setOptions(['progress_bar' => false]);
 
         $step = new IterateArrayStep();
 

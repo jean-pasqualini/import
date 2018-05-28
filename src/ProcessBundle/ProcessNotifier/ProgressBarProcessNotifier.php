@@ -20,8 +20,6 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
     /** @var ProgressBar */
     private $progressBar;
 
-    private $currentStep;
-
     public function __construct(ProgressBar $progressBar)
     {
         $this->progressBar = $progressBar;
@@ -43,34 +41,37 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
     public function onStartProcess(ProcessState $state, StepInterface $step)
     {
         if (!$step instanceof IterableStepInterface) {
-            return;
+            return null;
+        }
+
+        if (!$state->getOptions()['progress_bar']) {
+            return null;
         }
 
         $count = $step->count($state);
 
-        if (!$count || !$state->getOptions()['progress_bar']) {
-            return;
+        if (!$count) {
+            return null;
         }
 
         $this->progressBar->create($count, get_class($step));
-        $this->currentStep = $step;
     }
 
     public function onUpdateProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$this->currentStep) {
+        if (!$state->getOptions()['progress_bar']) {
             return;
         }
-        $this->progressBar->setProgress($this->currentStep->getProgress($state));
+
+        $this->progressBar->setProgress($step->getProgress($state));
     }
 
     public function onEndProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$this->currentStep) {
+        if (!$state->getOptions()['progress_bar']) {
             return;
         }
 
-        $this->currentStep = null;
         $this->progressBar->finish();
     }
 }

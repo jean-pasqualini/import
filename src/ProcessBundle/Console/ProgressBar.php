@@ -30,6 +30,7 @@ class ProgressBar
     private $minItemPerSecond;
 
     private $lastTimeUpdated;
+    private $timeElapsed = 0;
     private $previousItemCount = 0;
 
     public function setOutput($output)
@@ -71,9 +72,8 @@ class ProgressBar
         if ($this->isUpdate()) {
             $this->updateMemory();
             $this->updateItemPerSecond();
+            $this->progressBar->setProgress($progress);
         }
-
-        $this->progressBar->setProgress($progress);
     }
 
     public function advance()
@@ -81,9 +81,8 @@ class ProgressBar
         if ($this->isUpdate()) {
             $this->updateMemory();
             $this->updateItemPerSecond();
+            $this->progressBar->advance();
         }
-
-        $this->progressBar->advance();
     }
 
     public function finish()
@@ -110,6 +109,10 @@ class ProgressBar
         $time = time();
 
         if ($time > $this->lastTimeUpdated) {
+            $this->timeElapsed =
+                (null === $this->lastTimeUpdated)
+                    ? 1
+                    : $time - $this->lastTimeUpdated;
             $this->lastTimeUpdated = $time;
 
             return true;
@@ -123,7 +126,7 @@ class ProgressBar
         $time = time();
 
         if (count($this->timelineMemory) > self::INTERVAL_MONITORING[2]) {
-            $this->timelineMemory = array_slice($this->timelineMemory, 1);
+            $this->timelineMemory = array_slice($this->timelineMemory, 1, null, true);
         }
 
         $this->timelineMemory[$time] = $now = memory_get_usage(true);
@@ -147,10 +150,10 @@ class ProgressBar
         $time = time();
 
         if (count($this->timelineItemPerSecond) > self::INTERVAL_MONITORING[2]) {
-            $this->timelineItemPerSecond = array_slice($this->timelineItemPerSecond, 1);
+            $this->timelineItemPerSecond = array_slice($this->timelineItemPerSecond, 1, null, true);
         }
 
-        $this->timelineItemPerSecond[$time] = $now = $this->progressBar->getProgress() - $this->previousItemCount;
+        $this->timelineItemPerSecond[$time] = $now = ($this->progressBar->getProgress() - $this->previousItemCount) / $this->timeElapsed;
         $this->previousItemCount = $this->progressBar->getProgress();
 
         $this->intervalItemPerSecond[0] = $this->formatItemsCount(

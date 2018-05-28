@@ -1,0 +1,14 @@
+darkilliant_process:
+    process:
+        import_big_product:
+            logger: monolog.logger.product
+            steps:
+                -
+                    step: 'App\Step\DemoFakeBigProductListStep'
+                    options: []
+                -
+                    step: 'Darkilliant\ProcessBundle\IterableArrayStep'
+                    options: []
+                -
+                    step: 'Darkilliant\ProcessBundle\DebugStep'
+                    options: []

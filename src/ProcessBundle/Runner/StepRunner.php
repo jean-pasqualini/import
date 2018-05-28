@@ -144,9 +144,10 @@ class StepRunner
          */
         $service = $this->registry->resolveService($step->getService());
 
-        $service->execute(
-            $this->configureOptions($service, $step, $processState)
-        );
+        $processState = $this->configureOptions($service, $step, $processState);
+        $options = $processState->getOptions();
+
+        $service->execute($processState);
 
         if (ProcessState::RESULT_OK !== $processState->getResult()) {
             return false;
@@ -162,7 +163,9 @@ class StepRunner
                 if ($this->runSteps($processState, $step->getChildren())) {
                     $this->logger->info('successful', $processState->getRawContext());
                 }
+
                 $processState->setIterator($iterator);
+                $processState->setOptions($options);
             }
             $this->notifier->onEndProcess($processState, $service);
 
