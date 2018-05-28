@@ -44,7 +44,6 @@ avec le format '@[data][titre]|string' ou '@[data][date]|datetime("d/m/Y")'
 
 Soit avec une première étape quand les données sont à plat
 
-
 3. Désérialization de relation sans id
 
 Par example un Product peut avoir une relation ProductExtraData.

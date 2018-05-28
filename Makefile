@@ -16,5 +16,5 @@ test-cs:
 	vendor/bin/php-cs-fixer fix src --no-interaction --dry-run --diff -vvv --config=.php_cs --cache-file=.php_cs.cache --using-cache=no
 
 test-integration: db
-	php tests/App/console.php process:run create_boutique
-	php tests/App/console.php process:run import_product
+	php tests/App/console.php process:run -vv -- create_boutique
+	php tests/App/console.php process:run -vv -- import_product
