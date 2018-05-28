@@ -1,0 +1,3 @@
+services:
+    App\Step\DemoFakeBigProductListStep:
+        public: true

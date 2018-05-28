@@ -47,6 +47,7 @@ class ProgressBarTest extends TestCase
         $this->assertOutputContains('MEMORY -1 -1 -1');
         $this->assertOutputContains('ITEMS -1 -1 -1');
 
+        ClockMock::sleep(1);
         $this->progressBar->setProgress(2);
         $this->assertOutputContains('2/10');
 

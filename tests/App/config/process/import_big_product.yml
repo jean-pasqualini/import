@@ -1,14 +1,22 @@
 darkilliant_process:
     process:
         import_big_product:
-            logger: monolog.logger.product
+            logger: monolog.logger.import_product
             steps:
                 -
-                    step: 'App\Step\DemoFakeBigProductListStep'
+                    service: 'App\Step\DemoFakeBigProductListStep'
+                    options:
+                        progress_bar: true
+                        count: 150000
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
                     options: []
                 -
-                    step: 'Darkilliant\ProcessBundle\IterableArrayStep'
-                    options: []
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
                 -
-                    step: 'Darkilliant\ProcessBundle\DebugStep'
-                    options: []
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 500
+                        whitelist_clear: ['App\Entity\Product']
