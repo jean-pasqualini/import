@@ -162,7 +162,7 @@ class StepRunnerTest extends TestCase
             ->expects($this->once())
             ->method('resolveService')
             ->with('monolog.logger.chocapic')
-            ->willReturn(new NullLogger());
+            ->willReturn($this->logger);
 
         $this->stepRegistry
             ->expects($this->at(0))
@@ -265,12 +265,6 @@ class StepRunnerTest extends TestCase
      */
     public function testRunFailWithException()
     {
-        $this->loggerRegistry
-            ->expects($this->once())
-            ->method('resolveService')
-            ->with('monolog.logger.chocapic')
-            ->willReturn(new NullLogger());
-
         $step = $this->createPartialMock(PredefinedDataStep::class, ['execute']);
         $step
             ->expects($this->once())
@@ -282,6 +276,12 @@ class StepRunnerTest extends TestCase
             ->method('resolveService')
             ->with(PredefinedDataStep::class)
             ->willReturn($step);
+
+        $this->loggerRegistry
+            ->expects($this->once())
+            ->method('resolveService')
+            ->with('monolog.logger.chocapic')
+            ->willReturn($this->logger);
 
         $this->logger
             ->expects($this->once())

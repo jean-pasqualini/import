@@ -58,6 +58,11 @@ class StepRunner
         $this->output = $output;
     }
 
+    public function setNotifier($notifier)
+    {
+        $this->notifier = $notifier;
+    }
+
     /**
      * @param string $processName
      *
@@ -65,7 +70,7 @@ class StepRunner
      *
      * @return ConfigurationProcess
      */
-    public function buildConfigurationProcess(string $processName): ConfigurationProcess
+    public function buildConfigurationProcess(string $processName, string $logger = null): ConfigurationProcess
     {
         if (empty($this->configuration['process'][$processName])) {
             throw new \Exception(sprintf(
@@ -73,6 +78,10 @@ class StepRunner
                 $processName,
                 implode(', ', array_keys($this->configuration['process']))
             ));
+        }
+
+        if (null !== $logger) {
+            $this->configuration['process'][$processName]['logger'] = $logger;
         }
 
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
@@ -109,8 +118,8 @@ class StepRunner
                 if (!$this->runStep($processState, $step)) {
                     return false;
                 }
-            } catch (\Exception $exception) {
-                $this->logger->error('fail step', array_merge([
+            } catch (\Throwable $exception) {
+                $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
                 ], $processState->getRawContext()));
@@ -161,7 +170,7 @@ class StepRunner
                 $this->notifier->onUpdateProcess($processState, $service);
 
                 if ($this->runSteps($processState, $step->getChildren())) {
-                    $this->logger->info('successful', $processState->getRawContext());
+                    $processState->getLogger()->info('successful', $processState->getRawContext());
                 }
 
                 $processState->setIterator($iterator);
@@ -183,7 +192,7 @@ class StepRunner
                     return false;
                 }
             } catch (\Exception $exception) {
-                $this->logger->error('fail step', array_merge([
+                $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
                 ], $processState->getRawContext()));
