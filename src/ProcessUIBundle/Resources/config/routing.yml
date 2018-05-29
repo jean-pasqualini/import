@@ -1,0 +1,11 @@
+darkilliant_processui_home:
+    path: /
+    controller: DarkilliantProcessUIBundle:Dashboard:home
+
+darkilliant_processui_runner:
+    path: /runner/{processName}
+    controller: DarkilliantProcessUIBundle:Dashboard:runner
+
+darkilliant_processui_run:
+    path: /run/{processName}
+    controller: DarkilliantProcessUIBundle:Dashboard:run

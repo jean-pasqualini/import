@@ -4,10 +4,13 @@ namespace App;
 
 use Darkilliant\ImportBundle\DarkilliantImportBundle;
 use Darkilliant\ProcessBundle\DarkilliantProcessBundle;
+use Darkilliant\ProcessUIBundle\DarkilliantProcessUIBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use JMS\SerializerBundle\JMSSerializerBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\WebServerBundle\WebServerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -27,6 +30,9 @@ class AppKernel extends Kernel
             new JMSSerializerBundle(),
             new DarkilliantImportBundle(),
             new DarkilliantProcessBundle(),
+            new DarkilliantProcessUIBundle(),
+            new WebServerBundle(),
+            new TwigBundle(),
         ];
     }
 }

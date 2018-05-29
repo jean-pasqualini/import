@@ -2,25 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Darkilliant\ProcessBundle\Logger;
+namespace Darkilliant\ProcessUIBundle\Logger;
 
 use Psr\Log\AbstractLogger;
 
 /**
  * @internal
  */
-class InMemoryLogger extends AbstractLogger
+class MonitorableLogger extends AbstractLogger
 {
     private $messages;
 
-    public function log($level, $message, array $context = [])
+    private $handler;
+
+    public function setHandler($handler)
     {
-        $this->messages[] = ['message' => $this->interpolate($message, $context), 'context' => $context];
+        $this->handler = $handler;
     }
 
-    public function getMessages($withContext = false): array
+    public function log($level, $message, array $context = [])
     {
-        return ($withContext) ? $this->messages : array_column($this->messages, 'message');
+        $message = ['level' => $level, 'message' => date('d/m/Y H:i:s').' '.$this->interpolate($message, $context), 'context' => $context];
+
+        call_user_func_array($this->handler, [$message]);
     }
 
     private function interpolate($message, array $context = [])

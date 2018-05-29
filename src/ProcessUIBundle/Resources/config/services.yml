@@ -1,0 +1,6 @@
+services:
+    Darkilliant\ProcessUIBundle\Logger\MonitorableLogger:
+        public: true
+
+    Darkilliant\ProcessUIBundle\ProcessNotifier\WebProcessNotifier:
+        public: true

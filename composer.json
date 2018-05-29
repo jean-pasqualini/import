@@ -16,7 +16,9 @@
         "cocur/slugify": "^3.1",
         "friendsofphp/php-cs-fixer": "^2.11",
         "phpoffice/phpspreadsheet": "^1.2",
-        "symfony/phpunit-bridge": "3.4"
+        "symfony/phpunit-bridge": "3.4",
+        "symfony/web-server-bundle": "3.4",
+        "symfony/twig-bundle": "3.4"
     },
     "suggest": {
         "doctrine/orm": "^2.5",

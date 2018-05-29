@@ -5,6 +5,8 @@ imports:
 
 framework:
     secret: changeme
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
     serializer:
         enabled: true
         enable_annotations: true
@@ -40,3 +42,6 @@ doctrine:
 services:
     Cocur\Slugify\Slugify:
         public: true
+
+twig:
+    debug: true

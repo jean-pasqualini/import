@@ -6,8 +6,28 @@ darkilliant_process:
                     service: 'Darkilliant\ImportBundle\Step\CsvExtractorStep'
                     options:
                         colums_names: null
-                        delimiter: ","
+                        delimiter: ";"
                         filepath: "@[context][filepath]"
+                -
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            name:
+                                value: '@[data][name]'
+                                transformers: ['string']
+                            price:
+                                value: '@[data][price]'
+                                transformers: ['float']
+                -
+                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    options:
+                        mapping:
+                            name: '@[data][name]'
+                            price_ttc: '@[data][price]'
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
                 -
                     service: 'Darkilliant\ProcessBundle\Step\DebugStep'
                     options: []

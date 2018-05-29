@@ -1,0 +1,9 @@
+{% extends '@DarkilliantProcessUI/layout.html.twig' %}
+
+{% block body %}
+<ul>
+    {% for name, process in processCollection %}
+        <li><a href="{{ path('darkilliant_processui_runner', {'processName': name}) }}">{{ name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

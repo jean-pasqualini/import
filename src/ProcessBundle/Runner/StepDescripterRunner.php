@@ -20,19 +20,9 @@ class StepDescripterRunner extends StepRunner
      *
      * @return ConfigurationProcess
      */
-    public function buildConfigurationProcess(string $processName): ConfigurationProcess
+    public function buildConfigurationProcess(string $processName, string $logger = null): ConfigurationProcess
     {
-        if (empty($this->configuration['process'][$processName])) {
-            throw new \Exception(sprintf(
-                'process %s not found, available (%s)',
-                $processName,
-                implode(', ', array_keys($this->configuration['process']))
-            ));
-        }
-
-        $this->configuration['process'][$processName]['logger'] = InMemoryLogger::class;
-
-        return ConfigurationProcess::create($this->configuration['process'][$processName]);
+       return parent::buildConfigurationProcess($processName, InMemoryLogger::class);
     }
 
     protected function configureOptions(StepInterface $service, ConfigurationStep $step, ProcessState $processState): ProcessState

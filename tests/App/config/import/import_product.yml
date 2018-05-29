@@ -1,8 +1,12 @@
 darkilliant_import:
     imports:
-        # ./console process:run 
+        # ./console process:run
         import_product_easy:
             source: 'file://@[context][file]'
             entity_class: 'App\Entity\Product'
+            validations:
+                label: ['string']
+                price: ['float']
             mapping:
                 label: '@[data][name]'
+                price_ttc: '@[data][price]'

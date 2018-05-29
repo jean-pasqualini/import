@@ -58,6 +58,11 @@ class StepRunner
         $this->output = $output;
     }
 
+    public function setNotifier($notifier)
+    {
+        $this->notifier = $notifier;
+    }
+
     /**
      * @param string $processName
      *
@@ -65,7 +70,7 @@ class StepRunner
      *
      * @return ConfigurationProcess
      */
-    public function buildConfigurationProcess(string $processName): ConfigurationProcess
+    public function buildConfigurationProcess(string $processName, string $logger = null): ConfigurationProcess
     {
         if (empty($this->configuration['process'][$processName])) {
             throw new \Exception(sprintf(
@@ -73,6 +78,10 @@ class StepRunner
                 $processName,
                 implode(', ', array_keys($this->configuration['process']))
             ));
+        }
+
+        if (null !== $logger) {
+            $this->configuration['process'][$processName]['logger'] = $logger;
         }
 
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
