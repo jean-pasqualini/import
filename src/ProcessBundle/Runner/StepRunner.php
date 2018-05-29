@@ -118,8 +118,8 @@ class StepRunner
                 if (!$this->runStep($processState, $step)) {
                     return false;
                 }
-            } catch (\Exception $exception) {
-                $this->logger->error('fail step', array_merge([
+            } catch (\Throwable $exception) {
+                $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
                 ], $processState->getRawContext()));
@@ -170,7 +170,7 @@ class StepRunner
                 $this->notifier->onUpdateProcess($processState, $service);
 
                 if ($this->runSteps($processState, $step->getChildren())) {
-                    $this->logger->info('successful', $processState->getRawContext());
+                    $processState->getLogger()->info('successful', $processState->getRawContext());
                 }
 
                 $processState->setIterator($iterator);
@@ -192,7 +192,7 @@ class StepRunner
                     return false;
                 }
             } catch (\Exception $exception) {
-                $this->logger->error('fail step', array_merge([
+                $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
                 ], $processState->getRawContext()));

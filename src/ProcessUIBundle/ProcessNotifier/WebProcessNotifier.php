@@ -50,6 +50,8 @@ class WebProcessNotifier
         if (!$state->getOptions()['progress_bar']) {
             return;
         }
+
+        call_user_func_array($this->handler, [$step->count($state), $step->count($state)]);
     }
 
 }

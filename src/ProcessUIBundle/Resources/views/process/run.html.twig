@@ -3,7 +3,8 @@
 {% block javascript %}
 {{ parent() }}
     <script type="text/javascript">
-        var source = new EventSource('{{ path('darkilliant_processui_run', {'processName': processName}) }}');
+        {% if runnable %}
+        var source = new EventSource('{{ path('darkilliant_processui_run', {'processName': processName, 'context': context}) }}');
         source.onmessage = function(e) {
             if (!e) {
                 source.close();
@@ -28,6 +29,7 @@
         {
             $("#log").scrollTop($("#log")[0].scrollHeight);
         }, 500); // ms = 3 sec
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -43,6 +45,20 @@
                                 <div><span id="progress">x</span> sur <span id="count">x</span> elements</div>
                                 <div class="progress">
                                     <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div>
+                                    Configurable,
+                                    <form action="#" method="post">
+                                        {% for item in configurable %}
+                                            <div class="form-group">
+                                                <label>{{ item }}</label>
+                                                <input name="{{ item }}" type="text" class="form-control" value="{{ app.request.request.get(item, '') }}"/>
+                                            </div>
+                                        {% endfor %}
+                                        <div>
+                                            <button class="btn btn-success">Lancer</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-xs-8">
