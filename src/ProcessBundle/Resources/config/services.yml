@@ -29,6 +29,10 @@ services:
         resource: '../../Step/*'
         public: true
 
+    Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep:
+        arguments:
+            $environment: '%kernel.environment%'
+
     Darkilliant\ProcessBundle\Logger\InMemoryLogger:
         public: true
 
