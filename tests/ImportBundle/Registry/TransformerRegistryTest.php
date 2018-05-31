@@ -3,7 +3,7 @@
 namespace Tests\Darkilliant\ImportBundle\Registry;
 
 use Darkilliant\ImportBundle\Registry\TransformerRegistry;
-use Darkilliant\ImportBundle\Transformer\TransformerInterface;
+use Darkilliant\ImportBundle\Transformer\AbstractTransformer;
 use PHPUnit\Framework\TestCase;
 
 class TransformerRegistryTest extends TestCase
@@ -21,7 +21,7 @@ class TransformerRegistryTest extends TestCase
      */
     public function testGetWhenTransformerExists()
     {
-        $transformer = $this->createMock(TransformerInterface::class);
+        $transformer = $this->createMock(AbstractTransformer::class);
 
         $this->registry->add('demo', $transformer);
 

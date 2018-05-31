@@ -55,31 +55,4 @@ class LaunchProcessStepTest extends TestCase
 
         $this->step->execute($state);
     }
-
-    public function testExecuteWithSharedState()
-    {
-        $state = new ProcessState(
-            [],
-            $this->createMock(LoggerInterface::class),
-            $stepRunner = $this->createMock(StepRunner::class)
-        );
-        $state->setOptions(['process' => 'chocapic', 'share_state' => true]);
-
-        $process = ConfigurationProcess::create(['steps' => []]);
-
-        $stepRunner
-            ->expects($this->once())
-            ->method('buildConfigurationProcess')
-            ->with('chocapic')
-            ->willReturn($process);
-        $stepRunner
-            ->expects($this->once())
-            ->method('runSteps')
-            ->with($this->anything(), []);
-        $stepRunner
-            ->expects($this->never())
-            ->method('run');
-
-        $this->step->execute($state);
-    }
 }

@@ -29,11 +29,14 @@ class MappingTransformer
 
     private function applyTransformer(string $name, $value, $transformers)
     {
-        foreach ($transformers as $transformerName) {
-            $transformer = $this->registry->get($transformerName);
-            $transformer->validate($value);
+        foreach ($transformers as $transformerKey => $transformerConfig) {
+            $transformerName = (is_array($transformerConfig)) ? $transformerKey : $transformerConfig;
+            $transformerOptions = (is_array($transformerConfig)) ? $transformerConfig : [];
 
-            $value = $transformer->transform($value);
+            $transformer = $this->registry->get($transformerName);
+            $transformer->validate($value, $name, $transformerOptions);
+
+            $value = $transformer->transform($value, $name, $transformerOptions);
         }
 
         return $value;

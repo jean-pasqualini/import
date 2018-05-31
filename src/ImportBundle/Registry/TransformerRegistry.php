@@ -2,7 +2,7 @@
 
 namespace Darkilliant\ImportBundle\Registry;
 
-use Darkilliant\ImportBundle\Transformer\TransformerInterface;
+use Darkilliant\ImportBundle\Transformer\AbstractTransformer;
 
 /**
  * @internal
@@ -13,12 +13,12 @@ class TransformerRegistry
     /** @var TransformerInterface[] */
     private $collection;
 
-    public function get($id): TransformerInterface
+    public function get($id): AbstractTransformer
     {
         return $this->collection[$id];
     }
 
-    public function add($id, TransformerInterface $transformer)
+    public function add($id, AbstractTransformer $transformer)
     {
         $this->collection[$id] = $transformer;
     }

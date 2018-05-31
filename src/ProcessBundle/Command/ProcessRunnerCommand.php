@@ -21,7 +21,6 @@ class ProcessRunnerCommand extends ContainerAwareCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $stepRunner = $this->getContainer()->get(StepRunner::class);
-        $stepRunner->setOutput($output);
 
         $outputHelper = new SymfonyStyle($input, $output);
 

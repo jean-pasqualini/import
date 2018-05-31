@@ -61,6 +61,26 @@ class ProgressBarProcessNotifierTest extends TestCase
         $this->processNotifier->onStartProcess($state, $step);
     }
 
+    public function testOnStartProcessWhenNoItem()
+    {
+        $iterator = new \ArrayIterator([]);
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+        $state->setOptions(['progress_bar' => true]);
+        $state->setIterator($iterator);
+
+        $step = new IterateArrayStep();
+
+        $this->progressBar
+            ->expects($this->never())
+            ->method('create');
+
+        $this->processNotifier->onStartProcess($state, $step);
+    }
+
     public function testOnUpdateProcess()
     {
         $iterator = new \ArrayIterator([1 => ['color' => 'red']]);

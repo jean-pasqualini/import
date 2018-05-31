@@ -106,13 +106,14 @@ class ProgressBar
 
     private function isUpdate()
     {
+        if (null === $this->progressBar) {
+            return;
+        }
+
         $time = time();
 
         if ($time > $this->lastTimeUpdated) {
-            $this->timeElapsed =
-                (null === $this->lastTimeUpdated)
-                    ? 1
-                    : $time - $this->lastTimeUpdated;
+            $this->timeElapsed = $time - $this->lastTimeUpdated;
             $this->lastTimeUpdated = $time;
 
             return true;

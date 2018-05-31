@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Darkilliant\ImportBundle\Transformer;
 
 use Darkilliant\ImportBundle\Registry\TransformerRegistry;
+use Darkilliant\ImportBundle\Transformer\AbstractTransformer;
 use Darkilliant\ImportBundle\Transformer\MappingTransformer;
-use Darkilliant\ImportBundle\Transformer\TransformerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +31,7 @@ class MappingTransformerTest extends TestCase
 
     public function testTransform()
     {
-        $upperCaseTransformer = $this->createMock(TransformerInterface::class);
+        $upperCaseTransformer = $this->createMock(AbstractTransformer::class);
         $upperCaseTransformer
             ->expects($this->once())
             ->method('validate')

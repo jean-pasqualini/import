@@ -63,6 +63,24 @@ class ProgressBarTest extends TestCase
         $this->assertOutputContains('10/10');
     }
 
+    public function testRunWithNoUpdate()
+    {
+        $this->progressBar->create(10, 'home');
+        $this->assertOutputContains('home');
+        $this->assertOutputContains('0/10');
+        $this->assertOutputContains('MEMORY -1 -1 -1');
+        $this->assertOutputContains('ITEMS -1 -1 -1');
+
+        $this->progressBar->setProgress(2);
+        $this->assertOutputContains('0/10');
+    }
+
+    public function testUpdateWithoutCreate()
+    {
+        $this->progressBar->setProgress(2);
+        $this->assertEquals('', $this->output->fetch());
+    }
+
     public function testKeepTimelimitLimit()
     {
         $this->progressBar->create(10, 'home');

@@ -90,9 +90,9 @@ class StepRunnerTest extends TestCase
             ->willReturnArgument(0);
     }
 
-    public function testSetOutput()
+    public function testSetNotifier()
     {
-        $this->assertNull($this->runner->setOutput(new NullOutput()));
+        $this->assertNull($this->runner->setNotifier($this->createMock(ProgressBarProcessNotifier::class)));
     }
 
     public function testBuildConfigurationProcessWhenProcessNotExist()

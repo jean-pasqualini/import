@@ -13,23 +13,12 @@ class LaunchProcessStep extends AbstractConfigurableStep
 
         $process = $state->getStepRunner()->buildConfigurationProcess($state->getOptions()['process']);
 
-        if ($state->getOptions()['share_state']) {
-            $duplicateState = $state->duplicate();
-            $state->getStepRunner()->runSteps(
-                $duplicateState,
-                $process->getSteps()
-            );
-
-            return;
-        }
-
         $state->getStepRunner()->run($process, $state->getOptions()['context']);
     }
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
     {
-        $resolver->setRequired(['process', 'share_state']);
-        $resolver->setDefault('share_state', false);
+        $resolver->setRequired(['process']);
         $resolver->setDefault('context', []);
 
         return parent::configureOptionResolver($resolver);

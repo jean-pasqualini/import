@@ -8,7 +8,7 @@
 
 namespace Darkilliant\ImportBundle\Transformer;
 
-class RemoveEmptyInArrayTransformer implements TransformerInterface
+class RemoveEmptyInArrayTransformer extends AbstractTransformer
 {
     public function transform($value, string $name = '', array $options = [])
     {

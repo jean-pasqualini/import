@@ -3,8 +3,6 @@
 namespace Darkilliant\ProcessBundle\Runner;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Darkilliant\ProcessBundle\Configuration\ConfigurationProcess;
 use Darkilliant\ProcessBundle\Configuration\ConfigurationStep;
@@ -36,9 +34,6 @@ class StepRunner
     /** @var ProgressBarProcessNotifier */
     protected $notifier;
 
-    /** @var OutputInterface */
-    protected $output;
-
     /**
      * @internal
      */
@@ -50,12 +45,6 @@ class StepRunner
         $this->registry = $registry;
         $this->loggerRegistry = $loggerRegistry;
         $this->notifier = $notifier;
-        $this->output = new NullOutput();
-    }
-
-    public function setOutput(OutputInterface $output)
-    {
-        $this->output = $output;
     }
 
     public function setNotifier($notifier)

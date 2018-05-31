@@ -6,7 +6,7 @@ namespace Darkilliant\ImportBundle\Transformer;
 
 use Darkilliant\ImportBundle\Exception\TransformationException;
 
-class IntegerTransformer implements TransformerInterface
+class IntegerTransformer extends AbstractTransformer
 {
     public function transform($value, string $name = '', array $options = [])
     {

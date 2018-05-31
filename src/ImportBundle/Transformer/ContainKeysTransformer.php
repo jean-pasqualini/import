@@ -6,7 +6,7 @@ namespace Darkilliant\ImportBundle\Transformer;
 
 use Darkilliant\ImportBundle\Exception\TransformationException;
 
-class ContainKeysTransformer implements TransformerInterface
+class ContainKeysTransformer extends AbstractTransformer
 {
     public function transform($value, string $name = '', array $options = [])
     {

@@ -200,7 +200,7 @@ darkilliant_process:
 Ainsi si une ligne contient des données invalide, elle sera loggué et ne sera pas importer.
 
 Vous pouvez ajouter vos propres transformer, voic la procédure,
- - ajouter une classe qui implémente l'interface `Darkilliant\ImportBundle\Transformer\TransformerInterface` 
+ - ajouter une classe qui hérite de `Darkilliant\ImportBundle\Transformer\AbstractTransformer` 
  - déclarer en tant que service et la taggué (l'alias est le nom du transformer)
  
 ```yaml
