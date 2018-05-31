@@ -105,6 +105,7 @@ Qu'est-ce qu'on protège globalement par le contrat de retro-compatiblité ?
 - Casser la dépendance force à la progressbar et la plugger sur un event qui notifie l'avancement d'un traitement
 
 ##### 0.3
+- Ajout du support du mode dry-run bien plus performant afin de valider les données sans effectuer les requêtes d'insertion (ce qui est pratique pour de très gros import où attendre 20mn pour savoir que le fichier est invalide est une perte de temps considérable en terme d'aller-retour)
 - Une nouvelle step pour découper un fichier texte en plus petits fichiers contenant chacun un nombre de lignes définit
 - Permettre de lancer des process de manière simulatané avec l'option pararrel: 5
 - Rester à l'écoute des utilisateurs de l'outils afin de trouver le chemin qui réponde aux besoins tout en gardant un code évolutif et solid
