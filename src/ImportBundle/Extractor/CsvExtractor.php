@@ -24,13 +24,14 @@ class CsvExtractor implements ExtractorInterface
         $csvFileObjects->setFlags((\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE | \ SplFileObject::READ_AHEAD));
         $csvFileObjects->setCsvControl($delimiter);
 
-        $arrayKeys = array_map([$this, 'slugify'], $columsNames ?? $csvFileObjects->current());
+        $arrayKeys = array_map([$this, 'slugify'], $columsNames ?? (array) $csvFileObjects->current());
         $arrayKeys = array_map('trim', $arrayKeys);
 
         foreach ($csvFileObjects as $loopIndex => $csvFileObjectRow) {
-            if ($csvFileObjects->key() > 0 && true === $this->isValidLine($csvFileObjectRow)) {
-                $csvFileObjectRow = array_map('trim', $csvFileObjectRow);
-                $arrayToYield = array_combine($arrayKeys, $csvFileObjectRow);
+            $currentData = (array) $csvFileObjectRow;
+            if ($csvFileObjects->key() > 0 && true === $this->isValidLine($currentData)) {
+                $currentData = array_map('trim', $currentData);
+                $arrayToYield = array_combine($arrayKeys, $currentData);
                 yield $loopIndex => $arrayToYield;
             }
         }

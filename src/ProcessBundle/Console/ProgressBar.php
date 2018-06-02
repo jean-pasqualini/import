@@ -58,7 +58,7 @@ class ProgressBar
         $this->progressBar->start();
     }
 
-    public function renderRightbar(SymfonyProgressBar $bar)
+    public function renderRightbar()
     {
         return sprintf(
             'MEMORY %s / ITEMS %s',
@@ -88,8 +88,6 @@ class ProgressBar
     public function finish()
     {
         $this->progressBar->finish();
-
-        $this->itemCount = [];
     }
 
     private function init()

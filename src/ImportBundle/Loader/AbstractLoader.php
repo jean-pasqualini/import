@@ -11,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 abstract class AbstractLoader
 {
-    /** @var $accessor */
+    /** @var PropertyAccessor */
     protected $accessor;
 
     public function __construct(PropertyAccessor $accessor)

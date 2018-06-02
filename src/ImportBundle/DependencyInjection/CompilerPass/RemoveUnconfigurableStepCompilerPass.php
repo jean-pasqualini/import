@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darkilliant\ImportBundle\DependencyInjection\CompilerPass;
 
-use Darkilliant\ImportBundle\Normalizer\EntityNormalizer;
+use Darkilliant\ImportBundle\Serializer\Symfony\EntityNormalizer;
 use Darkilliant\ImportBundle\Persister\DoctrinePersister;
 use Darkilliant\ImportBundle\Step\ArrayTargetResolverStep;
 use Darkilliant\ImportBundle\Step\DoctrinePersisterStep;

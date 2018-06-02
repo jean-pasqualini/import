@@ -49,7 +49,7 @@ class DebugProcessCommand extends ContainerAwareCommand
      *
      * @throws \Exception
      */
-    private function describeProcess(string $process, SymfonyStyle $outputHelper)
+    private function describeProcess(string $process, SymfonyStyle $outputHelper): int
     {
         $outputHelper->section(sprintf('Describe %s', $process));
 
@@ -61,14 +61,18 @@ class DebugProcessCommand extends ContainerAwareCommand
         $stepDescripter->run($stepDescripter->buildConfigurationProcess($process));
 
         $outputHelper->listing($inMemoryLogger->getMessages());
+
+        return 0;
     }
 
-    private function describeProcessList(array $config, SymfonyStyle $outputHelper)
+    private function describeProcessList(array $config, SymfonyStyle $outputHelper): int
     {
         $outputHelper->section('List of process');
 
         $outputHelper->listing(
             array_keys($config['process'])
         );
+
+        return 0;
     }
 }

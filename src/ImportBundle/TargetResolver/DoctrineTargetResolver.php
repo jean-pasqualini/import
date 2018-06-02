@@ -55,10 +55,8 @@ class DoctrineTargetResolver
         switch ($strategy) {
             case 'findOneBy':
                 return $this->factoryFindOneBy($options);
-            break;
             case 'find':
                 return $this->factoryFind($entityClass, $options);
-            break;
         }
 
         return null;

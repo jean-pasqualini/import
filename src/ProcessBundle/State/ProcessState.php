@@ -137,7 +137,7 @@ class ProcessState extends AbstractLogger
     }
 
     /**
-     * @return \Iterator|\Countable
+     * @return \ArrayIterator
      */
     public function getIterator()
     {

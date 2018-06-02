@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @internal
@@ -21,6 +22,11 @@ class EntityNormalizer extends ObjectNormalizer
      * @var ManagerRegistry
      */
     protected $managerRegistry;
+
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
 
     /** @var array */
     protected $config;

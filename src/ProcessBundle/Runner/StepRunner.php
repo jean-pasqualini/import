@@ -165,7 +165,7 @@ class StepRunner
                 $processState->setIterator($iterator);
                 $processState->setOptions($options);
             }
-            $this->notifier->onEndProcess($processState, $service);
+            $this->notifier->onEndProcess($processState);
 
             $this->finalizeSteps($processState, $step->getChildren());
         }
