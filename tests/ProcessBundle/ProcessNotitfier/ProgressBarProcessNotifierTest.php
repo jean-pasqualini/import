@@ -8,7 +8,6 @@ use Darkilliant\ProcessBundle\Console\ProgressBar;
 use Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier;
 use Darkilliant\ProcessBundle\Runner\StepRunner;
 use Darkilliant\ProcessBundle\State\ProcessState;
-use Darkilliant\ProcessBundle\Step\DebugStep;
 use Darkilliant\ProcessBundle\Step\IterateArrayStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Tests\Darkilliant\ProcessBundle\Step\DebugStepTest;
 
 class ProgressBarProcessNotifierTest extends TestCase
 {
@@ -128,22 +126,6 @@ class ProgressBarProcessNotifierTest extends TestCase
     public function testGetSubscribedEvents()
     {
         $this->assertInternalType('array', ProgressBarProcessNotifier::getSubscribedEvents());
-    }
-
-    public function testNotStartWhenNotStepIterable()
-    {
-        $state = new ProcessState(
-            [],
-            $this->createMock(LoggerInterface::class),
-            $this->createMock(StepRunner::class)
-        );
-        $step = new DebugStep();
-
-        $this->progressBar
-            ->expects($this->never())
-            ->method('create');
-
-        $this->processNotifier->onStartProcess($state, $step);
     }
 
     public function testNotStartWhenNotOptionProgressBarIsDisable()

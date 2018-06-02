@@ -4,7 +4,7 @@ namespace Darkilliant\ImportBundle\Extractor;
 
 use Cocur\Slugify\Slugify;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Writer\IWriter;
+use PhpOffice\PhpSpreadsheet\Writer\Csv as CsvWriter;
 
 class ExcelSplitter
 {
@@ -30,7 +30,7 @@ class ExcelSplitter
 
         $xlsFilePath = realpath($filePath);
         $xlsWorkSheet = IOFactory::load($filePath);
-        /** @var IWriter $csvWriter */
+        /** @var CsvWriter $csvWriter */
         $csvWriter = IOFactory::createWriter($xlsWorkSheet, 'Csv');
         foreach ($xlsWorkSheet->getWorksheetIterator() as $sheetIndex => $workSheetTab) {
             $csvWriter->setSheetIndex($sheetIndex);
