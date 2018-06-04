@@ -1,0 +1,14 @@
+darkilliant_process:
+    process:
+        import_xml:
+            logger: monolog.logger.import_product
+            steps:
+                -
+                    service: 'Darkilliant\ImportBundle\Step\XmlExtractorStep'
+                    options:
+                        filepath: '@[context][filepath]'
+                        node_name: '@[context][node]'
+                        progress_bar: true
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    enabled: true

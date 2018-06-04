@@ -1,0 +1,39 @@
+darkilliant_process:
+    process:
+        import_product_xml:
+            logger: monolog.logger.import_product
+            steps:
+                -
+                    service: 'Darkilliant\ImportBundle\Step\XmlExtractorStep'
+                    options:
+                        filepath: '@[context][filepath]'
+                        node_name: 'Sku'
+                        progress_bar: true
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\MappingStep'
+                    enabled: true
+                    options:
+                        mapping:
+                            'entity'               : 1
+                            'label'                : '@!data->title'
+                            'external_id'          : '@!data->sku'
+                            'ref'                  : '@!data->sku'
+                            'pj_primary_family_id' : '@!data->primaryfamilyId'
+                            'pj_furniture'         : '@!data->furniture'
+                            'description'          : '@!data->description'
+                            'pj_description_full'  : '@!data->descriptionFull'
+                            'pj_description_long'  : '@!data->descriptionLong'
+                            'pj_dimensions'        : '@!data->dimensions'
+                            'pj_width'             : '@!data->width'
+                            'pj_diameter'          : '@!data->diameter'
+                            'pj_height'            : '@!data->height'
+                            'pj_depth'             : '@!data->depth'
+                            'pj_large_image'       : '@!data->largeImage'
+                            'pj_medium_image'      : '@!data->mediumImage'
+                            'pj_small_image'       : '@!data->smallImage'
+                            'pj_silhouette_image'  : '@!data->silhouetteImage'
+                            'external_ref'         : '@!data->primaryCategoryId'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    enabled: true
+                    options: []

@@ -2,6 +2,7 @@
 |-------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 | [Darkilliant\ImportBundle\Step\SplitExcelStep](./step/split_excel.md)                           | découper un fichier excel en autant de fichiers csv qu'il ne dispose d'onglet |
 | [Darkilliant\ImportBundle\Step\CsvExtractorStep](./step/csv_extractor.md)                       | extraire chaque ligne d'un fichier csv sous forme d'un tableau php            |
+| [Darkilliant\ImportBundle\Step\XmlExtractorStep](./step/xml_extractor.md)                       | extraire chaque noeud xml d'un type particulier sous forme d'un tableau php   |
 | [Darkilliant\ProcessBundle\Step\IterateArrayStep](./step/iterate_array.md)                      | parcourir un tableau php                                                      |
 | [Darkilliant\ImportBundle\Step\MappingTransformerStep](./step/mapping_transformer.md)           | transformer un tableau php et le valider                                      |
 | [Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep](./step/load_object_normalized.md)      | convertir un tableau php en entité doctrine avec ses relations                |
