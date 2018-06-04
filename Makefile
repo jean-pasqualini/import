@@ -1,3 +1,5 @@
+export SYMFONY_ENV=prod
+
 db:
 	php tests/App/console.php d:d:d --force
 	php tests/App/console.php d:d:c
@@ -21,3 +23,6 @@ test-integration: db
 	php tests/App/console.php process:run -vv -- demo_unique_filter
 	php tests/App/console.php process:run -vv -- demo_filter_step
 	php tests/App/console.php process:run -vv -- demo_validate_object
+
+import-xml:
+	php tests/App/console.php process:run -vvv --context filepath=tests/fixtures/xml/album.xml -- import_product_xml

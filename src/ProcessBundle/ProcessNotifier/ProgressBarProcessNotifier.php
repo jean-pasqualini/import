@@ -19,6 +19,8 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
 {
     /** @var ProgressBar */
     private $progressBar;
+    /** @var bool */
+    private $infinite = false;
 
     public function __construct(ProgressBar $progressBar)
     {
@@ -49,9 +51,10 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
         }
 
         $count = $step->count($state);
+        $this->infinite = !$count;
 
-        if (!$count) {
-            return null;
+        if ($this->infinite) {
+            $count = 9999999;
         }
 
         $this->progressBar->create($count, get_class($step));
@@ -68,7 +71,7 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
 
     public function onEndProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$state->getOptions()['progress_bar']) {
+        if (!$state->getOptions()['progress_bar'] || $this->infinite) {
             return;
         }
 
