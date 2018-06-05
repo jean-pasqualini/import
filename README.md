@@ -133,5 +133,8 @@ Règles,
 - Vous utilisez donc vous contribuer à la documentation et aux bugfix. raller c'est bien mais agir c'est mieu.
 - Toujours travailler sur une version stable, une version en cours de développement n'est pas conseillé.
 
-[Lisez ceci avant tout](./doc/lisez-ceci-avant-tout.md)<br>
-[Example, pas à pas de création d'un import.](./doc/pas_a_pas.md)
+Cookbook,
+- [Lisez ceci avant tout](./doc/lisez-ceci-avant-tout.md)
+- [Example, pas à pas de création d'un import.](./doc/pas_a_pas.md)
+- [Liste des transformers disponible](./doc/list-transfomer.md)
+- [Liste des micro-tâches disponible](./doc/list-step.md)

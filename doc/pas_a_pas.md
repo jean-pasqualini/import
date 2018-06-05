@@ -199,27 +199,26 @@ darkilliant_process:
 
 Ainsi si une ligne contient des données invalide, elle sera loggué et ne sera pas importer.
 
-Vous pouvez ajouter vos propres transformer, voic la procédure,
- - ajouter une classe qui hérite de `Darkilliant\ImportBundle\Transformer\AbstractTransformer` 
- - déclarer en tant que service et la taggué (l'alias est le nom du transformer)
- 
+### 8 / Lancer de gros traitements (à partir de plus de 20 000)
+
+!Il est à noter que sur un lots de 150 000 itération avec des lots de 20 000, nous avons obtenu un temps de traitement de 18 minutes.
+
 ```yaml
-    Darkilliant\ImportBundle\Transformer\StringTransformer:
-        public: true
-        tags:
-          - { name: darkilliant_import_transformer, alias: string }
+                    service: 'Darkilliant\ProcessBundle\Step\ArrayBatchIterableStep'
+                    options:
+                        batch_count: 20000
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep'
+                    options:
+                        process_name: demo_isolate_process_sub
+                        max_concurency: 10
+                        bin_console_path: '%kernel.root_dir%/console.php'
+                        data: '@[data]'
 ```
 
-Voici une liste de transformers,
+Avec la conbinaison de ArrayBatchIterableStep qui vous permettra de regrouper par lots de x items les traitements énorme
+Et de LaunchIsolateProcessStep qui vous permettera de lancer ces lots de manière simulatané dans des processus isolé.
 
-```
-- boolean
-- float
-- remove_empty_in_array
-- string
-- array
-- contains_key
-- datetime
-- integer
-- not_empty_string
-```
+Vous pourez ainsi parez aux problématique de gestion de mémoire et de rapiditer de traitement.
+
+Il suffit de précéder ceci d'une étape itérable qui parcours vos données et c'est tout.
