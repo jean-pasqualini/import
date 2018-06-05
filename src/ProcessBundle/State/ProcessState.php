@@ -24,6 +24,8 @@ class ProcessState extends AbstractLogger
     private $logger;
     private $result;
 
+    private $dryRun = false;
+
     /** @var StepRunner */
     private $stepRunner;
 
@@ -178,5 +180,15 @@ class ProcessState extends AbstractLogger
     public function setIterator($iterator)
     {
         $this->iterator = $iterator;
+    }
+
+    public function setDryRun(bool $dryRun)
+    {
+        $this->dryRun = $dryRun;
+    }
+
+    public function isDryRun(): bool
+    {
+        return $this->dryRun;
     }
 }

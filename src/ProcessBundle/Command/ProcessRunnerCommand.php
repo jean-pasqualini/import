@@ -47,7 +47,8 @@ class ProcessRunnerCommand extends ContainerAwareCommand
             $stepRunner->run(
                 $stepRunner->buildConfigurationProcess($processName),
                 $this->resolveContext($input->getOption('context')),
-                $data
+                $data,
+                $input->getOption('dry-run')
             );
 
             $outputHelper->newLine();
@@ -60,6 +61,7 @@ class ProcessRunnerCommand extends ContainerAwareCommand
             ->addOption('context', 'c', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'context', [])
             ->addOption('input-from-stdin', null, InputOption::VALUE_NONE, 'enable data pass in stdin with json body')
             ->addOption('force-color', null, InputOption::VALUE_NONE, 'force use color when not autodetect support')
+            ->addOption('dry-run', null, InputOption::VALUE_NONE, 'dry run')
             ->addArgument('process', InputArgument::IS_ARRAY, 'process');
     }
 

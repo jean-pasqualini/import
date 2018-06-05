@@ -76,7 +76,7 @@ class StepRunner
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
     }
 
-    public function run(ConfigurationProcess $process, array $context = [], $data = [])
+    public function run(ConfigurationProcess $process, array $context = [], $data = [], $dryRun = false)
     {
         $processState = new ProcessState(
             $context,
@@ -84,6 +84,7 @@ class StepRunner
             $this
         );
         $processState->setData($data);
+        $processState->setDryRun($dryRun);
 
         $this->runSteps($processState, $process->getSteps());
     }

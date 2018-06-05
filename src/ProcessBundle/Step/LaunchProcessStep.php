@@ -13,7 +13,7 @@ class LaunchProcessStep extends AbstractConfigurableStep
 
         $process = $state->getStepRunner()->buildConfigurationProcess($state->getOptions()['process']);
 
-        $state->getStepRunner()->run($process, $state->getOptions()['context']);
+        $state->getStepRunner()->run($process, $state->getOptions()['context'], $state->isDryRun());
     }
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
