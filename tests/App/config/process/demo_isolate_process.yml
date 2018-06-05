@@ -1,0 +1,34 @@
+darkilliant_process:
+    process:
+        demo_isolate_process:
+            steps:
+                -
+                    service: 'App\Step\DemoFakeBigProductListStep'
+                    options:
+                        progress_bar: true
+                        count: 150
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\ArrayBatchIterableStep'
+                    options:
+                        batch_count: 15
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep'
+                    options:
+                        process_name: demo_isolate_process_sub
+                        max_concurency: 10
+                        bin_console_path: '%kernel.root_dir%/console.php'
+                        data: '@[data]'
+        demo_isolate_process_sub:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
+                -
+                    service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    options:
+                        batch_count: 500
+                        whitelist_clear: ['App\Entity\Product']

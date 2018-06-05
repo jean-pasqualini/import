@@ -76,13 +76,14 @@ class StepRunner
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
     }
 
-    public function run(ConfigurationProcess $process, array $context = [])
+    public function run(ConfigurationProcess $process, array $context = [], $data = [])
     {
         $processState = new ProcessState(
             $context,
             $this->loggerRegistry->resolveService($process->getLogger()),
             $this
         );
+        $processState->setData($data);
 
         $this->runSteps($processState, $process->getSteps());
     }
@@ -154,9 +155,16 @@ class StepRunner
             $this->notifier->onStartProcess($processState, $service);
             $iterator = $processState->getIterator();
 
+            $count = $service->count($processState);
+
             while ($service->valid($processState)) {
+                $currentIndex = $service->getProgress($processState);
+
                 $service->next($processState);
                 $this->notifier->onUpdateProcess($processState, $service);
+
+                // Add metadata information of the current iteration of loop
+                $processState->loop($currentIndex, $count, !$service->valid($processState));
 
                 if ($this->runSteps($processState, $step->getChildren())) {
                     $processState->getLogger()->info('successful', $processState->getRawContext());
@@ -166,6 +174,7 @@ class StepRunner
                 $processState->setOptions($options);
             }
             $this->notifier->onEndProcess($processState, $service);
+            $processState->noLoop();
 
             $this->finalizeSteps($processState, $step->getChildren());
         }

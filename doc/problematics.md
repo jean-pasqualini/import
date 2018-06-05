@@ -13,6 +13,22 @@
 -          Process
 ```
 
+Analyse suite à benchmark
+
+```
+BDD Sqlite (insert)
+
+150 000 produit
+Batch de 20000
+10 process simulaté
+Timeout process à 20 minutes
+
+Début 20:11:12
+Fin 20:29:00
+
+18 minutes pour 150.000 Produits équivalent à un ratio de 138 produits par seconde.
+```
+
 1.2 Avec rabbit mq
 
 ```
@@ -58,3 +74,22 @@ L'objet déjà lié ne sera pas conservé. C'est un cas à connaitre pour adapte
 
 Nous allons chercher pour la prochaine version une solution à cette problématique si elle est ressenti par nos utilisateurs
 
+3. ArrayBatchIterableStep
+
+```php
+<?php
+
+$items = [1, 2, 3, 4, 5, 6, 7];
+$batchSize = 3;
+
+$batch = [];
+foreach ($items as $key => $value) {
+    $batch[] = $value;
+    if (count($batch) >= 3) {
+        // Do process
+        $batch = [];
+    }
+}
+
+// Do process
+```

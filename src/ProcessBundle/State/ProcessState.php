@@ -23,10 +23,14 @@ class ProcessState extends AbstractLogger
     private $options = [];
     private $logger;
     private $result;
+
     /** @var StepRunner */
     private $stepRunner;
+
     /** @var \Traversable */
     private $iterator;
+
+    private $loop;
 
     public function __construct(array $context, LoggerInterface $logger, StepRunner $stepRunner)
     {
@@ -57,6 +61,30 @@ class ProcessState extends AbstractLogger
     public function getContext($key)
     {
         return $this->context[$key];
+    }
+
+    public function getLoop()
+    {
+        return $this->loop;
+    }
+
+    public function noLoop()
+    {
+        $this->loop = null;
+    }
+
+    public function loop(int $index, int $count, bool $last)
+    {
+        $this->loop = [
+            'index' => $index,
+            'count' => $count,
+            'last' => $last,
+        ];
+    }
+
+    public function isLoop()
+    {
+        return (bool) $this->loop;
     }
 
     /**
