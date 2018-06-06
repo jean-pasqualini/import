@@ -138,3 +138,5 @@ Cookbook,
 - [Example, pas à pas de création d'un import.](./doc/pas_a_pas.md)
 - [Liste des transformers disponible](./doc/list-transfomer.md)
 - [Liste des micro-tâches disponible](./doc/list-step.md)
+- [Comment lancer un traitement ?](./doc/lancer-un-traitement.md)
+- [Comment lister les traitements disponible ?](./doc/lister-traitement.md)
