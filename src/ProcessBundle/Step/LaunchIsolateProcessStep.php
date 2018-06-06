@@ -79,6 +79,10 @@ class LaunchIsolateProcessStep extends AbstractConfigurableStep implements Event
             $arguments[] = sprintf('--context %s=%s', $key, $value);
         }
 
+        if ($state->isDryRun()) {
+            $arguments[] = '--dry-run';
+        }
+
         $arguments[] = '--';
         $arguments[] = $processName;
         $processBuilder->setArguments($arguments);

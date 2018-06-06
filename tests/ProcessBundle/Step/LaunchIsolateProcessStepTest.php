@@ -68,6 +68,18 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--',
             'rocket',
         ]];
+        yield 'normal with dry run' => [OutputInterface::VERBOSITY_NORMAL, [
+            '/path/php',
+            '/project/bin/console',
+            'process:run',
+            '--env=prod',
+            '--input-from-stdin',
+            '--force-color',
+            '--context context_key=context_value',
+            '--dry-run',
+            '--',
+            'rocket',
+        ], true];
         yield 'verbose' => [OutputInterface::VERBOSITY_VERBOSE, [
             '/path/php',
             '/project/bin/console',
@@ -122,12 +134,12 @@ class LaunchIsolateProcessStepTest extends TestCase
     /**
      * @dataProvider provideExecuteWithMultipleVerbosity
      */
-    public function testExecuteWithOutput($verbosity, $expectedParameter)
+    public function testExecuteWithOutput($verbosity, $expectedParameter, $isDryRun = false)
     {
         $this->output->setVerbosity($verbosity);
         $this->step->onCommand(new ConsoleCommandEvent(null, new ArgvInput([]), $this->output));
 
-        $this->runTestExecute($expectedParameter);
+        $this->runTestExecute($expectedParameter, $isDryRun);
     }
 
     public function testExecuteWithoutOutput()
@@ -146,13 +158,14 @@ class LaunchIsolateProcessStepTest extends TestCase
         ]);
     }
 
-    private function runTestExecute($expectedParameter)
+    private function runTestExecute($expectedParameter, $isDryRun = false)
     {
         $state = new ProcessState(
             [],
             $this->createMock(LoggerInterface::class),
             $this->createMock(StepRunner::class)
         );
+        $state->setDryRun($isDryRun);
         $state->setOptions([
             'process_name' => 'rocket',
             'max_concurency' => 1,

@@ -27,9 +27,11 @@ class DoctrinePersisterStep extends AbstractConfigurableStep
 
     public function execute(ProcessState $state)
     {
-        $this->persister->persist($state->getData(), $state->getOptions()['batch_count']);
+        if (!$state->isDryRun()) {
+            $this->persister->persist($state->getData(), $state->getOptions()['batch_count']);
 
-        $this->describe($state);
+            $this->describe($state);
+        }
     }
 
     public function finalize(ProcessState $state)
