@@ -12,6 +12,7 @@
 | [Darkilliant\ProcessBundle\Step\ArrayBatchIterableStep](./step/array_batch_iterable_step.md)    | attend d'avoir x élement dans le pipe avant de balancer à l'étape suivante    |
 | [Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep](./step/launch_isolate_process_step.md)| lance de manière simultané un même traitement sur plusieurs itération         |
 | [Darkilliant\ProcessBundle\Step\UniqueFilterStep](./step/unique_filter_step.md)                 | supprime les doublons                                                         |
+| [Darkilliant\ProcessBundle\Step\ValidateObjectStep](./step/validate_object_step.md)             | Valide un objet avec le validateur de symfony                                 |
 
 Si vous désirez ajouter une miro tache,<br>
 il vous suffit de déclarer un service en public dont sa classe hérite de `Darkilliant\ProcessBundle\Step\AbstractConfigurableStep`.<br>
