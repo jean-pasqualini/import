@@ -93,3 +93,35 @@ foreach ($items as $key => $value) {
 
 // Do process
 ```
+
+4. Filtre des données dans le pipe
+
+Par examples pour des produits, je pourrais ne vouloir inséret que ce d'un certain type.
+
+Parfois il y a des logique de non affichage de produit en fonction de la non précense de prix ou de la non précense en stock.
+
+On pourrais imaginer la configuration suivante,
+
+```yaml
+service: Darkilliant\ProcessBundle\Step\FilterStep
+options:
+    filters:
+        -
+          type: unique
+          options: []
+          value: '@[data][id]'
+```
+
+Les filtres disponible pourais être,
+
+- strpos
+- regex
+- validator
+- value
+
+5. Valider un objet 
+
+```yaml
+service: Darkilliant\ProcessBundle\Step\ValidateObjectStep
+options: []
+```

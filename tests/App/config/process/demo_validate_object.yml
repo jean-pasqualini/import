@@ -1,0 +1,19 @@
+darkilliant_process:
+    process:
+        demo_validate_object:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data: { price_ttc: 'rouge' }
+                -
+                    service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    options:
+                        entity_class: 'App\Entity\Product'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\ValidateObjectStep'
+                    options:
+                        groups: ['demo']

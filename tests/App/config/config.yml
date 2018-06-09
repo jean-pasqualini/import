@@ -8,6 +8,9 @@ framework:
     serializer:
         enabled: true
         enable_annotations: true
+    validation:
+        enabled: true
+        enable_annotations: true
     property_info: { enabled: true }
 
 monolog:
