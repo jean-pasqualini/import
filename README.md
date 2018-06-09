@@ -99,20 +99,8 @@ Qu'est-ce qu'on protège globalement par le contrat de retro-compatiblité ?
 
 #### Roadmap
 
-##### 0.2
-- Import
-- N'afficher la progressbar que sur les step itérable où l'ont active l'option progress_bar à true
-- Casser la dépendance force à la progressbar et la plugger sur un event qui notifie l'avancement d'un traitement
-
-##### 0.3
-- Ajout du support du mode dry-run bien plus performant afin de valider les données sans effectuer les requêtes d'insertion (ce qui est pratique pour de très gros import où attendre 20mn pour savoir que le fichier est invalide est une perte de temps considérable en terme d'aller-retour)
-- Une nouvelle step pour découper un fichier texte en plus petits fichiers contenant chacun un nombre de lignes définit
-- Permettre de lancer des process de manière simulatané avec l'option pararrel: 5
-- Rester à l'écoute des utilisateurs de l'outils afin de trouver le chemin qui réponde aux besoins tout en gardant un code évolutif et solid
-
-#### 0.4
-- (Pas sur) Permettre de passer par rabbitmq pour gérer de très gros import avec une grande scalabilité 
-- Rester à l'écoute des utilisateurs de l'outils afin de trouver le chemin qui réponde aux besoins tout en gardant un code évolutif et solid
+- [0.3](https://github.com/jean-pasqualini/import/issues/4)
+- [0.4](https://github.com/jean-pasqualini/import/issues/10)
 
 | Version | Date de publication | Date de fin de maintenance | BC ? |
 |---------|---------------------|----------------------------|------|
