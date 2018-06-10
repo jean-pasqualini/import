@@ -19,6 +19,7 @@ class DarkilliantProcessExtension extends ConfigurableExtension
         $yamlLoader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $yamlLoader->load('services.yml');
+        $yamlLoader->load('filters.yml');
 
         $container->setParameter(self::PARAMETER_NAME, $mergedConfig);
     }

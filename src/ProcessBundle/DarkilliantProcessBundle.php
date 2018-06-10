@@ -2,6 +2,8 @@
 
 namespace Darkilliant\ProcessBundle;
 
+use Darkilliant\ProcessBundle\DependencyInjection\CompilerPass\FilterCompilerPass;
+use Darkilliant\ProcessBundle\DependencyInjection\CompilerPass\RemoveUnconfigurableStepCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Darkilliant\ProcessBundle\DependencyInjection\CompilerPass\StepIteratorCompilerrPass;
@@ -17,5 +19,7 @@ class DarkilliantProcessBundle extends Bundle
     public function build(ContainerBuilder $containerBuilder)
     {
         $containerBuilder->addCompilerPass(new StepIteratorCompilerrPass());
+        $containerBuilder->addCompilerPass(new FilterCompilerPass());
+        $containerBuilder->addCompilerPass(new RemoveUnconfigurableStepCompilerPass());
     }
 }

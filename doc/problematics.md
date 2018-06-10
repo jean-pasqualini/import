@@ -109,6 +109,7 @@ options:
         -
           type: unique
           options: []
+          valid_when_return: true
           value: '@[data][id]'
 ```
 

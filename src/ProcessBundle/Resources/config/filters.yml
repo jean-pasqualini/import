@@ -1,0 +1,26 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\ProcessBundle\Filter\RegexFilter:
+        public: true
+        tags:
+          - { name: darkilliant_process_filter, alias: regex }
+
+    Darkilliant\ProcessBundle\Filter\StrposFilter:
+        public: true
+        tags:
+          - { name: darkilliant_process_filter, alias: strpos }
+
+    Darkilliant\ProcessBundle\Filter\ValidatorFilter:
+        public: true
+        tags:
+          - { name: darkilliant_process_filter, alias: symfony_validator }
+
+    Darkilliant\ProcessBundle\Filter\ValueFilter:
+        public: true
+        tags:
+          - { name: darkilliant_process_filter, alias: value }
+
