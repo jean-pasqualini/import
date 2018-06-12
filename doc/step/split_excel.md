@@ -9,3 +9,11 @@ découper un fichier excel en autant de fichiers csv qu'il ne dispose d'onglet
 | Nom      | Description                                |
 |----------|--------------------------------------------|
 | filepath | chemin complet du fichier excel à splitter |
+
+##### Examples
+
+```yaml
+service: Darkilliant\ImportBundle\Step\SplitExcelStep
+options:
+    filepath: '@[data]'
+```

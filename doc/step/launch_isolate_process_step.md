@@ -14,3 +14,14 @@ lance de manière simultané un même traitement sur plusieurs itération
 | data             | data à passer dans le pipe du traitement                                |
 | timeout          | délais au dela duquel le traitement est automatiquement killer          |
 | bin_console_path | chemin absolue vers la console de symfony                               |
+
+##### Example
+
+```yaml
+service: 'Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep'
+options:
+    process_name: demo_isolate_process_sub
+    max_concurency: 10
+    bin_console_path: '%kernel.root_dir%/console.php'
+    data: '@[data]'
+```

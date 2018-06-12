@@ -10,3 +10,10 @@ lancer un traitement
 |-------------|---------------------------------------------------------|
 | process     | nom du traitement à lancer                              |
 
+##### Examples
+
+```yaml
+service: 'Darkilliant\ProcessBundle\Step\LaunchProcessStep'
+options:
+    process: 'import_product'
+```
