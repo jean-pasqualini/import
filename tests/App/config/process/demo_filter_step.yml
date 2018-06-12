@@ -1,0 +1,26 @@
+darkilliant_process:
+    process:
+        demo_filter_step:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\PredefinedDataStep'
+                    options:
+                        data:
+                            - { name: 'jaune' }
+                            - { name: 'rouge' }
+                            - { name: 'bleu' }
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
+                    options: []
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\FilterStep'
+                    options:
+                        filters:
+                            -
+                                type: 'value'
+                                value: '@[data][name]'
+                                options:
+                                    expected: 'bleu'
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []
