@@ -59,4 +59,9 @@ class LoadObjectStep extends AbstractConfigurableStep
             'class' => $state->getOptions()['target_resolver']['entityClass'] ?? '',
         ]);
     }
+
+    public static function isDeprecated(): bool
+    {
+        return true;
+    }
 }

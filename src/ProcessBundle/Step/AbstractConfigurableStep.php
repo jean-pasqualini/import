@@ -40,4 +40,9 @@ abstract class AbstractConfigurableStep implements StepInterface
     {
         return 0;
     }
+
+    public static function isDeprecated(): bool
+    {
+        return false;
+    }
 }

@@ -126,3 +126,26 @@ Les filtres disponible pourais être,
 service: Darkilliant\ProcessBundle\Step\ValidateObjectStep
 options: []
 ```
+
+6. Séparer le transformer
+
+```yaml
+service: Darkilliant\ProcessBundle\Step\TransformStep
+options:
+    transforms:
+        -
+            type: sprintf
+            target: '[data][name]'
+            description: 'fullname'
+            options:
+                pattern: '%s_%s'
+                concat: ['@[data][firstname]', '@[data][lastname]']
+              
+service: Darkilliant\ProcessBundle\Step\TransformStep
+options:
+    transforms:
+        - { type: string, source: '@[data][name]', target: '[data][name]' }
+        - { type: string, source: '@[data][name]', target: '[data][name]' }
+        - { type: string, source: '@[data][name]', target: '[data][name]' }
+        - { type: string, source: '@[data][name]', target: '[data][name]' }
+```

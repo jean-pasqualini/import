@@ -1,5 +1,7 @@
 #### Darkilliant\ImportBundle\Step\MappingTransformerStep
 
+:red_circle: Cette step est déprécié, utiliser plutot `MappingStep` et `TransformStep`
+
 ##### Rôle 
 
 transformer un tableau php et le valider    
