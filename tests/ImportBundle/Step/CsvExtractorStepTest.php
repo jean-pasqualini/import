@@ -133,4 +133,9 @@ class CsvExtractorStepTest extends TestCase
 
         $this->step->describe($state);
     }
+
+    public function testIsDeprecated()
+    {
+        $this->assertFalse(CsvExtractorStep::isDeprecated());
+    }
 }

@@ -34,4 +34,9 @@ class MappingTransformerStep extends AbstractConfigurableStep
 
         return parent::configureOptionResolver($resolver);
     }
+
+    public static function isDeprecated(): bool
+    {
+        return true;
+    }
 }

@@ -20,4 +20,6 @@ interface StepInterface
     public function finalize(ProcessState $state);
 
     public function describe(ProcessState $state);
+
+    public static function isDeprecated(): bool;
 }

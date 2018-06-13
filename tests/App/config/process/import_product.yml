@@ -14,22 +14,21 @@ darkilliant_process:
                     options:
                         progress_bar: true
                 -
-                    service: 'Darkilliant\ImportBundle\Step\MappingTransformerStep'
+                    service: 'Darkilliant\ImportBundle\Step\TransformStep'
+                    options:
+                        transforms:
+                            - { type: string, 'source': '@[data][title]', 'target': '[title]' }
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\MappingStep'
                     options:
                         mapping:
-                            title:
-                                value: '@[data][title]'
-                                transformers: ['string']
+                            title: '@[data][title]'
                             ean: 'ean'
                             price_ttc: '1'
                             extra:
-                                value:
-                                    picture: '@[data][picture]'
-                                transformers: []
+                                picture: '@[data][picture]'
                             boutique:
-                                value:
-                                    name: '@[data][boutique]'
-                                transformers: []
+                                name: '@[data][boutique]'
                 -
                     service: 'Darkilliant\ProcessBundle\Step\DebugStep'
                     options: []

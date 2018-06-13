@@ -104,4 +104,9 @@ class MappingTransformerStepTest extends TestCase
 
         $this->step->describe($state);
     }
+
+    public function testIsDeprecated()
+    {
+        $this->assertTrue(MappingTransformerStep::isDeprecated());
+    }
 }

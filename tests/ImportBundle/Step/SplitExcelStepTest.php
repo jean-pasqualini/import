@@ -101,7 +101,6 @@ class SplitExcelStepTest extends TestCase
         $this->assertEquals('tab_a.csv', $state->getData());
     }
 
-
     public function testDescribe()
     {
         $state = new ProcessState(

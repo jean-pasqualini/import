@@ -103,4 +103,9 @@ class LoadObjectStepTest extends TestCase
 
         $this->step->describe($state);
     }
+
+    public function testIsDeprecated()
+    {
+        $this->assertTrue(LoadObjectStep::isDeprecated());
+    }
 }

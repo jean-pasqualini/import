@@ -14,6 +14,8 @@
 | [Darkilliant\ProcessBundle\Step\UniqueFilterStep](./step/unique_filter_step.md)                 | supprime les doublons                                                         |
 | [Darkilliant\ProcessBundle\Step\ValidateObjectStep](./step/validate_object_step.md)             | Valide un objet avec le validateur de symfony                                 |
 | [Darkilliant\ProcessBundle\Step\FilterStep](./step/filter_step.md)                              | Filter les données dans le pipe                                               |
+| [Darkilliant\ImportBundle\Step\TransformStep](./step/transform_step.md)                         | Transforme et valide les donnés dans le pipe                                  |
+| [Darkilliant\ImportBundle\Step\MappingStep](./step/mapping_step.md)                             | Permet de changer la structure d'un tableau d'un format vers un autre         |
 
 Si vous désirez ajouter une miro tache,<br>
 il vous suffit de déclarer un service en public dont sa classe hérite de `Darkilliant\ProcessBundle\Step\AbstractConfigurableStep`.<br>
