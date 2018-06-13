@@ -9,17 +9,22 @@ class ConfigurationProcess
 
     private $logger;
 
-    private function __construct(string $logger, array $steps)
+    /** @var array */
+    private $deprecated;
+
+    private function __construct(string $logger, array $steps, array $deprecated)
     {
         $this->logger = $logger;
         $this->steps = $steps;
+        $this->deprecated = $deprecated;
     }
 
     public static function create(array $config): ConfigurationProcess
     {
         return new self(
             $config['logger'] ?? 'process_logger_default',
-            array_map([ConfigurationStep::class, 'create'], $config['steps'])
+            array_map([ConfigurationStep::class, 'create'], $config['steps']),
+            $config['deprecated'] ?? []
         );
     }
 
@@ -31,5 +36,10 @@ class ConfigurationProcess
     public function getLogger(): string
     {
         return $this->logger;
+    }
+
+    public function getDeprecated(): array
+    {
+        return $this->deprecated;
     }
 }

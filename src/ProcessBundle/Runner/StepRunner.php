@@ -86,6 +86,10 @@ class StepRunner
         $processState->setData($data);
         $processState->setDryRun($dryRun);
 
+        if ($process->getDeprecated()) {
+            $processState->warning('DEPRECATED STEPS USED', ['deprecated' => $process->getDeprecated()]);
+        }
+
         $this->runSteps($processState, $process->getSteps());
     }
 
