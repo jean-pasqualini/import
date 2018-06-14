@@ -62,7 +62,9 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             // ...
+            new Darkilliant\ProcessBundle\DarkilliantProcessBundle(),
             new Darkilliant\ImportBundle\DarkilliantImportBundle(),
+            new Darkilliant\MqProcessBundle\DarkilliantMqProcessBundle(), // Ony when use message queueing for scale
         );
 
         // ...

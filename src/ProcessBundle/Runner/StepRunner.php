@@ -38,6 +38,8 @@ class StepRunner
 
     private $pcntlSupported = false;
 
+    private $countStopScheduled = 0;
+
     /**
      * @internal
      */
@@ -56,10 +58,19 @@ class StepRunner
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function stop()
     {
         $this->logger->error('step runner stop scheduled');
         $this->shouldStop = true;
+        ++$this->countStopScheduled;
+
+        if ($this->countStopScheduled >= 3) {
+            $this->logger->error('step runner stop forced');
+            exit(1);
+        }
     }
 
     public function setNotifier($notifier)
@@ -108,11 +119,13 @@ class StepRunner
         return $this->runSteps($processState, $process->getSteps());
     }
 
-    public function finalizeStep(ProcessState $processState, $step)
+    public function finalizeStep(ProcessState $processState, ConfigurationStep $step)
     {
         $processState->markSuccess();
 
-        $this->registry->resolveService($step->getService())->finalize($processState);
+        $service = $this->registry->resolveService($step->getService());
+        $this->configureOptions($service, $step, $processState);
+        $service->finalize($processState);
 
         if (ProcessState::RESULT_OK !== $processState->getResult()) {
             return false;

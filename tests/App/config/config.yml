@@ -47,3 +47,11 @@ doctrine:
                 host: 127.0.0.1
                 user: root
                 password: root
+
+darkilliant_mq_process:
+    client:
+        host: 127.0.0.1
+        port: 5672
+        user: root
+        password: root
+        vhost: rabbitmq

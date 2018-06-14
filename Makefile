@@ -37,3 +37,9 @@ import-xml-debug:
 
 import-xml-nodebug:
 	php tests/App/console.php process:run --context filepath=$(FILEPATH) -- import_product_xml
+
+
+worker:
+	sudo apt-get install -y supervisor
+	cp supervisor.conf /tmp/supervisord.conf
+	supervisord -c /tmp/supervisord.conf

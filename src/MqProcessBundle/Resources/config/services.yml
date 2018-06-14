@@ -1,0 +1,14 @@
+services:
+    _defaults:
+            autowire: true
+            autoconfigure: true
+            public: false
+
+    Darkilliant\MqProcessBundle\Message\Provider\MessageProviderFactory:
+        public: false
+    Darkilliant\MqProcessBundle\Message\Publisher\MessagePublisherFactory:
+        public: false
+
+    Darkilliant\MqProcessBundle\Step\:
+        resource: '../../Step/*'
+        public: true
