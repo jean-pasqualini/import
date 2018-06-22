@@ -10,6 +10,7 @@ use Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\PhpUnit\ClockMock;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -33,6 +34,12 @@ class LaunchIsolateProcessStepTest extends TestCase
 
     /** @var BufferedOutput */
     private $output;
+
+    public static function setUpBeforeClass()
+    {
+        ClockMock::register(LaunchIsolateProcessStep::class);
+        ClockMock::withClockMock(true);
+    }
 
     public function setUp()
     {
@@ -205,14 +212,16 @@ class LaunchIsolateProcessStepTest extends TestCase
             ->willReturn($process);
 
         $process
-            ->expects($this->once())
-            ->method('start')
-            ->willReturnCallback(function ($callable) {
-               $callable('', '');
-               return;
-            });
+            ->expects($this->never())
+            ->method('start');
+
         $process
             ->expects($this->once())
+            ->method('isStarted')
+            ->willReturn(true);
+
+        $process
+            ->expects($this->never())
             ->method('wait');
 
         $this->step->execute($state);

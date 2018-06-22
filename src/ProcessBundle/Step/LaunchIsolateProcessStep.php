@@ -89,14 +89,9 @@ class LaunchIsolateProcessStep extends AbstractConfigurableStep implements Event
 
         $processBuilder->setInput(json_encode($data));
         $processBuilder->setTimeout($state->getOptions()['timeout']);
-        $processBuilder->disableOutput();
         $process = $processBuilder->getProcess();
 
         $this->processCollection[] = $process;
-
-        $process->start(function ($type, $output) {
-            echo $output;
-        });
 
         if (count($this->processCollection) >= $maxConcurency) {
             $this->wait();
@@ -145,9 +140,27 @@ class LaunchIsolateProcessStep extends AbstractConfigurableStep implements Event
 
     private function wait()
     {
-        foreach ($this->processCollection as $process) {
-            /* @var Process $process */
-            $process->wait();
+        while (count($this->processCollection) > 0) {
+            foreach ($this->processCollection as $i => $process) {
+                if (!$process->isStarted()) {
+                    echo "Process starts\n";
+
+                    $process->start();
+
+                    continue;
+                }
+
+                echo $process->getIncrementalOutput();
+                echo $process->getIncrementalErrorOutput();
+
+                if (!$process->isRunning()) {
+                    echo "Process stopped\n";
+
+                    unset($this->processCollection[$i]);
+                }
+            }
+
+            sleep(1);
         }
         $this->processCollection = [];
     }
