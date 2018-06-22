@@ -84,6 +84,11 @@ class StepRunnerTest extends TestCase
                             [
                                 'service' => DeprecatedStep::class,
                                 'options' => [],
+                            ],
+                            [
+                                'service' => DebugStep::class,
+                                'options' => [],
+                                'enabled' => false,
                             ]
                         ]
                     ]

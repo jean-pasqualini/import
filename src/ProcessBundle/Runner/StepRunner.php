@@ -143,6 +143,10 @@ class StepRunner
     {
         $processState->markSuccess();
 
+        if (!$step->isEnabled()) {
+            return true;
+        }
+
         /**
          * @var ConfigurationStep
          */

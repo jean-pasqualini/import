@@ -75,6 +75,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--',
             'rocket',
         ]];
+
         yield 'normal with dry run' => [OutputInterface::VERBOSITY_NORMAL, [
             '/path/php',
             '/project/bin/console',
@@ -212,13 +213,13 @@ class LaunchIsolateProcessStepTest extends TestCase
             ->willReturn($process);
 
         $process
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('start');
 
         $process
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('isStarted')
-            ->willReturn(true);
+            ->willReturnOnConsecutiveCalls(false, true);
 
         $process
             ->expects($this->never())
