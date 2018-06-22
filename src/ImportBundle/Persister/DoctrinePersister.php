@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrinePersister implements PersisterInterface
 {
     private $em;
-    private $batch = [];
+    private $batch = 0;
 
     private $whiteList = [];
     private $blackList = [];
@@ -28,11 +28,13 @@ class DoctrinePersister implements PersisterInterface
 
     public function persist($entity, $batchCount = 20, $whiteList = [], $blackList = [])
     {
-        $this->batch[] = $entity;
+        ++$this->batch;
         $this->whiteList = $whiteList;
         $this->blackList = $blackList;
 
-        if (count($this->batch) >= $batchCount) {
+        $this->em->persist($entity);
+
+        if ($this->batch >= $batchCount) {
             $this->writeBatch();
         }
     }
@@ -44,14 +46,10 @@ class DoctrinePersister implements PersisterInterface
 
     private function writeBatch()
     {
-        foreach ($this->batch as $item) {
-            $this->em->persist($item);
-        }
-
         $this->em->flush();
         $this->clear();
 
-        $this->batch = [];
+        $this->batch = 0;
     }
 
     private function clear()
