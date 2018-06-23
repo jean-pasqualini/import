@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Darkilliant\ImportBundle\Step;
 
 use App\Entity\Product;
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use Darkilliant\ImportBundle\Serializer\Serializer;
 use Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep;
 use Darkilliant\ProcessBundle\Runner\StepRunner;
@@ -23,11 +24,15 @@ class LoadObjectNormalizedStepTest extends TestCase
     /** @var Serializer|MockObject */
     private $denormalizer;
 
+    /** @var EntityResolver|MockObject */
+    private $entityResolver;
+
     public function setUp()
     {
         $this->denormalizer = $this->createMock(Serializer::class);
+        $this->entityResolver = $this->createMock(EntityResolver::class);
 
-        $this->step = new LoadObjectNormalizedStep($this->denormalizer);
+        $this->step = new LoadObjectNormalizedStep($this->denormalizer, $this->entityResolver);
     }
 
     public function testConfigureOptions()
@@ -48,6 +53,7 @@ class LoadObjectNormalizedStepTest extends TestCase
             $this->createMock(StepRunner::class)
         );
         $state->setOptions(['entity_class' => Product::class, 'serializer' => 'auto']);
+        $state->loop(1, 1, true);
 
         $product = new Product();
         $product->setId(5);
@@ -56,6 +62,10 @@ class LoadObjectNormalizedStepTest extends TestCase
             ->expects($this->once())
             ->method('denormalize')
             ->willReturn($product);
+
+        $this->entityResolver
+            ->expects($this->once())
+            ->method('clear');
 
         $this->step->execute($state);
 

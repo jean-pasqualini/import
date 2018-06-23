@@ -15,3 +15,8 @@ services:
     Darkilliant\ImportBundle\Loader\:
         resource: '../../Loader/*'
         public: true
+
+    Darkilliant\ImportBundle\Resolver\EntityResolver:
+        arguments:
+            $config: '%darkilliant_import_field_entity_resolver%'
+            $cacheable: '%darkilliant_import_entity_resolver_cache%'

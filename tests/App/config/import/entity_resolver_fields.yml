@@ -5,3 +5,5 @@ darkilliant_import:
         'App\Entity\Tag': ['name']
         'App\Entity\Category':
             'external_id': 'externalId'
+    entity_resolver_cache:
+        'App\Entity\Product': true

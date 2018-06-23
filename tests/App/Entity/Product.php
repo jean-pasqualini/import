@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Asserts;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="Product", indexes={@ORM\Index(name="search_ean", columns={"ean"})})
  */
 class Product
 {
