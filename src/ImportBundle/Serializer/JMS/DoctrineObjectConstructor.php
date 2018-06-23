@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darkilliant\ImportBundle\Serializer\JMS;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use JMS\Serializer\VisitorInterface;
 use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\DeserializationContext;
@@ -18,20 +18,16 @@ class DoctrineObjectConstructor implements ObjectConstructorInterface
 {
     /** @var array */
     protected $config;
-    private $managerRegistry;
     private $fallbackConstructor;
 
-    /**
-     * Constructor.
-     *
-     * @param ManagerRegistry            $managerRegistry     Manager registry
-     * @param ObjectConstructorInterface $fallbackConstructor Fallback object constructor
-     */
-    public function __construct(ManagerRegistry $managerRegistry, ObjectConstructorInterface $fallbackConstructor, array $config)
+    /** @var EntityResolver */
+    private $resolver;
+
+    public function __construct(ObjectConstructorInterface $fallbackConstructor, EntityResolver $resolver, array $config)
     {
-        $this->managerRegistry = $managerRegistry;
         $this->fallbackConstructor = $fallbackConstructor;
         $this->config = $config;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -46,25 +42,8 @@ class DoctrineObjectConstructor implements ObjectConstructorInterface
         }
 
         $class = $metadata->name;
-        $config = $this->config[$class];
+        $entity = $this->resolver->resolve($class, $data, $context->attributes->all()['entity_resolver'][$class] ?? null);
 
-        // Locate possible ObjectManager
-        $objectManager = $this->managerRegistry->getManagerForClass($class);
-
-        foreach ($config as $key => $fieldName) {
-            $dataFieldName = (is_integer($key)) ? $fieldName : $key;
-            if (!empty($data[$dataFieldName])) {
-                $where[$fieldName] = $data[$dataFieldName];
-            }
-        }
-
-        if (empty($where)) {
-            return new $class();
-        }
-
-        $entity = $objectManager->getRepository($class)->findOneBy($where);
-        $entity = $entity ?? new $class();
-
-        return $entity;
+        return (null === $entity) ? new $class() : $entity;
     }
 }

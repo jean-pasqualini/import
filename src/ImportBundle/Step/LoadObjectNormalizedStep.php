@@ -2,6 +2,7 @@
 
 namespace Darkilliant\ImportBundle\Step;
 
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use Darkilliant\ImportBundle\Serializer\Serializer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Darkilliant\ProcessBundle\State\ProcessState;
@@ -12,9 +13,13 @@ class LoadObjectNormalizedStep extends AbstractConfigurableStep
     /** @var Serializer */
     private $denormalizer;
 
-    public function __construct(Serializer $denormalizer)
+    /** @var EntityResolver */
+    private $entityResolver;
+
+    public function __construct(Serializer $denormalizer, EntityResolver $entityResolver)
     {
         $this->denormalizer = $denormalizer;
+        $this->entityResolver = $entityResolver;
     }
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
@@ -49,6 +54,10 @@ class LoadObjectNormalizedStep extends AbstractConfigurableStep
         $state->info('create object');
 
         $state->setData($object);
+
+        if ($state->isLoop() && $state->getLoop()['last']) {
+            $this->entityResolver->clear();
+        }
     }
 
     public function describe(ProcessState $state)

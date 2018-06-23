@@ -74,6 +74,7 @@ class DarkilliantImportExtension extends ConfigurableExtension implements Prepen
         $yamlLoader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $container->setParameter('darkilliant_import_field_entity_resolver', $mergedConfig['fields_entity_resolver']);
+        $container->setParameter('darkilliant_import_entity_resolver_cache', $mergedConfig['entity_resolver_cache']);
 
         $yamlLoader->load('services.yml');
         $yamlLoader->load('transformers.yml');

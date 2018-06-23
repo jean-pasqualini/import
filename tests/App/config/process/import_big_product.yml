@@ -17,6 +17,7 @@ darkilliant_process:
                         entity_class: 'App\Entity\Product'
                 -
                     service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    enabled: true
                     options:
                         batch_count: 500
                         whitelist_clear: ['App\Entity\Product']

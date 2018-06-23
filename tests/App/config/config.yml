@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'parameters.yml' }
     - { resource: 'services.yml' }
     - { resource: 'process/*.yml' }
     - { resource: 'import/*.yml' }
@@ -14,13 +15,14 @@ framework:
     property_info: { enabled: true }
 
 monolog:
-    channels: ['import_product', 'create_boutique', 'import_category']
+    channels: ['import_product', 'create_boutique', 'import_category', 'doctrine']
     handlers:
         console:
             type: console
 
 doctrine:
     orm:
+        connection: '%database_type%'
         auto_mapping: true
         metadata_cache_driver: array
         query_cache_driver: array
@@ -35,8 +37,16 @@ doctrine:
         resolve_target_entities:
             App\Entity\BoutiqueInterface: App\Entity\Boutique
     dbal:
-        driver: pdo_sqlite
-        path: '%kernel.cache_dir%/database.sqlite'
+        connections:
+            sqlite:
+                driver: pdo_sqlite
+                path: '%kernel.cache_dir%/database.sqlite'
+            mysql:
+                driver: pdo_mysql
+                dbname: demo
+                host: 127.0.0.1
+                user: root
+                password: root
 
 services:
     Cocur\Slugify\Slugify:

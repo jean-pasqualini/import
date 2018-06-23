@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Darkilliant\ImportBundle\Serializer\Symfony;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
@@ -17,17 +17,15 @@ use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
  */
 class EntityNormalizer extends ObjectNormalizer
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
     /** @var array */
     protected $config;
 
+    /** @var EntityResolver */
+    private $resolver;
+
     public function __construct(
         array $config,
-        ManagerRegistry $managerRegistry,
+        EntityResolver $resolver,
         ClassMetadataFactoryInterface $classMetadataFactory = null,
         NameConverterInterface $nameConverter = null,
         PropertyAccessorInterface $propertyAccessor = null,
@@ -35,7 +33,7 @@ class EntityNormalizer extends ObjectNormalizer
     ) {
         parent::__construct($classMetadataFactory, $nameConverter, $propertyAccessor, $propertyTypeExtractor);
         // Entity manager
-        $this->managerRegistry = $managerRegistry;
+        $this->resolver = $resolver;
         $this->config = $config;
     }
 
@@ -52,25 +50,8 @@ class EntityNormalizer extends ObjectNormalizer
      */
     public function denormalize($data, $class, $format = null, array $context = [])
     {
-        $config = $this->config[$class] ?? [];
+        $entity = $this->resolver->resolve($class, $data, $context['entity_resolver'][$class] ?? null);
 
-        $where = [];
-
-        if (!$config) {
-            return null;
-        }
-        foreach ($config as $key => $fieldName) {
-            $dataFieldName = (is_integer($key)) ? $fieldName : $key;
-            if (!empty($data[$dataFieldName])) {
-                $where[$fieldName] = $data[$dataFieldName];
-            }
-        }
-
-        if (empty($where)) {
-            return new $class();
-        }
-
-        $entity = $this->managerRegistry->getManagerForClass($class)->getRepository($class)->findOneBy($where);
         $entity = $entity ?? new $class();
 
         $context['object_to_populate'] = $entity;

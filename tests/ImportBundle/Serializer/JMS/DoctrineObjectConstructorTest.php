@@ -6,6 +6,7 @@ namespace Tests\Darkilliant\ImportBundle\Serializer\JMS;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use Darkilliant\ImportBundle\Serializer\JMS\DoctrineObjectConstructor;
 use Darkilliant\ImportBundle\Serializer\Symfony\EntityNormalizer;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,6 +17,7 @@ use JMS\Serializer\Construction\ObjectConstructorInterface;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\VisitorInterface;
+use PhpCollection\Map;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Serializer;
@@ -25,34 +27,39 @@ class DoctrineObjectConstructorTest extends TestCase
     /** @var DoctrineObjectConstructor */
     private $normalizer;
 
-    /** @var ManagerRegistry|MockObject */
-    private $managerRegistry;
-
     /**
-     * @var EntityManagerInterface
+     * @var EntityResolver
      */
-    private $entityManager;
+    private $entityResolver;
 
     /**
      * @throws \ReflectionException
      */
     public function setUp()
     {
-        $this->em = $this->createMock(EntityManager::class);
-        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
-        $this->managerRegistry
-            ->expects($this->any())
-            ->method('getManagerForClass')
-            ->with(Product::class)
-            ->willReturn($this->em);
+        $this->entityResolver = $this->createMock(EntityResolver::class);
 
         $this->normalizer = new DoctrineObjectConstructor(
-            $this->managerRegistry,
             $this->createMock(ObjectConstructorInterface::class),
+            $this->entityResolver,
             [
                 Product::class => ['ean'],
             ]
         );
+    }
+
+    private function mockContext()
+    {
+        $context = $this->createMock(DeserializationContext::class);
+        $attributes = $this->createMock(Map::class);
+        $attributes
+            ->expects($this->any())
+            ->method('all')
+            ->willReturn([]);
+
+        $context->attributes = $attributes;
+
+        return $context;
     }
 
     public function testDenormalize()
@@ -60,18 +67,10 @@ class DoctrineObjectConstructorTest extends TestCase
         $product = new Product();
         $product->setEan('aaa');
 
-        $repository = $this->createMock(EntityRepository::class);
-
-        $this->em
+        $this->entityResolver
             ->expects($this->once())
-            ->method('getRepository')
-            ->with(Product::class)
-            ->willReturn($repository);
-
-        $repository
-            ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['ean' => 'aaa'])
+            ->method('resolve')
+            ->with(Product::class, ['ean' => 'aaa'])
             ->willReturn($product);
 
         $classMetadata = new ClassMetadata(Product::class);
@@ -81,7 +80,7 @@ class DoctrineObjectConstructorTest extends TestCase
             $classMetadata,
             ['ean' => 'aaa'],
             [],
-            $this->createMock(DeserializationContext::class)
+            $this->mockContext()
         );
 
         $this->assertInstanceOf(Product::class, $entity);
@@ -97,7 +96,7 @@ class DoctrineObjectConstructorTest extends TestCase
             $classMetadata,
             ['ean' => 'aaa'],
             [],
-            $this->createMock(DeserializationContext::class)
+            $this->mockContext()
         );
 
         $this->assertNull($entity);
@@ -112,7 +111,7 @@ class DoctrineObjectConstructorTest extends TestCase
             $classMetadata,
             ['autre' => 'aaa'],
             [],
-            $this->createMock(DeserializationContext::class)
+            $this->mockContext()
         );
 
         $this->assertInstanceOf(Product::class, $entity);
@@ -121,19 +120,10 @@ class DoctrineObjectConstructorTest extends TestCase
 
     public function testReturnNewClassWhenNotFoundInDatabase()
     {
-        $repository = $this->createMock(EntityRepository::class);
-
-        $this->em
+        $this->entityResolver
             ->expects($this->once())
-            ->method('getRepository')
-            ->with(Product::class)
-            ->willReturn($repository);
-
-
-        $repository
-            ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['ean' => 'aaa'])
+            ->method('resolve')
+            ->with(Product::class, ['ean' => 'aaa'])
             ->willReturn(null);
 
         $classMetadata = new ClassMetadata(Product::class);
@@ -143,7 +133,7 @@ class DoctrineObjectConstructorTest extends TestCase
             $classMetadata,
             ['ean' => 'aaa'],
             [],
-            $this->createMock(DeserializationContext::class)
+            $this->mockContext()
         );
 
         $this->assertInstanceOf(Product::class, $entity);

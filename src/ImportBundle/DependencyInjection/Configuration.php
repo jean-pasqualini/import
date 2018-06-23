@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
         $root
             ->children()
                 ->variableNode('fields_entity_resolver')->defaultValue([])->end()
+                ->variableNode('entity_resolver_cache')->defaultValue([])->end()
                 ->variableNode('imports')->defaultValue([])->end()
             ->end();
 

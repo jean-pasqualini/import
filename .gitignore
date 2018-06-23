@@ -4,3 +4,4 @@ tests/App/cache/
 .php_cs.cache
 build/
 coverage.clover
+tests/App/config/parameters.yml

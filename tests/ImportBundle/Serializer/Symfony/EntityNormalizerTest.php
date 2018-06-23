@@ -6,6 +6,7 @@ namespace Tests\Darkilliant\ImportBundle\Serializer\Symfony;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use Darkilliant\ImportBundle\Resolver\EntityResolver;
 use Darkilliant\ImportBundle\Serializer\Symfony\EntityNormalizer;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -20,8 +21,8 @@ class EntityNormalizerTest extends TestCase
     /** @var EntityNormalizer */
     private $normalizer;
 
-    /** @var ManagerRegistry|MockObject */
-    private $managerRegistry;
+    /** @var EntityResolver|MockObject */
+    private $resolver;
 
     /** @var Serializer|MockObject */
     private $serializer;
@@ -31,7 +32,7 @@ class EntityNormalizerTest extends TestCase
      */
     public function setUp()
     {
-        $this->managerRegistry = $this->createMock(ManagerRegistry::class);
+        $this->resolver = $this->createMock(EntityResolver::class);
         $this->serializer = $this->createMock(Serializer::class);
         $this->serializer
             ->expects($this->any())
@@ -42,7 +43,7 @@ class EntityNormalizerTest extends TestCase
 
         $this->normalizer = new EntityNormalizer([
             Product::class => ['ean'],
-        ], $this->managerRegistry);
+        ], $this->resolver);
         $this->normalizer->setSerializer($this->serializer);
     }
 
@@ -51,25 +52,10 @@ class EntityNormalizerTest extends TestCase
         $product = new Product();
         $product->setEan('aaa');
 
-        $em = $this->createMock(EntityManager::class);
-        $repository = $this->createMock(EntityRepository::class);
-
-        $this->managerRegistry
+        $this->resolver
             ->expects($this->once())
-            ->method('getManagerForClass')
+            ->method('resolve')
             ->with(Product::class)
-            ->willReturn($em);
-
-        $em
-            ->expects($this->once())
-            ->method('getRepository')
-            ->with(Product::class)
-            ->willReturn($repository);
-
-        $repository
-            ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['ean' => 'aaa'])
             ->willReturn($product);
 
         $entity = $this->normalizer->denormalize(['ean' => 'aaa'], Product::class);
@@ -82,7 +68,7 @@ class EntityNormalizerTest extends TestCase
     {
         $entity = $this->normalizer->denormalize(['ean' => 'aaa'], Category::class);
 
-        $this->assertNull($entity);
+        $this->assertEquals(new Category(), $entity);
     }
 
     public function testReturnNewClassWhenDataHasNotFieldMappedInConfigResolver()
@@ -95,26 +81,10 @@ class EntityNormalizerTest extends TestCase
 
     public function testReturnNewClassWhenNotFoundInDatabase()
     {
-        $em = $this->createMock(EntityManager::class);
-        $repository = $this->createMock(EntityRepository::class);
-
-        $this->managerRegistry
+        $this->resolver
             ->expects($this->once())
-            ->method('getManagerForClass')
+            ->method('resolve')
             ->with(Product::class)
-            ->willReturn($em);
-
-        $em
-            ->expects($this->once())
-            ->method('getRepository')
-            ->with(Product::class)
-            ->willReturn($repository);
-
-
-        $repository
-            ->expects($this->once())
-            ->method('findOneBy')
-            ->with(['ean' => 'aaa'])
             ->willReturn(null);
 
         $entity = $this->normalizer->denormalize(['ean' => 'aaa'], Product::class);
