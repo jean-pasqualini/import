@@ -12,6 +12,7 @@ Options:
       --input-from-stdin  enable data pass in stdin with json body
       --force-color       force use color when not autodetect support
       --dry-run           dry run
+      --profiling         enable profiling (generate stat.json)
   -h, --help              Display this help message
   -q, --quiet             Do not output any message
   -V, --version           Display this application version

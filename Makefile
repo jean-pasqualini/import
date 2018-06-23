@@ -5,6 +5,11 @@ db:
 	php tests/App/console.php d:d:c
 	php tests/App/console.php d:s:u --force
 
+db-mysql:
+	php tests/App/console.php d:d:d --connection=mysql --force
+	php tests/App/console.php d:d:c --connection=mysql
+	php tests/App/console.php d:s:u --force
+
 test-unit:
 	vendor/bin/phpunit --testsuite unit --testdox
 

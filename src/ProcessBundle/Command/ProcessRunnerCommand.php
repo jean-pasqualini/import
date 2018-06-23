@@ -2,6 +2,8 @@
 
 namespace Darkilliant\ProcessBundle\Command;
 
+use Darkilliant\ProcessBundle\ProcessNotifier\StatsCollectorProcessNotifier;
+use SebastianBergmann\CodeCoverage\Report\PHP;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,6 +25,9 @@ class ProcessRunnerCommand extends ContainerAwareCommand
         if ($input->getOption('force-color')) {
             $output->getFormatter()->setDecorated(true);
         }
+
+        $isProfile = $input->getOption('profiling');
+        $this->getContainer()->get(StatsCollectorProcessNotifier::class)->setEnabled($isProfile);
 
         $stepRunner = $this->getContainer()->get(StepRunner::class);
 
@@ -53,6 +58,17 @@ class ProcessRunnerCommand extends ContainerAwareCommand
 
             $outputHelper->newLine();
         }
+
+        if ($isProfile) {
+            $outputHelper->note('Generate stats in stat.json...');
+
+            file_put_contents(
+                'stat.json',
+                json_encode($this->getContainer()->get(StatsCollectorProcessNotifier::class)->getData())
+            );
+
+            $outputHelper->success('Run $ bin/console process:stats');
+        }
     }
 
     protected function configure()
@@ -62,6 +78,7 @@ class ProcessRunnerCommand extends ContainerAwareCommand
             ->addOption('input-from-stdin', null, InputOption::VALUE_NONE, 'enable data pass in stdin with json body')
             ->addOption('force-color', null, InputOption::VALUE_NONE, 'force use color when not autodetect support')
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'dry run')
+            ->addOption('profiling', null, InputOption::VALUE_NONE, 'enable profiling (generate stat.json)')
             ->addArgument('process', InputArgument::IS_ARRAY, 'process');
     }
 

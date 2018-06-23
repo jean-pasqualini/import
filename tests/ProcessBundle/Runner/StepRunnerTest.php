@@ -7,6 +7,7 @@ namespace Tests\Darkilliant\ProcessBundle\Runner;
 use App\Step\DeprecatedStep;
 use Darkilliant\ProcessBundle\Configuration\ConfigurationProcess;
 use Darkilliant\ProcessBundle\Console\ProgressBar;
+use Darkilliant\ProcessBundle\ProcessNotifier\ChainProcessNotifier;
 use Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier;
 use Darkilliant\ProcessBundle\Registry\LoggerRegistry;
 use Darkilliant\ProcessBundle\Registry\StepRegistry;
@@ -95,7 +96,7 @@ class StepRunnerTest extends TestCase
                 ]
             ],
             $this->logger = $this->createMock(LoggerInterface::class),
-            $this->progressBarNotifier = $this->createMock(ProgressBarProcessNotifier::class)
+            $this->progressBarNotifier = $this->createMock(ChainProcessNotifier::class)
         );
 
         $this->optionDynamicValueResolver
