@@ -24,5 +24,8 @@ test-integration: db
 	php tests/App/console.php process:run -vv -- demo_filter_step
 	php tests/App/console.php process:run -vv -- demo_validate_object
 
-import-xml:
-	php tests/App/console.php process:run -vvv --context filepath=tests/fixtures/xml/album.xml -- import_product_xml
+import-xml-debug:
+	php tests/App/console.php process:run -vv --context filepath=/home/darkilliant/Téléchargements/sku/data -- import_product_xml
+
+import-xml-nodebug:
+	php tests/App/console.php process:run --context filepath=/home/darkilliant/Téléchargements/sku/data -- import_product_xml

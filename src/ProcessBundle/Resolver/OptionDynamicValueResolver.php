@@ -28,6 +28,13 @@ class OptionDynamicValueResolver
         foreach ($options as $optionName => $optionValue) {
             if (is_array($optionValue)) {
                 $options[$optionName] = $this->resolve($optionValue, $context);
+            } elseif (false !== strpos($optionValue, '@!')) {
+                $key = substr($optionValue, 2);
+                list ($firstLevel, $secondLevel) = explode('->', $key);
+
+                if (isset($context[$firstLevel][$secondLevel])) {
+                    $options[$optionName] = $context[$firstLevel][$secondLevel];
+                }
             } elseif (false !== strpos($optionValue, '@')) {
                 $key = substr($optionValue, 1);
 
