@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @internal
  * Class ProgressBarProcessNotifier
  */
-class ProgressBarProcessNotifier implements EventSubscriberInterface
+class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNotifierInterface
 {
     /** @var ProgressBar */
     private $progressBar;
@@ -40,6 +40,11 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
 
     public function onStartProcess(ProcessState $state, StepInterface $step)
     {
+        return;
+    }
+
+    public function onStartIterableProcess(ProcessState $state, StepInterface $step)
+    {
         if (!$step instanceof IterableStepInterface) {
             return null;
         }
@@ -57,8 +62,12 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
         $this->progressBar->create($count, get_class($step));
     }
 
-    public function onUpdateProcess(ProcessState $state, StepInterface $step)
+    public function onUpdateIterableProcess(ProcessState $state, StepInterface $step)
     {
+        if (!$step instanceof IterableStepInterface) {
+            return null;
+        }
+
         if (!$state->getOptions()['progress_bar']) {
             return;
         }
@@ -68,10 +77,18 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface
 
     public function onEndProcess(ProcessState $state, StepInterface $step)
     {
+        if (!$step instanceof IterableStepInterface) {
+            return null;
+        }
+
         if (!$state->getOptions()['progress_bar']) {
             return;
         }
 
         $this->progressBar->finish();
+    }
+
+    public function onExecutedProcess(ProcessState $state, StepInterface $step)
+    {
     }
 }

@@ -10,8 +10,19 @@ services:
     Darkilliant\ProcessBundle\Runner\:
         resource: '../../Runner/*'
 
-    Darkilliant\ProcessBundle\ProcessNotifier\:
-        resource: '../../ProcessNotifier/*'
+    Darkilliant\ProcessBundle\StatDumper\:
+        resource: '../../StatDumper/*'
+        public: true
+
+    Darkilliant\ProcessBundle\ProcessNotifier\ChainProcessNotifier:
+        public: true
+
+    Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier:
+        tags: [{ name: darkilliant_process_notifier }]
+
+    Darkilliant\ProcessBundle\ProcessNotifier\StatsCollectorProcessNotifier:
+        public: true
+        tags: [{ name: darkilliant_process_notifier }]
 
     Darkilliant\ProcessBundle\Runner\StepRunner:
         public: true

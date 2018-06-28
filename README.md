@@ -129,3 +129,4 @@ Cookbook,
 - [Liste des filtres disponible](./doc/list-filter.md)
 - [Comment lancer un traitement ?](./doc/lancer-un-traitement.md)
 - [Comment lister les traitements disponible ?](./doc/lister-traitement.md)
+- [Comment trouver les goulots d'étranglement ?](./doc/profiler-un-traitement.md)
