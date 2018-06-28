@@ -20,6 +20,8 @@ Ceci donnera par example la sortie suivante,<br>
 Le tuyaux en dessous est composé de plusieurs partie réprésentant chacune une étape.<br>
 Imaginer un flux d'eau couler dedans et vous trouverez où le flux se réduit, où il s'accumule et où il est toujours en attente<br>
 
+Il suffit ensuite soit d'augmenter la capacité de flux de la partie du tuyau engorgé soit de placer un embranchement avec une énorme capacité de flux (type rabbitmq) et de placer plusieurs copie du tuyaux engorgé afin de répartir le flux.<br>
+
 Dans une version future, il sera possible de comparer deux profile afin de détecter une amélioration ou une dégration.<bt>
 
 

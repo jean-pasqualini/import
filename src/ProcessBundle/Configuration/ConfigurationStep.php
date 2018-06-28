@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/8/18
- * Time: 11:04 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Configuration;
 

@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/9/18
- * Time: 7:32 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Resolver;
 
@@ -28,6 +24,8 @@ class OptionDynamicValueResolver
         foreach ($options as $optionName => $optionValue) {
             if (is_array($optionValue)) {
                 $options[$optionName] = $this->resolve($optionValue, $context);
+            } elseif (!is_string($optionValue)) {
+                continue;
             } elseif (false !== strpos($optionValue, '@!')) {
                 $key = substr($optionValue, 2);
                 list($firstLevel, $secondLevel) = explode('->', $key);
