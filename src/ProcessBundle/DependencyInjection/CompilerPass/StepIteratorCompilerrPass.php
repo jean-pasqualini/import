@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/9/18
- * Time: 8:54 PM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\DependencyInjection\CompilerPass;
 

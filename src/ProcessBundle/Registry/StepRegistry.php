@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/8/18
- * Time: 12:01 PM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Registry;
 
