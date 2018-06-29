@@ -7,16 +7,25 @@ darkilliant_process:
                     service: 'App\Step\DemoFakeBigProductListStep'
                     options:
                         progress_bar: true
-                        count: 150000
+                        count: 20000
                 -
                     service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    enabled: false
                     options: []
                 -
+                    service: 'Darkilliant\ProcessBundle\Step\MappingStep'
+                    options:
+                        mapping:
+                            ean: 'ean'
+                    enabled: true
+                -
                     service: 'Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep'
+                    enabled: true
                     options:
                         entity_class: 'App\Entity\Product'
                 -
                     service: 'Darkilliant\ImportBundle\Step\DoctrinePersisterStep'
+                    enabled: true
                     options:
-                        batch_count: 500
+                        batch_count: 5000
                         whitelist_clear: ['App\Entity\Product']

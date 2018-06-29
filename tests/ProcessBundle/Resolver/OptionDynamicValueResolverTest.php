@@ -22,7 +22,7 @@ class OptionDynamicValueResolverTest extends TestCase
     {
         $optionsResolved = $this->resolver->resolve(
             [
-                'colors' => ['@[data][color]'],
+                'colors' => ['@[data][color]', '@!data->color', 4, []],
                 'file' => '@[context][filepath]',
             ],
             [
@@ -32,7 +32,7 @@ class OptionDynamicValueResolverTest extends TestCase
         );
 
         $this->assertEquals(
-            ['colors' => ['red'], 'file' => 'file'],
+            ['colors' => ['red', 'red', 4, []], 'file' => 'file'],
             $optionsResolved
         );
     }

@@ -2,6 +2,7 @@
 
 namespace Darkilliant\ProcessBundle\Runner;
 
+use Darkilliant\ProcessBundle\ProcessNotifier\ChainProcessNotifier;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Darkilliant\ProcessBundle\Configuration\ConfigurationProcess;
@@ -12,7 +13,6 @@ use Darkilliant\ProcessBundle\Resolver\OptionDynamicValueResolver;
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Darkilliant\ProcessBundle\Step\IterableStepInterface;
 use Darkilliant\ProcessBundle\Step\StepInterface;
-use Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier;
 
 class StepRunner
 {
@@ -31,13 +31,13 @@ class StepRunner
     /** @var array */
     protected $configuration;
 
-    /** @var ProgressBarProcessNotifier */
+    /** @var ChainProcessNotifier */
     protected $notifier;
 
     /**
      * @internal
      */
-    public function __construct(LoggerRegistry $loggerRegistry, StepRegistry $registry, OptionDynamicValueResolver $dynamicValueResolver, array $configuration, LoggerInterface $logger, ProgressBarProcessNotifier $notifier)
+    public function __construct(LoggerRegistry $loggerRegistry, StepRegistry $registry, OptionDynamicValueResolver $dynamicValueResolver, array $configuration, LoggerInterface $logger, ChainProcessNotifier $notifier)
     {
         $this->configuration = $configuration;
         $this->logger = $logger;
@@ -76,13 +76,19 @@ class StepRunner
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
     }
 
-    public function run(ConfigurationProcess $process, array $context = [])
+    public function run(ConfigurationProcess $process, array $context = [], $data = [], $dryRun = false)
     {
         $processState = new ProcessState(
             $context,
             $this->loggerRegistry->resolveService($process->getLogger()),
             $this
         );
+        $processState->setData($data);
+        $processState->setDryRun($dryRun);
+
+        if ($process->getDeprecated()) {
+            $processState->warning('DEPRECATED STEPS USED', ['deprecated' => $process->getDeprecated()]);
+        }
 
         $this->runSteps($processState, $process->getSteps());
     }
@@ -137,6 +143,10 @@ class StepRunner
     {
         $processState->markSuccess();
 
+        if (!$step->isEnabled()) {
+            return true;
+        }
+
         /**
          * @var ConfigurationStep
          */
@@ -145,18 +155,30 @@ class StepRunner
         $processState = $this->configureOptions($service, $step, $processState);
         $options = $processState->getOptions();
 
+        $this->notifier->onStartProcess($processState, $service);
+
         $service->execute($processState);
+
+        $this->notifier->onExecutedProcess($processState, $service);
 
         if (ProcessState::RESULT_OK !== $processState->getResult()) {
             return false;
         }
         if ($service instanceof IterableStepInterface) {
-            $this->notifier->onStartProcess($processState, $service);
+            $this->notifier->onStartIterableProcess($processState, $service);
+
             $iterator = $processState->getIterator();
 
+            $count = $service->count($processState);
+
             while ($service->valid($processState)) {
+                $currentIndex = $service->getProgress($processState);
+
                 $service->next($processState);
-                $this->notifier->onUpdateProcess($processState, $service);
+                $this->notifier->onUpdateIterableProcess($processState, $service);
+
+                // Add metadata information of the current iteration of loop
+                $processState->loop($currentIndex, $count, !$service->valid($processState));
 
                 if ($this->runSteps($processState, $step->getChildren())) {
                     $processState->getLogger()->info('successful', $processState->getRawContext());
@@ -165,10 +187,12 @@ class StepRunner
                 $processState->setIterator($iterator);
                 $processState->setOptions($options);
             }
-            $this->notifier->onEndProcess($processState);
+            $processState->noLoop();
 
             $this->finalizeSteps($processState, $step->getChildren());
         }
+
+        $this->notifier->onEndProcess($processState, $service);
 
         return true;
     }

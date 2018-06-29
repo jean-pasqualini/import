@@ -51,7 +51,7 @@ class DoctrinePersisterTest extends TestCase
         $this->persister->persist($entity);
 
         $this->em
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('persist')
             ->with($entity);
 
@@ -68,7 +68,7 @@ class DoctrinePersisterTest extends TestCase
         $this->persister->persist($entity, 20, [Product::class], []);
 
         $this->em
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('persist')
             ->with($entity);
 
@@ -88,7 +88,7 @@ class DoctrinePersisterTest extends TestCase
         $this->expectExceptionMessage('unsupported blacklist');
 
         $this->em
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('persist')
             ->with($entity);
 

@@ -75,4 +75,24 @@ class ProcessStateTest extends TestCase
         $this->state->markFail();
         $this->assertEquals(ProcessState::RESULT_KO, $this->state->getResult());
     }
+
+    public function testGetLoop()
+    {
+        $this->state->loop(10, 100, false);
+        $this->assertEquals(
+            [
+                'index' => 10,
+                'count' => 100,
+                'last' => false,
+            ],
+            $this->state->getLoop()
+        );
+    }
+
+    public function testIsLoop()
+    {
+        $this->assertFalse($this->state->isLoop());
+        $this->state->loop(10, 100, false);
+        $this->assertTrue($this->state->isLoop());
+    }
 }

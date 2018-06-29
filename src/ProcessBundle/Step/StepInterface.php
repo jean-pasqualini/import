@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/8/18
- * Time: 9:46 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Step;
 
@@ -20,4 +16,6 @@ interface StepInterface
     public function finalize(ProcessState $state);
 
     public function describe(ProcessState $state);
+
+    public static function isDeprecated(): bool;
 }

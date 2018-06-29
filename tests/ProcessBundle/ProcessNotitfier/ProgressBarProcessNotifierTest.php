@@ -8,6 +8,7 @@ use Darkilliant\ProcessBundle\Console\ProgressBar;
 use Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier;
 use Darkilliant\ProcessBundle\Runner\StepRunner;
 use Darkilliant\ProcessBundle\State\ProcessState;
+use Darkilliant\ProcessBundle\Step\DebugStep;
 use Darkilliant\ProcessBundle\Step\IterateArrayStep;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,6 +16,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Tests\Darkilliant\ProcessBundle\Step\DebugStepTest;
 
 class ProgressBarProcessNotifierTest extends TestCase
 {
@@ -38,7 +40,7 @@ class ProgressBarProcessNotifierTest extends TestCase
         $this->assertNull($this->processNotifier->onCommand($event));
     }
 
-    public function testOnStartProcess()
+    public function testOnStartIterateProcess()
     {
         $iterator = new \ArrayIterator(['color' => 'red']);
         $state = new ProcessState(
@@ -56,10 +58,10 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->method('create')
             ->with(1, IterateArrayStep::class);
 
-        $this->processNotifier->onStartProcess($state, $step);
+        $this->processNotifier->onStartIterableProcess($state, $step);
     }
 
-    public function testOnStartProcessWhenNoItem()
+    public function testOnStartIterableProcessWhenNoItem()
     {
         $iterator = new \ArrayIterator([]);
         $state = new ProcessState(
@@ -76,10 +78,22 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->expects($this->never())
             ->method('create');
 
-        $this->processNotifier->onStartProcess($state, $step);
+        $this->processNotifier->onStartIterableProcess($state, $step);
     }
 
-    public function testOnUpdateProcess()
+    public function testOnExecutedProcessWhenNoItem()
+    {
+        $iterator = new \ArrayIterator([]);
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->processNotifier->onExecutedProcess($state, $this->createMock(DebugStep::class)));
+    }
+
+    public function testOnUpdateIterateProcess()
     {
         $iterator = new \ArrayIterator([1 => ['color' => 'red']]);
         $state = new ProcessState(
@@ -97,8 +111,8 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->method('setProgress')
             ->with(1);
 
-        $this->processNotifier->onStartProcess($state, $step);
-        $this->processNotifier->onUpdateProcess($state, $step);
+        $this->processNotifier->onStartIterableProcess($state, $step);
+        $this->processNotifier->onUpdateIterableProcess($state, $step);
     }
 
     public function testOnEndProcess()
@@ -118,14 +132,29 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->expects($this->once())
             ->method('finish');
 
-        $this->processNotifier->onStartProcess($state, $step);
+        $this->processNotifier->onStartIterableProcess($state, $step);
         $this->processNotifier->onEndProcess($state, $step);
     }
-
 
     public function testGetSubscribedEvents()
     {
         $this->assertInternalType('array', ProgressBarProcessNotifier::getSubscribedEvents());
+    }
+
+    public function testNotStartWhenNotStepIterable()
+    {
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+        $step = new DebugStep();
+
+        $this->progressBar
+            ->expects($this->never())
+            ->method('create');
+
+        $this->processNotifier->onStartIterableProcess($state, $step);
     }
 
     public function testNotStartWhenNotOptionProgressBarIsDisable()
@@ -144,7 +173,7 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->expects($this->never())
             ->method('create');
 
-        $this->processNotifier->onStartProcess($state, $step);
+        $this->processNotifier->onStartIterableProcess($state, $step);
     }
 
     public function testNotUpdateWhenProgressBarNotInitialized()
@@ -163,7 +192,7 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->expects($this->never())
             ->method('setProgress');
 
-        $this->processNotifier->onUpdateProcess($state, $step);
+        $this->processNotifier->onUpdateIterableProcess($state, $step);
     }
 
     public function testNotFinishWhenProgressBarNotInitialized()
@@ -183,5 +212,29 @@ class ProgressBarProcessNotifierTest extends TestCase
             ->method('finish');
 
         $this->processNotifier->onEndProcess($state, $step);
+    }
+
+    public function testNotProcessWhenNotIterableStep()
+    {
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->processNotifier->onStartIterableProcess($state, new DebugStep()));
+        $this->assertNull($this->processNotifier->onUpdateIterableProcess($state, new DebugStep()));
+        $this->assertNull($this->processNotifier->onEndProcess($state, new DebugStep()));
+    }
+
+    public function testOnStartProcess()
+    {
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->processNotifier->onStartProcess($state, new DebugStep()));
     }
 }

@@ -26,7 +26,7 @@ class DemoFakeBigProductListStep extends AbstractConfigurableStep implements Ite
         $this->count = $state->getOptions()['count'];
 
         $data = [];
-        for ($i = 0; $i<= $this->count; $i ++) {
+        for ($i = 1; $i<= $this->count; $i ++) {
             $data[] = [
                 'ean' => sprintf('ean_%s', $i),
                 'name' => sprintf('name_%s', $i)

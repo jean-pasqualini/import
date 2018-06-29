@@ -47,9 +47,21 @@ class CsvExtractorStep extends AbstractConfigurableStep implements IterableStepI
         $this->iterator->next();
     }
 
+    public function count(ProcessState $state)
+    {
+        $file = $state->getOptions()['filepath'];
+
+        return (int) `cat $file | wc -l`;
+    }
+
     public function valid(ProcessState $state)
     {
         return $this->iterator->valid();
+    }
+
+    public function getProgress(ProcessState $state)
+    {
+        return $this->iterator->key();
     }
 
     public function describe(ProcessState $state)

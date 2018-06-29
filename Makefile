@@ -1,6 +1,13 @@
+export SYMFONY_ENV=prod
+
 db:
 	php tests/App/console.php d:d:d --force
 	php tests/App/console.php d:d:c
+	php tests/App/console.php d:s:u --force
+
+db-mysql:
+	php tests/App/console.php d:d:d --connection=mysql --force
+	php tests/App/console.php d:d:c --connection=mysql
 	php tests/App/console.php d:s:u --force
 
 test-unit:
@@ -18,3 +25,13 @@ test-cs:
 test-integration: db
 	php tests/App/console.php process:run -vv -- create_boutique
 	php tests/App/console.php process:run -vv -- import_product
+	php tests/App/console.php process:run -vv -- demo_unique_filter
+	php tests/App/console.php process:run -vv -- demo_filter_step
+	php tests/App/console.php process:run -vv -- demo_validate_object
+	php tests/App/console.php process:run -vv --context node=album --context filepath=./tests/fixtures/xml/album.xml -- import_xml
+
+import-xml-debug:
+	php tests/App/console.php process:run -vv --context filepath=$(FILEPATH) -- import_product_xml
+
+import-xml-nodebug:
+	php tests/App/console.php process:run --context filepath=$(FILEPATH) -- import_product_xml

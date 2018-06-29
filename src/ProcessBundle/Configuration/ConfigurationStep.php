@@ -15,16 +15,20 @@ class ConfigurationStep
     /** @var string */
     private $service;
 
-    private function __construct(string $service, array $options, array $children)
+    /** @var bool */
+    private $enabled;
+
+    private function __construct(string $service, array $options, array $children, bool $enabled = true)
     {
         $this->service = $service;
         $this->options = $options;
         $this->children = array_map([ConfigurationStep::class, 'create'], $children);
+        $this->enabled = $enabled;
     }
 
     public static function create(array $config)
     {
-        return new self($config['service'], $config['options'] ?? [], $config['children'] ?? []);
+        return new self($config['service'], $config['options'] ?? [], $config['children'] ?? [], $config['enabled'] ?? true);
     }
 
     public function getOptions(): array
@@ -40,5 +44,10 @@ class ConfigurationStep
     public function getChildren(): array
     {
         return $this->children;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 }

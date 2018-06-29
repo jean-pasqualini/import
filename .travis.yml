@@ -18,6 +18,7 @@ matrix:
         - php: 7.1
 
 before_script:
+  - cp tests/App/config/parameters{.yml.dist,.yml}
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - make test-cs

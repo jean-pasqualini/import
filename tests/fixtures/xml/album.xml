@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+    <album selectalbum="0">
+        <id>123456</id>
+        <name>Name1</name>
+        <url>http://www.site.com/url1</url>
+        <sample_url>http://www.site.com/sample1</sample_url>
+        <upc>9123456756181</upc>
+        <artist>
+            <id>1</id>
+            <name>Artist 1</name>
+            <url>http://www.site.com/url2</url>
+        </artist>
+        <label>
+            <id>2</id>
+            <name>Label Name</name>
+            <url>http://www.site.com/url3</url>
+        </label>
+        <category>
+            <id>3</id>
+            <name>Category1</name>
+            <url>http://www.site.com/url4</url>
+        </category>
+
+        <data>
+            <id>65423</id>
+            <name>Snoop</name>
+            <sample_url>http://www.site.com/sample2</sample_url>
+        </data>
+
+        <data>
+            <id>323601</id>
+            <name>Dogg</name>
+            <sample_url>http://www.site.com/sample3</sample_url>
+
+        </data>
+    </album>
+    <album selectalbum="0">
+        <id>6665</id>
+        <name>Name2</name>
+        <url>http://www.site.com/2url1</url>
+        <sample_url>http://www.site.com/2sample1</sample_url>
+        <upc>1523456756181</upc>
+        <artist>
+            <id>1</id>
+            <name>Artist 1</name>
+            <url>http://www.site.com/url2</url>
+        </artist>
+        <label>
+            <id>2</id>
+            <name>Label Name</name>
+            <url>http://www.site.com/url3</url>
+        </label>
+        <category>
+            <id>3</id>
+            <name>Category1</name>
+            <url>http://www.site.com/url4</url>
+        </category>
+
+        <data>
+            <id>6541123</id>
+            <name>Jay</name>
+            <sample_url>http://www.site.com/sample222</sample_url>
+        </data>
+
+        <data>
+            <id>3234444601</id>
+            <name>Z</name>
+            <sample_url>http://www.site.com/sample2222334</sample_url>
+
+        </data>
+    </album>
+</catalog>

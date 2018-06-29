@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/8/18
- * Time: 9:48 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Step;
 
@@ -39,5 +35,10 @@ abstract class AbstractConfigurableStep implements StepInterface
     public function getProgress(ProcessState $state)
     {
         return 0;
+    }
+
+    public static function isDeprecated(): bool
+    {
+        return false;
     }
 }

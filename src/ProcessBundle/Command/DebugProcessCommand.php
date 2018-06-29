@@ -69,8 +69,14 @@ class DebugProcessCommand extends ContainerAwareCommand
     {
         $outputHelper->section('List of process');
 
-        $outputHelper->listing(
-            array_keys($config['process'])
+        $list = [];
+        foreach ($config['process'] as $processName => $config) {
+            $list[] = [$processName, implode(', ', $config['deprecated'])];
+        }
+
+        $outputHelper->table(
+            ['class', 'deprecated'],
+            $list
         );
 
         return 0;

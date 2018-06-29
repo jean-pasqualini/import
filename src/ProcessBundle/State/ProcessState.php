@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/8/18
- * Time: 9:47 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\State;
 
@@ -23,10 +19,16 @@ class ProcessState extends AbstractLogger
     private $options = [];
     private $logger;
     private $result;
+
+    private $dryRun = false;
+
     /** @var StepRunner */
     private $stepRunner;
+
     /** @var \Traversable */
     private $iterator;
+
+    private $loop;
 
     public function __construct(array $context, LoggerInterface $logger, StepRunner $stepRunner)
     {
@@ -57,6 +59,30 @@ class ProcessState extends AbstractLogger
     public function getContext($key)
     {
         return $this->context[$key];
+    }
+
+    public function getLoop()
+    {
+        return $this->loop;
+    }
+
+    public function noLoop()
+    {
+        $this->loop = null;
+    }
+
+    public function loop(int $index, int $count, bool $last)
+    {
+        $this->loop = [
+            'index' => $index,
+            'count' => $count,
+            'last' => $last,
+        ];
+    }
+
+    public function isLoop()
+    {
+        return (bool) $this->loop;
     }
 
     /**
@@ -150,5 +176,15 @@ class ProcessState extends AbstractLogger
     public function setIterator($iterator)
     {
         $this->iterator = $iterator;
+    }
+
+    public function setDryRun(bool $dryRun)
+    {
+        $this->dryRun = $dryRun;
+    }
+
+    public function isDryRun(): bool
+    {
+        return $this->dryRun;
     }
 }

@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/11/18
- * Time: 8:51 AM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ImportBundle\Transformer;
 

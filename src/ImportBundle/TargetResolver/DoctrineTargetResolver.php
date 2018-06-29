@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: darkilliant
- * Date: 5/7/18
- * Time: 8:20 PM.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ImportBundle\TargetResolver;
 

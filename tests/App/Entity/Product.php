@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation;
 use App\Entity\BoutiqueInterface;
+use Symfony\Component\Validator\Constraints as Asserts;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="Product", indexes={@ORM\Index(name="search_ean", columns={"ean"})})
  */
 class Product
 {
@@ -27,6 +29,7 @@ class Product
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Asserts\GreaterThan(5, groups={"demo"})
      */
     private $priceTtc;
 
