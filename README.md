@@ -132,3 +132,4 @@ Cookbook,
 - [Comment lancer un traitement ?](./doc/lancer-un-traitement.md)
 - [Comment lister les traitements disponible ?](./doc/lister-traitement.md)
 - [Comment trouver les goulots d'étranglement ?](./doc/profiler-un-traitement.md)
+- [Comment limiter le temps d'éxécution d'un tâche itérable ?](./doc/ajouter-un-breaker.md)

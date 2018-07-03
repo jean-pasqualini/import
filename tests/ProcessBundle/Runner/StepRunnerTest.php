@@ -358,4 +358,46 @@ class StepRunnerTest extends TestCase
 
         $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
     }
+
+    public function testRunStopWithResultBreak()
+    {
+        $step = $this->createPartialMock(DebugStep::class, ['execute']);
+        $step
+            ->expects($this->once())
+            ->method('execute')
+            ->willReturnCallback(function(ProcessState $state) {
+                $state->markBreak();
+            });
+
+        $this->loggerRegistry
+            ->expects($this->once())
+            ->method('resolveService')
+            ->with('monolog.logger.chocapic')
+            ->willReturn(new NullLogger());
+
+        $this->stepRegistry
+            ->expects($this->at(0))
+            ->method('resolveService')
+            ->with(PredefinedDataStep::class)
+            ->willReturn(new PredefinedDataStep());
+        $this->stepRegistry
+            ->expects($this->at(1))
+            ->method('resolveService')
+            ->with(IterateArrayStep::class)
+            ->willReturn(new IterateArrayStep());
+        // Item one
+        $this->stepRegistry
+            ->expects($this->at(2))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn($step);
+        // Finalize
+        $this->stepRegistry
+            ->expects($this->at(3))
+            ->method('resolveService')
+            ->with(DebugStep::class)
+            ->willReturn(new DebugStep());
+
+        $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
+    }
 }

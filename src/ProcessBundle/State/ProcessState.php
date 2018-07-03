@@ -13,6 +13,8 @@ class ProcessState extends AbstractLogger
     const RESULT_KO = 1;
     const RESULT_SKIP = 2;
     const RESULT_OK = 3;
+    const RESULT_BREAK = 4;
+    const RESULT_EXIT = 5;
 
     private $data;
     private $context;
@@ -147,6 +149,16 @@ class ProcessState extends AbstractLogger
     public function markSuccess()
     {
         $this->result = self::RESULT_OK;
+    }
+
+    public function markBreak()
+    {
+        $this->result = self::RESULT_BREAK;
+    }
+
+    public function markExit()
+    {
+        $this->result = self::RESULT_EXIT;
     }
 
     public function getStepRunner(): StepRunner
