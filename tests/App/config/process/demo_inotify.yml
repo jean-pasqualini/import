@@ -1,0 +1,38 @@
+darkilliant_process:
+    process:
+        demo_inotify:
+            steps:
+                -
+                    service: Darkilliant\ProcessBundle\Step\WhileStep
+                    options:
+                        breaker: true
+                        breaker_max_time: null
+                        breaker_max_iteration: 2
+                -
+                    service: Darkilliant\ProcessBundle\Step\FilesystemEventWaitingStep
+                    options:
+                        folder: /tmp/darkilliant_process_inotify/
+                        event_name: close_write
+                        timeout: 1
+                -
+                    service: Darkilliant\ProcessBundle\Step\PredefinedDataStep
+                    options:
+                        data: hello
+                -
+                    service: Darkilliant\ProcessBundle\Step\DebugStep
+                    options: []
+        demo_inotify_stream:
+            steps:
+                -
+                    service: Darkilliant\ProcessBundle\Step\FilesystemEventStreamStep
+                    options:
+                        folder: /tmp/darkilliant_process_inotify/
+                        event_name: close_write
+                        # Breaker
+                        breaker: true
+                        breaker_max_time: null
+                        breaker_max_iteration: 100
+                        breaker_sleep_between: 0
+                -
+                    service: Darkilliant\ProcessBundle\Step\DebugStep
+                    options: []
