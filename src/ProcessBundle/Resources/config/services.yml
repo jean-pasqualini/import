@@ -20,6 +20,9 @@ services:
     Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier:
         tags: [{ name: darkilliant_process_notifier }]
 
+    Darkilliant\ProcessBundle\ProcessNotifier\BreakerProcessNotifier:
+        tags: [{ name: darkilliant_process_notifier }]
+
     Darkilliant\ProcessBundle\ProcessNotifier\StatsCollectorProcessNotifier:
         public: true
         tags: [{ name: darkilliant_process_notifier }]

@@ -5,9 +5,9 @@ darkilliant_process:
                 -
                     service: Darkilliant\ProcessBundle\Step\WhileStep
                     options:
-                        max_iteration: 10
-                        sleep_between: 0
-                        progress_bar: true
+                        breaker: true
+                        breaker_max_iteration: 10
+                        breaker_sleep_between: 1
                 -
                     service: Darkilliant\ProcessBundle\Step\PredefinedDataStep
                     options: { data: 'et de un...' }
