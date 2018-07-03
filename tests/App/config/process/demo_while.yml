@@ -1,0 +1,16 @@
+darkilliant_process:
+    process:
+        demo_while:
+            steps:
+                -
+                    service: Darkilliant\ProcessBundle\Step\WhileStep
+                    options:
+                        max_iteration: 10
+                        sleep_between: 0
+                        progress_bar: true
+                -
+                    service: Darkilliant\ProcessBundle\Step\PredefinedDataStep
+                    options: { data: 'et de un...' }
+                -
+                    service: Darkilliant\ProcessBundle\Step\DebugStep
+                    options: []

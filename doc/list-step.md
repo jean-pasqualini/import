@@ -4,6 +4,7 @@
 | [Darkilliant\ImportBundle\Step\CsvExtractorStep](./step/csv_extractor.md)                       |   OUI    | extraire chaque ligne d'un fichier csv sous forme d'un tableau php            |
 | [Darkilliant\ImportBundle\Step\XmlExtractorStep](./step/xml_extractor.md)                       |   OUI    | extraire chaque noeud xml d'un type particulier sous forme d'un tableau php   |
 | [Darkilliant\ProcessBundle\Step\IterateArrayStep](./step/iterate_array.md)                      |   OUI    | parcourir un tableau php                                                      |
+| [Darkilliant\ImportBundle\Step\WhileStep](./step/while_step.md)                                 |   OUI    | Boucle sur les steps qu'il exécute j'usqu'a un max d'iteration ou de temps    |
 | [Darkilliant\ImportBundle\Step\MappingTransformerStep](./step/mapping_transformer.md)           |   NON    | transformer un tableau php et le valider                                      |
 | [Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep](./step/load_object_normalized.md)      |   NON    | convertir un tableau php en entité doctrine avec ses relations                |
 | [Darkilliant\ImportBundle\Step\DoctrinePersisterStep](./step/doctrine_persister.md)             |   NON    | persister une entité doctrine en bdd                                          |
@@ -17,6 +18,7 @@
 | [Darkilliant\ProcessBundle\Step\FilterStep](./step/filter_step.md)                              |   NON    | Filter les données dans le pipe                                               |
 | [Darkilliant\ImportBundle\Step\TransformStep](./step/transform_step.md)                         |   NON    | Transforme et valide les donnés dans le pipe                                  |
 | [Darkilliant\ImportBundle\Step\MappingStep](./step/mapping_step.md)                             |   NON    | Permet de changer la structure d'un tableau d'un format vers un autre         |
+
 
 Si vous désirez ajouter une miro tache,<br>
 il vous suffit de déclarer un service en public dont sa classe hérite de `Darkilliant\ProcessBundle\Step\AbstractConfigurableStep`.<br>
