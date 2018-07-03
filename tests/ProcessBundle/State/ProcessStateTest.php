@@ -76,6 +76,18 @@ class ProcessStateTest extends TestCase
         $this->assertEquals(ProcessState::RESULT_KO, $this->state->getResult());
     }
 
+    public function testMarkBreak()
+    {
+        $this->state->markBreak();
+        $this->assertEquals(ProcessState::RESULT_BREAK, $this->state->getResult());
+    }
+
+    public function testMarkExit()
+    {
+        $this->state->markExit();
+        $this->assertEquals(ProcessState::RESULT_EXIT, $this->state->getResult());
+    }
+
     public function testGetLoop()
     {
         $this->state->loop(10, 100, false);

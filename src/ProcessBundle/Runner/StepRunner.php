@@ -177,6 +177,14 @@ class StepRunner
                 $service->next($processState);
                 $this->notifier->onUpdateIterableProcess($processState, $service);
 
+                if (ProcessState::RESULT_BREAK === $processState->getResult()) {
+                    $processState->noLoop();
+                    $this->finalizeSteps($processState, $step->getChildren());
+                    $this->notifier->onEndProcess($processState, $service);
+
+                    return true;
+                }
+
                 // Add metadata information of the current iteration of loop
                 $processState->loop($currentIndex, $count, !$service->valid($processState));
 
