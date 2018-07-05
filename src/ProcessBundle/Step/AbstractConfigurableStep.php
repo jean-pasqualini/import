@@ -45,4 +45,14 @@ abstract class AbstractConfigurableStep implements StepInterface
     {
         return false;
     }
+
+    public function onSuccessLoop(ProcessState $state)
+    {
+        return;
+    }
+
+    public function onFailedLoop(ProcessState $state)
+    {
+        return;
+    }
 }
