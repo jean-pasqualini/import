@@ -13,4 +13,8 @@ interface IterableStepInterface
     public function count(ProcessState $state);
 
     public function getProgress(ProcessState $state);
+
+    public function onSuccessLoop(ProcessState $state);
+
+    public function onFailedLoop(ProcessState $state);
 }
