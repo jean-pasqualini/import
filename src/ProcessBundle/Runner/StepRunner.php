@@ -188,12 +188,16 @@ class StepRunner
                 // Add metadata information of the current iteration of loop
                 $processState->loop($currentIndex, $count, !$service->valid($processState));
 
-                if ($this->runSteps($processState, $step->getChildren())) {
-                    $processState->getLogger()->info('successful', $processState->getRawContext());
-                }
-
+                $isSuccessful = $this->runSteps($processState, $step->getChildren());
                 $processState->setIterator($iterator);
                 $processState->setOptions($options);
+
+                if ($isSuccessful) {
+                    $service->onSuccessLoop($processState);
+                    $processState->getLogger()->info('successful', $processState->getRawContext());
+                } else {
+                    $service->onFailedLoop($processState);
+                }
             }
             $processState->noLoop();
 

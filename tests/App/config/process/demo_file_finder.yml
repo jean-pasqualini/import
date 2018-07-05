@@ -1,0 +1,15 @@
+darkilliant_process:
+    process:
+        demo_file_finder:
+            steps:
+                -
+                    service: Darkilliant\ProcessBundle\Step\FileFinderIteratorStep
+                    options:
+                        in: '%kernel.project_dir%/build/coverage/phpunit'
+                        name: '*.html'
+                        recursive: false
+                        track_loop_state: true
+                        track_loop_state_remove_on_success: false
+                -
+                    service: Darkilliant\ProcessBundle\Step\DebugStep
+                    options: []
