@@ -34,6 +34,8 @@ class StepRunner
     /** @var ChainProcessNotifier */
     protected $notifier;
 
+    private $shouldStop = false;
+
     /**
      * @internal
      */
@@ -45,6 +47,16 @@ class StepRunner
         $this->registry = $registry;
         $this->loggerRegistry = $loggerRegistry;
         $this->notifier = $notifier;
+
+        if ('cli' === PHP_SAPI) {
+            pcntl_signal(SIGINT, [$this, 'stop']);
+        }
+    }
+
+    public function stop()
+    {
+        $this->logger->error('step runner stop scheduled');
+        $this->shouldStop = true;
     }
 
     public function setNotifier($notifier)
@@ -76,7 +88,7 @@ class StepRunner
         return ConfigurationProcess::create($this->configuration['process'][$processName]);
     }
 
-    public function run(ConfigurationProcess $process, array $context = [], $data = [], $dryRun = false)
+    public function run(ConfigurationProcess $process, array $context = [], $data = [], $dryRun = false): bool
     {
         $processState = new ProcessState(
             $context,
@@ -90,7 +102,7 @@ class StepRunner
             $processState->warning('DEPRECATED STEPS USED', ['deprecated' => $process->getDeprecated()]);
         }
 
-        $this->runSteps($processState, $process->getSteps());
+        return $this->runSteps($processState, $process->getSteps());
     }
 
     public function finalizeStep(ProcessState $processState, $step)
@@ -106,7 +118,7 @@ class StepRunner
         return true;
     }
 
-    public function runSteps(ProcessState $processState, array $steps)
+    public function runSteps(ProcessState $processState, array $steps): bool
     {
         foreach ($steps as $step) {
             try {
@@ -172,12 +184,17 @@ class StepRunner
             $count = $service->count($processState);
 
             while ($service->valid($processState)) {
+                if ('cli' === PHP_SAPI) {
+                    // check ctrl+c (SIGINT)
+                    pcntl_signal_dispatch();
+                }
+
                 $currentIndex = $service->getProgress($processState);
 
                 $service->next($processState);
                 $this->notifier->onUpdateIterableProcess($processState, $service);
 
-                if (ProcessState::RESULT_BREAK === $processState->getResult()) {
+                if ($this->shouldStop || ProcessState::RESULT_BREAK === $processState->getResult()) {
                     $processState->noLoop();
                     $this->finalizeSteps($processState, $step->getChildren());
                     $this->notifier->onEndProcess($processState, $service);
