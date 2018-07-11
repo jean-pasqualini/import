@@ -1,0 +1,19 @@
+darkilliant_process:
+    process:
+        demo_signal:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep'
+                    options:
+                        bin_console_path: '%kernel.project_dir%/tests/App/console.php'
+                        process_name: demo_signal_child
+        demo_signal_child:
+            steps:
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\WhileStep'
+                    options:
+                        breaker: true
+                        breaker_sleep_between: 1
+                -
+                    service: 'Darkilliant\ProcessBundle\Step\DebugStep'
+                    options: []

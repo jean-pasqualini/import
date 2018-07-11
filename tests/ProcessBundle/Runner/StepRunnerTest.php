@@ -400,4 +400,13 @@ class StepRunnerTest extends TestCase
 
         $this->runner->run($this->runner->buildConfigurationProcess('chocapic'), []);
     }
+
+    public function testStop()
+    {
+        $this->logger
+            ->expects($this->once())
+            ->method('error');
+
+        $this->runner->stop();
+    }
 }
