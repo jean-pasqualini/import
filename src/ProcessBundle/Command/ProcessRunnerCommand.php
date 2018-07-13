@@ -3,7 +3,6 @@
 namespace Darkilliant\ProcessBundle\Command;
 
 use Darkilliant\ProcessBundle\ProcessNotifier\StatsCollectorProcessNotifier;
-use SebastianBergmann\CodeCoverage\Report\PHP;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;

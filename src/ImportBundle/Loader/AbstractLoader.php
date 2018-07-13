@@ -2,7 +2,7 @@
 
 namespace Darkilliant\ImportBundle\Loader;
 
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Class AbstractLoader.
@@ -11,10 +11,10 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 abstract class AbstractLoader
 {
-    /** @var PropertyAccessor */
+    /** @var PropertyAccessorInterface */
     protected $accessor;
 
-    public function __construct(PropertyAccessor $accessor)
+    public function __construct(PropertyAccessorInterface $accessor)
     {
         $this->accessor = $accessor;
     }

@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
 
 class LaunchIsolateProcessStep extends AbstractConfigurableStep implements EventSubscriberInterface
