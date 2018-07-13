@@ -10,6 +10,6 @@ use Symfony\Component\Debug\Debug;
 require __DIR__.'/../../vendor/autoload.php';
 
 Debug::enable();
-$kernel = new AppKernel(getenv('SYMFONY_ENV') ?? 'dev', true);
+$kernel = new AppKernel(getenv('SYMFONY_ENV') ?: 'dev', true);
 $application = new Application($kernel);
 $application->run(new ArgvInput(), new ConsoleOutput());

@@ -1,8 +1,9 @@
 export SYMFONY_ENV=prod
+export SYMFONY_DB_TYPE=sqlite
 
 db:
-	php tests/App/console.php d:d:d --force
-	php tests/App/console.php d:d:c
+	php tests/App/console.php d:d:d --connection=$(SYMFONY_DB_TYPE) --force
+	php tests/App/console.php d:d:c --connection=$(SYMFONY_DB_TYPE)
 	php tests/App/console.php d:s:u --force
 
 db-mysql:
