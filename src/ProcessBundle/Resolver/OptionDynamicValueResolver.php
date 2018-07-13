@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Resolver;
 
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * @internal
  */
 class OptionDynamicValueResolver
 {
-    /** @var PropertyAccessor */
+    /** @var PropertyAccessorInterface */
     private $accessor;
 
-    public function __construct(PropertyAccessor $accessor)
+    public function __construct(PropertyAccessorInterface $accessor)
     {
         $this->accessor = $accessor;
     }

@@ -20,3 +20,6 @@ services:
         arguments:
             $config: '%darkilliant_import_field_entity_resolver%'
             $cacheable: '%darkilliant_import_entity_resolver_cache%'
+
+    Cocur\Slugify\Slugify:
+        public: true

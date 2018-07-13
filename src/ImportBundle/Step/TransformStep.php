@@ -8,17 +8,17 @@ use Darkilliant\ImportBundle\Registry\TransformerRegistry;
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Darkilliant\ProcessBundle\Step\AbstractConfigurableStep;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class TransformStep extends AbstractConfigurableStep
 {
-    /** @var PropertyAccessor */
+    /** @var PropertyAccessorInterface */
     private $accessor;
 
     /** @var TransformerRegistry */
     private $registry;
 
-    public function __construct(PropertyAccessor $accessor, TransformerRegistry $registry)
+    public function __construct(PropertyAccessorInterface $accessor, TransformerRegistry $registry)
     {
         $this->accessor = $accessor;
         $this->registry = $registry;
