@@ -36,6 +36,8 @@ class StepRunner
 
     private $shouldStop = false;
 
+    private $pcntlSupported = false;
+
     /**
      * @internal
      */
@@ -47,8 +49,9 @@ class StepRunner
         $this->registry = $registry;
         $this->loggerRegistry = $loggerRegistry;
         $this->notifier = $notifier;
+        $this->pcntlSupported = 'cli' === PHP_SAPI && extension_loaded('pcntl');
 
-        if ('cli' === PHP_SAPI) {
+        if ($this->pcntlSupported) {
             pcntl_signal(SIGINT, [$this, 'stop']);
         }
     }
@@ -184,7 +187,7 @@ class StepRunner
             $count = $service->count($processState);
 
             while ($service->valid($processState)) {
-                if ('cli' === PHP_SAPI) {
+                if ($this->pcntlSupported) {
                     // check ctrl+c (SIGINT)
                     pcntl_signal_dispatch();
                 }
