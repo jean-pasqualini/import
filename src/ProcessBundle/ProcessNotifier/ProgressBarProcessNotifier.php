@@ -4,7 +4,7 @@ namespace Darkilliant\ProcessBundle\ProcessNotifier;
 
 use Darkilliant\ProcessBundle\Console\ProgressBar;
 use Darkilliant\ProcessBundle\State\ProcessState;
-use Darkilliant\ProcessBundle\Step\IterableStepInterface;
+use Darkilliant\ProcessBundle\Step\MonitorableStepInterface;
 use Darkilliant\ProcessBundle\Step\StepInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleEvent;
@@ -45,7 +45,7 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNot
 
     public function onStartIterableProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$step instanceof IterableStepInterface) {
+        if (!$step instanceof MonitorableStepInterface) {
             return null;
         }
 
@@ -64,7 +64,7 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNot
 
     public function onUpdateIterableProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$step instanceof IterableStepInterface) {
+        if (!$step instanceof MonitorableStepInterface) {
             return null;
         }
 
@@ -77,7 +77,7 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNot
 
     public function onEndProcess(ProcessState $state, StepInterface $step)
     {
-        if (!$step instanceof IterableStepInterface) {
+        if (!$step instanceof MonitorableStepInterface) {
             return null;
         }
 

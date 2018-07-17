@@ -6,7 +6,6 @@ namespace Tests\Darkilliant\ProcessBundle\Runner;
 
 use App\Step\DeprecatedStep;
 use Darkilliant\ProcessBundle\Configuration\ConfigurationProcess;
-use Darkilliant\ProcessBundle\Console\ProgressBar;
 use Darkilliant\ProcessBundle\ProcessNotifier\ChainProcessNotifier;
 use Darkilliant\ProcessBundle\ProcessNotifier\ProgressBarProcessNotifier;
 use Darkilliant\ProcessBundle\Registry\LoggerRegistry;
@@ -229,7 +228,7 @@ class StepRunnerTest extends TestCase
             ->with(DebugStep::class)
             ->willReturn(new DebugStep());
 
-        $step = $this->createMock(DebugStep::class);
+        $step = $this->createPartialMock(DebugStep::class, ['finalize']);
         $step
             ->expects($this->once())
             ->method('finalize')
@@ -283,7 +282,7 @@ class StepRunnerTest extends TestCase
             ->with(DebugStep::class)
             ->willReturn(new DebugStep());
 
-        $step = $this->createMock(DebugStep::class);
+        $step = $this->createPartialMock(DebugStep::class, ['finalize']);
         $step
             ->expects($this->once())
             ->method('finalize')

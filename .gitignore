@@ -7,3 +7,4 @@ coverage.clover
 tests/App/config/parameters.yml
 stat.json
 composer.lock
+*.log

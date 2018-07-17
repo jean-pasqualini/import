@@ -1,0 +1,26 @@
+darkilliant_process:
+    process:
+        demo_mq_consume:
+            steps:
+                -
+                    service: 'Darkilliant\MqProcessBundle\Step\ConsumeMessageStep'
+                    options:
+                        exchange: 'amq.direct'
+                        queue: 'import_product'
+                        ack_required: true
+                        persistant: true
+        demo_mq_send:
+            steps:
+                -
+                    service: 'App\Step\DemoFakeBigProductListStep'
+                    options:
+                        progress_bar: true
+                        count: 150
+                -
+                    service: 'Darkilliant\MqProcessBundle\Step\SendMessageStep'
+                    options:
+                        exchange: 'amq.direct'
+                        queue: 'import_product'
+                        persistant: true
+                        batch_count: 20000
+                        progress_bar: true

@@ -8,6 +8,8 @@
 | [Darkilliant\ProcessBundle\Step\FilesystemEventWaitingStep](./step/filesystem_event_waiting_step.md) |   OUI    | Attend qu'un event soit déclancher par le filesystem avant de passer à la step suivante    |
 | [Darkilliant\ProcessBundle\Step\FilesystemEventStreamStep](./step/filesystem_event_stream_step.md)   |   OUI    | Itére à chaque fois qu'un événement se déclanche sur le filesystem                         |
 | [Darkilliant\ProcessBundle\Step\FileFinderIteratorStep](./step/file_finder_iterator_step.md)         |   OUI    | Part à la recherche de fichiers qui matchent avec les critères définit dans les options.   |
+| [Darkilliant\MqProcessBundle\Step\ConsumeMessageStep](./step/consume-message-step.md)                |   OUI    | Itère sur une file d'attente de message dans un broker                                     |
+| [Darkilliant\MqProcessBundle\Step\SendMessageStep](./step/send-message-step.md)                      |   NON    | Envoi un message sur un broker qui sera router dans une queue (file d'attente).            |
 | [Darkilliant\ImportBundle\Step\MappingTransformerStep](./step/mapping_transformer.md)                |   NON    | transformer un tableau php et le valider                                                   |
 | [Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep](./step/load_object_normalized.md)           |   NON    | convertir un tableau php en entité doctrine avec ses relations                             |
 | [Darkilliant\ImportBundle\Step\DoctrinePersisterStep](./step/doctrine_persister.md)                  |   NON    | persister une entité doctrine en bdd                                                       |

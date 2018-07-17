@@ -43,6 +43,12 @@ services:
         resource: '../../Step/*'
         public: true
 
+    Darkilliant\ProcessBundle\Step\SendMessageStep:
+        public: true
+
+    Darkilliant\ProcessBundle\Step\ConsumeMessageStep:
+        public: true
+
     Darkilliant\ProcessBundle\Step\LaunchIsolateProcessStep:
         arguments:
             $environment: '%kernel.environment%'
