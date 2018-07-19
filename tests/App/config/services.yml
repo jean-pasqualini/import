@@ -1,3 +1,9 @@
 services:
     App\Step\DemoFakeBigProductListStep:
         public: true
+    App\Step\FailStep:
+        public: true
+    App\ProcessNotifier\RapportRunProcessNotifier:
+        tags:
+            - { name: 'darkilliant_process_notifier' }
+        public: true
