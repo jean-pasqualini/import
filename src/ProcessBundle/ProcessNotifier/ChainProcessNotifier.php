@@ -49,4 +49,32 @@ class ChainProcessNotifier implements ProcessNotifierInterface
             $notifier->onUpdateIterableProcess($state, $step);
         }
     }
+
+    public function onSuccessLoop(ProcessState $state, StepInterface $step)
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->onSuccessLoop($state, $step);
+        }
+    }
+
+    public function onFailedLoop(ProcessState $state, StepInterface $step)
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->onFailedLoop($state, $step);
+        }
+    }
+
+    public function onStartRunner(ProcessState $state)
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->onStartRunner($state);
+        }
+    }
+
+    public function onEndRunner(ProcessState $state, bool $successfull)
+    {
+        foreach ($this->notifiers as $notifier) {
+            $notifier->onEndRunner($state, $successfull);
+        }
+    }
 }

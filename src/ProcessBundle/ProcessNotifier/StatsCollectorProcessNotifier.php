@@ -7,7 +7,7 @@ namespace Darkilliant\ProcessBundle\ProcessNotifier;
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Darkilliant\ProcessBundle\Step\StepInterface;
 
-class StatsCollectorProcessNotifier implements ProcessNotifierInterface
+class StatsCollectorProcessNotifier extends AbstractProcessNotifier
 {
     private $stats = [];
     private $resolvedStat = [];
@@ -68,5 +68,15 @@ class StatsCollectorProcessNotifier implements ProcessNotifierInterface
     public function getData()
     {
         return $this->stats;
+    }
+
+    public function onFailedLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
+    }
+
+    public function onSuccessLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
     }
 }

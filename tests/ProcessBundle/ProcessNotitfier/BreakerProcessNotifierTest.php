@@ -171,4 +171,26 @@ class BreakerProcessNotifierTest extends TestCase
 
         $this->assertNull($this->notifier->onStartProcess($state, $this->createMock(StepInterface::class)));
     }
+
+    public function testOnSuccessLoop()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $stepRunner = $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->notifier->onSuccessLoop($state, $this->createMock(StepInterface::class)));
+    }
+
+    public function testOnFailedLoop()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $stepRunner = $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->notifier->onFailedLoop($state, $this->createMock(StepInterface::class)));
+    }
 }

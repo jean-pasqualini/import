@@ -116,7 +116,11 @@ class StepRunner
             $processState->warning('DEPRECATED STEPS USED', ['deprecated' => $process->getDeprecated()]);
         }
 
-        return $this->runSteps($processState, $process->getSteps());
+        $this->notifier->onStartRunner($processState);
+        $isSucessFull = $this->runSteps($processState, $process->getSteps());
+        $this->notifier->onEndRunner($processState, $isSucessFull);
+
+        return $isSucessFull;
     }
 
     public function finalizeStep(ProcessState $processState, ConfigurationStep $step)
@@ -142,6 +146,7 @@ class StepRunner
                     return false;
                 }
             } catch (\Throwable $exception) {
+                $processState->setContext('last_error', $exception);
                 $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
@@ -227,9 +232,11 @@ class StepRunner
 
                 if ($isSuccessful) {
                     $service->onSuccessLoop($processState);
+                    $this->notifier->onSuccessLoop($processState, $service);
                     $processState->getLogger()->info('successful', $processState->getRawContext());
                 } else {
                     $service->onFailedLoop($processState);
+                    $this->notifier->onFailedLoop($processState, $service);
                 }
             }
             $processState->noLoop();

@@ -35,6 +35,8 @@ class ChainProcessNotifierTest extends TestCase
         yield ['onEndProcess'];
         yield ['onStartIterableProcess'];
         yield ['onUpdateIterableProcess'];
+        yield ['onSuccessLoop'];
+        yield ['onFailedLoop'];
     }
 
     /**
@@ -55,5 +57,37 @@ class ChainProcessNotifierTest extends TestCase
             ->with($state, $step);
 
         $this->notifier->{$method}($state, $step);
+    }
+
+    public function testStartRunner()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+
+        $this->fakeNotifier
+            ->expects($this->once())
+            ->method('onStartRunner')
+            ->with($state);
+
+        $this->notifier->onStartRunner($state);
+    }
+
+    public function testEndRunner()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+
+        $this->fakeNotifier
+            ->expects($this->once())
+            ->method('onEndRunner')
+            ->with($state, true);
+
+        $this->notifier->onEndRunner($state, true);
     }
 }
