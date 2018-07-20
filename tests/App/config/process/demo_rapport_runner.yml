@@ -1,0 +1,12 @@
+darkilliant_process:
+    process:
+        demo_rapport_runner:
+            steps:
+                -
+                    service: App\Step\DemoFakeBigProductListStep
+                    options:
+                        progress_bar: true
+                        count: 15
+                -
+                    service: App\Step\FailStep
+                    options: []

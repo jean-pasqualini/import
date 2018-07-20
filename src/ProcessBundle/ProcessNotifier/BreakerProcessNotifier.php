@@ -1,17 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jpasqualini
- * Date: 03/07/18
- * Time: 13:47.
- */
+
+declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\ProcessNotifier;
 
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Darkilliant\ProcessBundle\Step\StepInterface;
 
-class BreakerProcessNotifier implements ProcessNotifierInterface
+class BreakerProcessNotifier extends AbstractProcessNotifier
 {
     private $breaker = null;
 
@@ -71,6 +67,16 @@ class BreakerProcessNotifier implements ProcessNotifierInterface
     public function onExecutedProcess(ProcessState $state, StepInterface $step)
     {
         // TODO: Implement onExecutedProcess() method.
+    }
+
+    public function onFailedLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
+    }
+
+    public function onSuccessLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
     }
 
     private function isValid()

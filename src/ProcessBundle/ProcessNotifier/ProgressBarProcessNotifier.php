@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * @internal
  * Class ProgressBarProcessNotifier
  */
-class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNotifierInterface
+class ProgressBarProcessNotifier extends AbstractProcessNotifier implements EventSubscriberInterface
 {
     /** @var ProgressBar */
     private $progressBar;
@@ -90,5 +90,15 @@ class ProgressBarProcessNotifier implements EventSubscriberInterface, ProcessNot
 
     public function onExecutedProcess(ProcessState $state, StepInterface $step)
     {
+    }
+
+    public function onFailedLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
+    }
+
+    public function onSuccessLoop(ProcessState $state, StepInterface $step)
+    {
+        return;
     }
 }

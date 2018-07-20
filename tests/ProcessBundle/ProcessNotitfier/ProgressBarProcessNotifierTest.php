@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Tests\Darkilliant\ProcessBundle\Step\DebugStepTest;
+use Darkilliant\ProcessBundle\Step\StepInterface;
 
 class ProgressBarProcessNotifierTest extends TestCase
 {
@@ -236,5 +236,27 @@ class ProgressBarProcessNotifierTest extends TestCase
         );
 
         $this->assertNull($this->processNotifier->onStartProcess($state, new DebugStep()));
+    }
+
+    public function testOnSuccessLoop()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $stepRunner = $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->processNotifier->onSuccessLoop($state, $this->createMock(StepInterface::class)));
+    }
+
+    public function testOnFailedLoop()
+    {
+        $state = new ProcessState(
+            [],
+            $logger = $this->createMock(LoggerInterface::class),
+            $stepRunner = $this->createMock(StepRunner::class)
+        );
+
+        $this->assertNull($this->processNotifier->onFailedLoop($state, $this->createMock(StepInterface::class)));
     }
 }

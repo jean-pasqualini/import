@@ -18,4 +18,12 @@ interface ProcessNotifierInterface
     public function onEndProcess(ProcessState $state, StepInterface $step);
 
     public function onExecutedProcess(ProcessState $state, StepInterface $step);
+
+    public function onSuccessLoop(ProcessState $state, StepInterface $step);
+
+    public function onFailedLoop(ProcessState $state, StepInterface $step);
+
+    public function onStartRunner(ProcessState $state);
+
+    public function onEndRunner(ProcessState $state, bool $successfull);
 }
