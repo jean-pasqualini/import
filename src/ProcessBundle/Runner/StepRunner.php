@@ -140,13 +140,15 @@ class StepRunner
 
     public function runSteps(ProcessState $processState, array $steps): bool
     {
+        $processState->setContext('current_error', null);
+
         foreach ($steps as $step) {
             try {
                 if (!$this->runStep($processState, $step)) {
                     return false;
                 }
             } catch (\Throwable $exception) {
-                $processState->setContext('last_error', $exception);
+                $processState->setContext('current_error', $exception);
                 $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
