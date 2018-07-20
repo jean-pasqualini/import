@@ -9,6 +9,8 @@ use App\Entity\Product;
 use App\Entity\Tag;
 use App\Fake\FakeQuery;
 use Darkilliant\ImportBundle\Resolver\EntityResolver;
+use Darkilliant\ImportBundle\Registry\EntityResolverWhereBuilderRegistry;
+use Darkilliant\ImportBundle\WhereBuilder\WhereBuilderInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
@@ -38,10 +40,17 @@ class EntityResolverTest extends TestCase
     /** @var UnitOfWork|MockObject */
     private $uow;
 
+    /** @var EntityResolverWhereBuilderRegistry|MockObject */
+    private $whereBuilderRegistery;
+
+    /** @var WhereBuilderInterface|MockObject */
+    private $buildWhere;
+
     public function setUp()
     {
         $this->resolver = new EntityResolver(
             $this->managerRegistry = $this->createMock(ManagerRegistry::class),
+            $this->whereBuilderRegistery = $this->createMock(EntityResolverWhereBuilderRegistry::class),
             [
                 Product::class => ['ean'],
                 Category::class => ['name'],
@@ -50,6 +59,7 @@ class EntityResolverTest extends TestCase
                 Category::class => true,
             ]
         );
+        $this->buildWhere = $this->createMock(WhereBuilderInterface::class);
         $this->entityManager = $this->createMock(EntityManager::class);
         $this->repository = $this->createMock(EntityRepository::class);
         $this->queryBuilder = $this->createMock(QueryBuilder::class);
@@ -171,5 +181,65 @@ class EntityResolverTest extends TestCase
     {
         $this->assertNull($this->resolver->clear());
         $this->assertNull($this->resolver->clear(Product::class));
+    }
+
+    public function testResolveWithUnknownStrategy()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('unknow strategy unknownStrategy, resolve entity App\Entity\Product');
+        $this->resolver->resolve(Product::class, ['ean' => 5], ['strategy' => 'unknownStrategy']);
+    }
+
+    public function testResolveWithCustomWhere()
+    {
+        $this->managerRegistry
+            ->expects($this->once())
+            ->method('getManagerForClass')
+            ->with(Product::class)
+            ->willReturn($this->entityManager);
+
+        $this->entityManager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(Product::class)
+            ->willReturn($this->repository);
+
+        $this->repository
+            ->expects($this->once())
+            ->method('findOneBy')
+            ->with(['ean' => 5])
+            ->willReturn(new Product());
+
+        $this->whereBuilderRegistery
+            ->expects($this->once())
+            ->method('resolveService')
+            ->with('CustomWhereService')
+            ->willReturn($this->buildWhere);
+
+        $this->buildWhere
+            ->expects($this->once())
+            ->method('buildWhere')
+            ->with(
+                Product::class,
+                [
+                    'service' => 'CustomWhereService',
+                    'fields' => null,
+                ],
+                ['ean' => 5])
+            ->willReturn(['ean' => 5]);
+
+        $entity = $this->resolver->resolve(
+            Product::class,
+            ['ean' => 5],
+            [
+                'strategy' => 'where',
+                'options' => [
+                    'service' => 'CustomWhereService',
+                    'fields' => null,
+                ],
+            ]
+        );
+
+        $this->assertEquals(new Product(), $entity);
     }
 }
