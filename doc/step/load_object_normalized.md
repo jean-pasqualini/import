@@ -1,6 +1,6 @@
 #### Darkilliant\ImportBundle\Step\LoadObjectNormalizedStep
 
-##### Rôle 
+##### Rôle
 
 onvertir un tableau php en entité doctrine avec ses relations
 
@@ -26,7 +26,11 @@ Pour permettre la résolution dynamique des entité il faut rajouter une configu
 ```yaml
 darkilliant_import:
     fields_entity_resolver:
-        'App\Entity\Product': ['ean']
+        'App\Entity\Product':
+            strategy: where
+            options:
+                service: null # When use custom service (implement Darkilliant\ImportBundle\WhereBuilder\WhereBuilderInterface)
+                fields: ['ean']
         'App\Entity\Boutique': ['name']
         'App\Entity\Tag': ['name']
         'App\Entity\Category':

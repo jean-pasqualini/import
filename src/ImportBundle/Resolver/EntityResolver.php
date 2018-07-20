@@ -2,11 +2,13 @@
 
 namespace Darkilliant\ImportBundle\Resolver;
 
+use Darkilliant\ImportBundle\Registry\EntityResolverWhereBuilderRegistry;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 
 class EntityResolver
 {
+    const STRATEGY_WHERE = 'where';
     /** @var array */
     private $config;
 
@@ -15,16 +17,20 @@ class EntityResolver
 
     private $cache = [];
 
+    /** @var EntityResolverWhereBuilderRegistry */
+    private $whereBuilderRegistry;
+
     /**
      * @var array
      */
     private $cacheable;
 
-    public function __construct(ManagerRegistry $registry, array $config, array $cacheable)
+    public function __construct(ManagerRegistry $registry, EntityResolverWhereBuilderRegistry $whereBuilderRegistry, array $config, array $cacheable)
     {
         $this->registry = $registry;
         $this->config = $config;
         $this->cacheable = $cacheable;
+        $this->whereBuilderRegistry = $whereBuilderRegistry;
     }
 
     public function resolve($class, array $data, array $config = null)
@@ -33,20 +39,51 @@ class EntityResolver
             $config = $this->config[$class] ?? [];
         }
 
-        $where = $this->buildWhere($config, $data);
-        if (empty($where)) {
+        // Legacy format (remove for 1.1)
+        if (isset($config[0])) {
+            $config = [
+                'strategy' => self::STRATEGY_WHERE,
+                'options' => [
+                    'service' => null,
+                    'fields' => $config,
+                ],
+            ];
+        }
+
+        if (empty($config)) {
             return null;
         }
 
-        if (!$this->isCacheable($class)) {
-            return $this->fetchFromRepository($class, $where);
+        if (self::STRATEGY_WHERE === $config['strategy']) {
+            // Use custom where
+            if ($config['options']['service']) {
+                $where = $this->whereBuilderRegistry->resolveService(
+                    $config['options']['service']
+                )->buildWhere($class, $config['options'], $data);
+            } else {
+                $where = $this->buildWhere($config['options']['fields'], $data);
+            }
+
+            if (empty($where)) {
+                return null;
+            }
+
+            if (!$this->isCacheable($class)) {
+                return $this->fetchFromRepository($class, $where);
+            }
+
+            if (!$this->isCacheBuilded($class)) {
+                $this->cache[$class] = $this->buildCache($class, $where);
+            }
+
+            return $this->fetchFromCache($class, $where);
         }
 
-        if (!$this->isCacheBuilded($class)) {
-            $this->cache[$class] = $this->buildCache($class, $where);
-        }
-
-        return $this->fetchFromCache($class, $where);
+        throw new \Exception(sprintf(
+            'unknow strategy %s, resolve entity %s',
+            $config['strategy'],
+            $class
+        ));
     }
 
     public function clear($class = null)
