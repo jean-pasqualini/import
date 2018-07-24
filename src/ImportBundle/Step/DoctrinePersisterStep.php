@@ -19,8 +19,9 @@ class DoctrinePersisterStep extends AbstractConfigurableStep
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
     {
-        $resolver->setRequired(['batch_count', 'whitelist_clear']);
+        $resolver->setRequired(['batch_count', 'whitelist_clear', 'blacklist_clear']);
         $resolver->setDefault('whitelist_clear', []);
+        $resolver->setDefault('blacklist_clear', []);
 
         return parent::configureOptionResolver($resolver);
     }
@@ -28,7 +29,12 @@ class DoctrinePersisterStep extends AbstractConfigurableStep
     public function execute(ProcessState $state)
     {
         if (!$state->isDryRun()) {
-            $this->persister->persist($state->getData(), $state->getOptions()['batch_count']);
+            $this->persister->persist(
+                $state->getData(),
+                $state->getOptions()['batch_count'],
+                $state->getOptions()['whitelist_clear'],
+                $state->getOptions()['blacklist_clear']
+            );
 
             $this->describe($state);
         }

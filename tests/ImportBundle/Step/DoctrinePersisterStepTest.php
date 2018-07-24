@@ -45,13 +45,17 @@ class DoctrinePersisterStepTest extends TestCase
             $this->createMock(LoggerInterface::class),
             $this->createMock(StepRunner::class)
         );
-        $state->setOptions(['batch_count' => 20]);
+        $state->setOptions([
+            'batch_count' => 20,
+            'whitelist_clear' => [],
+            'blacklist_clear' => []
+        ]);
         $state->setData(new \stdClass());
 
         $this->persister
             ->expects($this->once())
             ->method('persist')
-            ->with(new \stdClass());
+            ->with(new \stdClass(), 20, [], []);
 
         $this->step->execute($state);
     }
