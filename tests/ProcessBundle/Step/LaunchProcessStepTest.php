@@ -41,7 +41,7 @@ class LaunchProcessStepTest extends TestCase
         );
         $state->setOptions(['process' => 'chocapic', 'share_state' => false, 'context' => ['filepath' => 'file.csv']]);
 
-        $process = ConfigurationProcess::create(['steps' => []]);
+        $process = ConfigurationProcess::create('demo', ['steps' => []]);
 
         $stepRunner
             ->expects($this->once())

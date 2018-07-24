@@ -99,7 +99,7 @@ class StepRunner
             $this->configuration['process'][$processName]['logger'] = $logger;
         }
 
-        return ConfigurationProcess::create($this->configuration['process'][$processName]);
+        return ConfigurationProcess::create($processName, $this->configuration['process'][$processName]);
     }
 
     public function run(ConfigurationProcess $process, array $context = [], $data = [], $dryRun = false): bool
@@ -111,6 +111,7 @@ class StepRunner
         );
         $processState->setData($data);
         $processState->setDryRun($dryRun);
+        $processState->setName($process->getName());
 
         if ($process->getDeprecated()) {
             $processState->warning('DEPRECATED STEPS USED', ['deprecated' => $process->getDeprecated()]);
