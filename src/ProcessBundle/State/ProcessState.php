@@ -17,7 +17,9 @@ class ProcessState extends AbstractLogger
     const RESULT_EXIT = 5;
 
     private $data;
-    private $context;
+    private $loopContext;
+    private $logContext = [];
+    private $context = [];
     private $options = [];
     private $logger;
     private $result;
@@ -65,9 +67,9 @@ class ProcessState extends AbstractLogger
     /**
      * @return mixed
      */
-    public function getContext($key)
+    public function getContext($key, $default = null)
     {
-        return $this->context[$key];
+        return $this->context[$key] ?? $default;
     }
 
     public function getLoop()
@@ -78,6 +80,7 @@ class ProcessState extends AbstractLogger
     public function noLoop()
     {
         $this->loop = null;
+        $this->loopContext = null;
     }
 
     public function loop(int $index, int $count, bool $last)
@@ -94,12 +97,27 @@ class ProcessState extends AbstractLogger
         return (bool) $this->loop;
     }
 
-    /**
-     * @param mixed $context
-     */
-    public function setContext($key, $value)
+    public function setContext(string $key, $value, bool $logContext = true)
     {
         $this->context[$key] = $value;
+        if ($logContext) {
+            $this->logContext[$key] = $value;
+        }
+    }
+
+    public function hasContext(string $key): bool
+    {
+        return isset($this->context[$key]);
+    }
+
+    public function setLoopContext($value)
+    {
+        $this->loopContext = $value;
+    }
+
+    public function getLoopContext()
+    {
+        return $this->loopContext;
     }
 
     public function getRawContext(): array
@@ -123,6 +141,11 @@ class ProcessState extends AbstractLogger
         return $this->options;
     }
 
+    public function getOption($name, $default = null)
+    {
+        return $this->options[$name] ?? $default;
+    }
+
     /**
      * @param array $options
      */
@@ -133,9 +156,14 @@ class ProcessState extends AbstractLogger
         return $this;
     }
 
+    public function hasOption(string $name): bool
+    {
+        return isset($this->options[$name]);
+    }
+
     public function log($level, $message, array $context = [])
     {
-        $this->logger->log($level, $message, array_merge($context, $this->context));
+        $this->logger->log($level, $message, array_merge($context, $this->logContext));
     }
 
     public function getResult()
