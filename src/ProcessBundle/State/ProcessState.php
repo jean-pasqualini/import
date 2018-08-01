@@ -30,6 +30,8 @@ class ProcessState extends AbstractLogger
     /** @var \Traversable */
     private $iterator;
 
+    private $name;
+
     private $loop;
 
     public function __construct(array $context, LoggerInterface $logger, StepRunner $stepRunner)
@@ -37,6 +39,11 @@ class ProcessState extends AbstractLogger
         $this->context = $context;
         $this->logger = $logger;
         $this->stepRunner = $stepRunner;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -198,5 +205,10 @@ class ProcessState extends AbstractLogger
     public function isDryRun(): bool
     {
         return $this->dryRun;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

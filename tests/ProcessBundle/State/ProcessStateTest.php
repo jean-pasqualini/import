@@ -107,4 +107,11 @@ class ProcessStateTest extends TestCase
         $this->state->loop(10, 100, false);
         $this->assertTrue($this->state->isLoop());
     }
+
+    public function testGetName()
+    {
+        $this->state->setName('demo');
+
+        $this->assertEquals('demo', $this->state->getName());
+    }
 }

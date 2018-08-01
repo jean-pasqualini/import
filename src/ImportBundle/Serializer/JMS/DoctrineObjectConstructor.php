@@ -41,8 +41,9 @@ class DoctrineObjectConstructor implements ObjectConstructorInterface
             return $this->fallbackConstructor->construct($visitor, $metadata, $data, $type, $context);
         }
 
+        // Deprecated ignored for compatibilty with lower version of jms serializer
         $class = $metadata->name;
-        $entity = $this->resolver->resolve($class, $data, $context->attributes->all()['entity_resolver'][$class] ?? null);
+        $entity = $this->resolver->resolve($class, $data, /* @scrutinizer ignore-deprecated */ $context->attributes->all()['entity_resolver'][$class] ?? null);
 
         return (null === $entity) ? new $class() : $entity;
     }
