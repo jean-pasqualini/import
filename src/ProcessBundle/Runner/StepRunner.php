@@ -149,7 +149,7 @@ class StepRunner
                     return false;
                 }
             } catch (\Throwable $exception) {
-                $processState->setContext('current_error', $exception);
+                $processState->setContext('current_error', $exception, false);
                 $processState->getLogger()->error('fail step', array_merge([
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
@@ -204,6 +204,7 @@ class StepRunner
             $this->notifier->onStartIterableProcess($processState, $service);
 
             $iterator = $processState->getIterator();
+            $loopContext = $processState->getLoopContext();
 
             $count = $service->count($processState);
 
@@ -232,6 +233,7 @@ class StepRunner
                 $isSuccessful = $this->runSteps($processState, $step->getChildren());
                 $processState->setIterator($iterator);
                 $processState->setOptions($options);
+                $processState->setLoopContext($loopContext);
 
                 if ($isSuccessful) {
                     $service->onSuccessLoop($processState);
@@ -260,10 +262,10 @@ class StepRunner
                     return false;
                 }
             } catch (\Exception $exception) {
-                $processState->getLogger()->error('fail step', array_merge([
+                $processState->error('fail step', [
                     'message' => $exception->getMessage(),
                     'step' => $step->getService(),
-                ], $processState->getRawContext()));
+                ]);
 
                 return false;
             }
