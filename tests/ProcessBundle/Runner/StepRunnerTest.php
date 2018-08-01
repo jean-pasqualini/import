@@ -235,8 +235,8 @@ class StepRunnerTest extends TestCase
             ->willThrowException(new \Exception());
 
         $this->logger
-            ->expects($this->once())
-            ->method('error');
+            ->expects($this->exactly(4))
+            ->method('log');
 
         // Finalize
         $this->stepRegistry

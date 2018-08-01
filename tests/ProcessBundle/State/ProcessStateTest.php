@@ -114,4 +114,26 @@ class ProcessStateTest extends TestCase
 
         $this->assertEquals('demo', $this->state->getName());
     }
+
+    public function testHasContext()
+    {
+        $this->assertFalse($this->state->hasContext('moi'));
+        $this->state->setContext('moi', 'moi');
+        $this->assertTrue($this->state->hasContext('moi'));
+    }
+
+    public function testHasOption()
+    {
+        $this->assertFalse($this->state->hasOption('moi'));
+        $this->state->setOptions(['moi' => 'moi']);
+        $this->assertTrue($this->state->hasOption('moi'));
+    }
+
+    public function testGetOption()
+    {
+        $this->assertEquals('toi', $this->state->getOption('moi', 'toi'));
+        $this->assertNull($this->state->getOption('moi'));
+        $this->state->setOptions(['moi' => 'moi']);
+        $this->assertEquals('moi', $this->state->getOption('moi'));
+    }
 }
