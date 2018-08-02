@@ -238,7 +238,7 @@ class StepRunner
                 if ($isSuccessful) {
                     $service->onSuccessLoop($processState);
                     $this->notifier->onSuccessLoop($processState, $service);
-                    $processState->getLogger()->info('successful', $processState->getRawContext());
+                    $processState->info('successful');
                 } else {
                     $service->onFailedLoop($processState);
                     $this->notifier->onFailedLoop($processState, $service);
