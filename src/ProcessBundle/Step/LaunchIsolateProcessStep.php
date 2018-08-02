@@ -64,7 +64,7 @@ class LaunchIsolateProcessStep extends AbstractConfigurableStep implements Event
             $phpFinder->find(),
             $state->getOptions()['bin_console_path'],
             'process:run',
-            '--env=prod',
+            '--env='.$this->environment,
             '--input-from-stdin',
             '--force-color',
         ];
@@ -75,7 +75,7 @@ class LaunchIsolateProcessStep extends AbstractConfigurableStep implements Event
         }
 
         foreach ($context as $key => $value) {
-            $arguments[] = sprintf('--context %s=%s', $key, $value);
+            $arguments[] = sprintf('--context=%s=%s', $key, $value);
         }
 
         if ($state->isDryRun()) {

@@ -18,6 +18,8 @@ darkilliant_process:
                         max_concurency: 10
                         bin_console_path: '%kernel.root_dir%/console.php'
                         data: '@[data]'
+                        context:
+                            name_context: value context
         demo_isolate_process_sub:
             steps:
                 -
