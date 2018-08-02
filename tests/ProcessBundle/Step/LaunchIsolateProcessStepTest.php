@@ -71,7 +71,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--env=prod',
             '--input-from-stdin',
             '--force-color',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]];
@@ -83,7 +83,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--env=prod',
             '--input-from-stdin',
             '--force-color',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--dry-run',
             '--',
             'rocket',
@@ -96,7 +96,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--input-from-stdin',
             '--force-color',
             '-v',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]];
@@ -108,7 +108,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--input-from-stdin',
             '--force-color',
             '-vvv',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]];
@@ -120,7 +120,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--input-from-stdin',
             '--force-color',
             '-q',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]];
@@ -132,7 +132,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--input-from-stdin',
             '--force-color',
             '-vv',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]];
@@ -160,7 +160,7 @@ class LaunchIsolateProcessStepTest extends TestCase
             '--input-from-stdin',
             '--force-color',
             '-vv',
-            '--context context_key=context_value',
+            '--context=context_key=context_value',
             '--',
             'rocket',
         ]);
