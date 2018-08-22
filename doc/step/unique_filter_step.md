@@ -6,10 +6,11 @@ supprime les doublons
 
 ##### Options
 
-| Nom    | Description                                                     |
-|--------|-----------------------------------------------------------------|
-| data   | si différent des data dans le pipe                              |
-| fields | les clé du tableau sur lequels les valeurs doivent êtres unique | 
+| Nom         | Description                                                                           |
+|-------------|---------------------------------------------------------------------------------------|
+| data        | si différent des data dans le pipe                                                    |
+| fields      | les clé du tableau sur lequels les valeurs doivent êtres unique                       | 
+| throw_error | si vaut true, génére une exception de type NonUniqueException en cas de doublon       |
 
 ##### Example
 
@@ -17,4 +18,5 @@ supprime les doublons
 service: 'Darkilliant\ProcessBundle\Step\UniqueFilterStep'
 options:
     fields: ['name']
+    throw_error: false
 ```

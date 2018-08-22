@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Darkilliant\ProcessBundle\Step;
 
+use Darkilliant\ProcessBundle\Exception\NonUniqueException;
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,8 +14,9 @@ class UniqueFilterStep extends AbstractConfigurableStep
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
     {
-        $resolver->setRequired(['fields', 'data']);
+        $resolver->setRequired(['fields', 'data', 'throw_error']);
         $resolver->setDefault('data', null);
+        $resolver->setDefault('throw_error', false);
 
         return parent::configureOptionResolver($resolver);
     }
@@ -34,7 +36,16 @@ class UniqueFilterStep extends AbstractConfigurableStep
         }
 
         if (isset($this->collector[$collected])) {
-            $state->warning('skipped, this data is not unique', ['collected' => $collected]);
+            if ($state->getOption('throw_error')) {
+                throw new NonUniqueException(
+                    sprintf('skipped, this data is not unique (%s)', $collected)
+                );
+            }
+
+            $state->warning(
+                'skipped, this data is not unique',
+                ['collected' => $collected]
+            );
 
             $state->markIgnore();
 
