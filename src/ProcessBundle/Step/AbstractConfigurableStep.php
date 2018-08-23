@@ -11,8 +11,14 @@ abstract class AbstractConfigurableStep implements StepInterface
 {
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
     {
-        $resolver->setRequired(['progress_bar', 'breaker', 'breaker_max_iteration', 'breaker_max_time', 'breaker_sleep_between']);
+        $resolver->setRequired([
+            'progress_bar', 'progress_bar_min_item', 'progress_bar_max_memory',
+            'breaker', 'breaker_max_iteration', 'breaker_max_time',
+            'breaker_sleep_between',
+        ]);
         $resolver->setDefault('progress_bar', false);
+        $resolver->setDefault('progress_bar_min_item', 50);
+        $resolver->setDefault('progress_bar_max_memory', 30);
         $resolver->setDefault('breaker', false);
         $resolver->setDefault('breaker_max_iteration', null);
         $resolver->setDefault('breaker_sleep_between', 0);
