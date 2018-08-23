@@ -59,7 +59,12 @@ class ProgressBarProcessNotifier extends AbstractProcessNotifier implements Even
             return null;
         }
 
-        $this->progressBar->create($count, get_class($step));
+        $this->progressBar->create(
+            $count,
+            get_class($step),
+            $state->getOption('progress_bar_min_item', 50),
+            $state->getOption('progress_bar_max_memory', 30)
+        );
     }
 
     public function onUpdateIterableProcess(ProcessState $state, StepInterface $step)
