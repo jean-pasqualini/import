@@ -15,6 +15,8 @@ Example,
 service: 'Darkilliant\ProcessBundle\Step\IterateArrayStep'
 options:
     progress_bar: true
+    progress_bar_min_item: 50   # min items par seconds acceptable=
+    progress_bar_max_memory: 30 # max memory acceptable 
 ```
 
 Pour savoir si une step est itérable, consulter la liste des steps disponible.
