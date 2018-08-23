@@ -18,7 +18,7 @@ class CsvExtractor implements ExtractorInterface
         $this->slugify = $slugify;
     }
 
-    public function extract(string $csvFilePath, string $delimiter = ',', array $columsNames = null): \Traversable
+    public function extract(string $csvFilePath, string $delimiter = ',', array $columsNames = null, bool $skipFirstLine = true): \Traversable
     {
         $csvFileObjects = new \SplFileObject($csvFilePath);
         $csvFileObjects->setFlags((\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE | \ SplFileObject::READ_AHEAD));
@@ -29,7 +29,7 @@ class CsvExtractor implements ExtractorInterface
 
         foreach ($csvFileObjects as $loopIndex => $csvFileObjectRow) {
             $currentData = (array) $csvFileObjectRow;
-            if ($csvFileObjects->key() > 0 && true === $this->isValidLine($currentData)) {
+            if ((!$skipFirstLine || $csvFileObjects->key() > 0) && true === $this->isValidLine($currentData)) {
                 $currentData = array_map('trim', $currentData);
                 $arrayToYield = array_combine($arrayKeys, $currentData);
                 yield $loopIndex => $arrayToYield;

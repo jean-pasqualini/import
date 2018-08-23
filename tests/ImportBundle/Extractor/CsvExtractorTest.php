@@ -10,7 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class CsvExtractorTest extends TestCase
 {
+    /** @var CsvExtractor */
     protected $extractor;
+
+    /** @var string */
     private $filepath;
 
     /**
@@ -53,6 +56,29 @@ class CsvExtractorTest extends TestCase
                 'price' => '1.5',
             ],
         ], iterator_to_array($dataRows));
+    }
 
+    public function testExtractWhenNotSkipFirstLine()
+    {
+        $this->slugify->expects($this->any())
+            ->method('slugify')
+            ->willReturnArgument(0);
+        $dataRows = $this->extractor->extract($this->filepath, ';', null, false);
+
+        $this->assertEquals([
+            0 => [
+                'name' => 'name',
+                'price' => 'price',
+            ],
+            1 => [
+                'name' => 'savon',
+                'price' => '2.32',
+            ],
+
+            2 => [
+                'name' => 'lait',
+                'price' => '1.5',
+            ],
+        ], iterator_to_array($dataRows));
     }
 }

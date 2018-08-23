@@ -23,7 +23,8 @@ class CsvExtractorStep extends AbstractConfigurableStep implements IterableStepI
 
     public function configureOptionResolver(OptionsResolver $resolver): OptionsResolver
     {
-        $resolver->setRequired(['filepath', 'delimiter', 'colums_names']);
+        $resolver->setRequired(['filepath', 'delimiter', 'colums_names', 'skip_first_line']);
+        $resolver->setDefault('skip_first_line', true);
 
         return parent::configureOptionResolver($resolver);
     }
@@ -31,12 +32,13 @@ class CsvExtractorStep extends AbstractConfigurableStep implements IterableStepI
     public function execute(ProcessState $state)
     {
         $this->iterator = $this->extractor->extract(
-            $state->getOptions()['filepath'],
-            $state->getOptions()['delimiter'],
-            $state->getOptions()['colums_names']
+            $state->getOption('filepath'),
+            $state->getOption('delimiter'),
+            $state->getOption('colums_names'),
+            $state->getOption('skip_first_line', true)
         );
 
-        $state->setContext('filepath', $state->getOptions()['filepath']);
+        $state->setContext('filepath', $state->getOption('filepath'));
     }
 
     public function next(ProcessState $state)
