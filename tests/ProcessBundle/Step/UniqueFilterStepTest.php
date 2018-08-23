@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Darkilliant\ProcessBundle\Step;
 
+use Darkilliant\ProcessBundle\Exception\NonUniqueException;
 use Darkilliant\ProcessBundle\Runner\StepRunner;
 use Darkilliant\ProcessBundle\State\ProcessState;
 use Darkilliant\ProcessBundle\Step\UniqueFilterStep;
@@ -74,5 +75,27 @@ class UniqueFilterStepTest extends TestCase
         $state->markSuccess();
         $this->step->execute($state);
         $this->assertEquals(ProcessState::RESULT_OK, $state->getResult());
+    }
+
+
+    public function testThrowExcetionWhenDoublon()
+    {
+        $state = new ProcessState(
+            [],
+            $this->createMock(LoggerInterface::class),
+            $this->createMock(StepRunner::class)
+        );
+        $state->setOptions(['throw_error' => true, 'fields' => ['name'], 'data' => null]);
+
+        $state->setData(['name' => 'john']);
+        $state->markSuccess();
+        $this->step->execute($state);
+        $this->assertEquals(ProcessState::RESULT_OK, $state->getResult());
+
+        $this->expectException(NonUniqueException::class);
+
+        $state->setData(['name' => 'john']);
+        $state->markSuccess();
+        $this->step->execute($state);
     }
 }
