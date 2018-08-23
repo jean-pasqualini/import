@@ -57,7 +57,7 @@ class CsvExtractorStepTest extends TestCase
         $this->extractor
             ->expects($this->once())
             ->method('extract')
-            ->with('file.csv', ';', null)
+            ->with('file.csv', ';', null, true)
             ->willReturn(new \ArrayIterator());
 
         $this->step->execute($state);
@@ -69,7 +69,7 @@ class CsvExtractorStepTest extends TestCase
         $this->extractor
             ->expects($this->once())
             ->method('extract')
-            ->with('file.csv', ';', null)
+            ->with('file.csv', ';', null, true)
             ->willReturn($iterator);
 
         $state = new ProcessState(
@@ -90,7 +90,7 @@ class CsvExtractorStepTest extends TestCase
         $this->extractor
             ->expects($this->once())
             ->method('extract')
-            ->with('file.csv', ';', null)
+            ->with('file.csv', ';', null, true)
             ->willReturn($iterator);
 
         $state = new ProcessState(
@@ -165,7 +165,7 @@ class CsvExtractorStepTest extends TestCase
         $this->extractor
             ->expects($this->once())
             ->method('extract')
-            ->with('file.csv', ';', null)
+            ->with('file.csv', ';', null, true)
             ->willReturn($iterator);
 
         $state = new ProcessState(
