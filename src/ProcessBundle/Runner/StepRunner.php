@@ -129,7 +129,7 @@ class StepRunner
         $processState->markSuccess();
 
         $service = $this->registry->resolveService($step->getService());
-        $this->configureOptions($service, $step, $processState);
+        $this->configureOptionsWithoutResolve($service, $step, $processState);
         $service->finalize($processState);
 
         if (ProcessState::RESULT_OK !== $processState->getResult()) {
@@ -172,6 +172,13 @@ class StepRunner
                     'context' => $processState->getRawContext(),
                 ]
             )
+        );
+    }
+
+    protected function configureOptionsWithoutResolve(StepInterface $service, ConfigurationStep $step, ProcessState $processState): ProcessState
+    {
+        return $processState->setOptions(
+            $service->configureOptionResolver(new OptionsResolver())->resolve($step->getOptions())
         );
     }
 
